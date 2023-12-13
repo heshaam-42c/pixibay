@@ -95,13 +95,16 @@ jobs:
           echo $scanconfig_response
           echo "SCANV1_TOKEN=$scanconfig_response" >> $GITHUB_OUTPUT
       - name: 42crunch-dynamic-api-testing
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: ${{ vars.SCAND_MANAGER_URL }}
-          method: POST
-          contentType: "application/json"
-          customHeaders: '{"Accept": "application/json"}'
-          data: '{"token": "${{ steps.upload_v1_scan_config.outputs.SCANV1_TOKEN }}","name": "scand-${{ github.run_id }}-${{ github.run_attempt }}","platformService": "${{ env.PLATFORM_SERVICE_ENDPOINT }}","scandImage": "${{vars.SCAN_AGENT_V1}}","expirationTime": 600,"env": { "SECURITY_ACCESS_TOKEN": "${{ steps.get_pixi_token.outputs.PIXI_TOKEN }}"}}'
+        run: |
+          docker pull 42crunch/scand-agent:latest
+          docker run -e SCAN_TOKEN=${{ steps.upload_v1_scan_config.outputs.SCANV1_TOKEN }} -e SCAN42C_SECURITY_ACCESS_TOKEN=${{ steps.get_pixi_token.outputs.PIXI_TOKEN }} -e PLATFORM_SERVICE=services.demolabs.42crunch.cloud:8001 ${{vars.SCAN_AGENT_V1}}
+        # uses: fjogeleit/http-request-action@v1
+        # with:
+        #   url: ${{ vars.SCAND_MANAGER_URL }}
+        #   method: POST
+        #   contentType: "application/json"
+        #   customHeaders: '{"Accept": "application/json"}'
+        #   data: '{"token": "${{ steps.upload_v1_scan_config.outputs.SCANV1_TOKEN }}","name": "scand-${{ github.run_id }}-${{ github.run_attempt }}","platformService": "${{ env.PLATFORM_SERVICE_ENDPOINT }}","scandImage": "${{vars.SCAN_AGENT_V1}}","expirationTime": 600,"env": { "SECURITY_ACCESS_TOKEN": "${{ steps.get_pixi_token.outputs.PIXI_TOKEN }}"}}'
       - name: upload scan results
         uses: 42crunch/cicd-github-actions@v1.0.1
         with:
