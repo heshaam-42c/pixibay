@@ -97,7 +97,7 @@ jobs:
       - name: 42crunch-dynamic-api-testing
         run: |
           docker pull 42crunch/scand-agent:latest
-          docker run -e SCAN_TOKEN=${{ steps.upload_v1_scan_config.outputs.SCANV1_TOKEN }} -e SCAN42C_SECURITY_ACCESS_TOKEN=${{ steps.get_pixi_token.outputs.PIXI_TOKEN }} -e PLATFORM_SERVICE=services.demolabs.42crunch.cloud:8001 ${{vars.SCAN_AGENT_V1}}
+          docker run -e SCAN_TOKEN=${{ steps.upload_v1_scan_config.outputs.SCANV1_TOKEN }} -e SECURITY_ACCESS_TOKEN=${{ steps.get_pixi_token.outputs.PIXI_TOKEN }} -e PLATFORM_SERVICE=services.demolabs.42crunch.cloud:8001 ${{vars.SCAN_AGENT_V1}}
         # uses: fjogeleit/http-request-action@v1
         # with:
         #   url: ${{ vars.SCAND_MANAGER_URL }}
