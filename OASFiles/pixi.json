@@ -58,7 +58,12 @@
                   "properties": {
                     "user": {
                       "type": "string",
-                      "format": "email"
+                      "format": "o:HA:email",
+                      "example": "scanuser@test.com",
+                      "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
+                      "minLength": 6,
+                      "maxLength": 320,
+                      "x-42c-format": "o:HA:email"
                     },
                     "pass": {
                       "type": "string",
@@ -849,9 +854,9 @@
               "x-42c-format": "o:uuid"
             },
             "email": {
-              "maxLength": 68,
-              "minLength": 5,
-              "pattern": "^\\w+(?:[\\-.]\\w+)*@[0-9A-Za-z]+(?:[\\-.][0-9A-Za-z]+)*\\.(?:[A-Za-z][0-9A-Za-z]+|[0-9]+[A-Za-z][0-9A-Za-z]*)$",
+              "maxLength": 320,
+              "minLength": 6,
+              "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
               "type": "string",
               "format": "email",
               "example": "email@email.com",
@@ -921,9 +926,9 @@
               "example": "mailto:john@swagger.com"
             },
             "email": {
-              "maxLength": 68,
-              "minLength": 5,
-              "pattern": "^\\w+(?:[\\-.]\\w+)*@[0-9A-Za-z]+(?:[\\-.][0-9A-Za-z]+)*\\.(?:[A-Za-z][0-9A-Za-z]+|[0-9]+[A-Za-z][0-9A-Za-z]*)$",
+              "maxLength": 320,
+              "minLength": 6,
+              "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
               "type": "string",
               "format": "email",
               "example": "email@email.com",
@@ -954,9 +959,9 @@
           "additionalProperties": false,
           "properties": {
             "email": {
-              "maxLength": 68,
-              "minLength": 5,
-              "pattern": "^\\w+(?:[\\-.]\\w+)*@[0-9A-Za-z]+(?:[\\-.][0-9A-Za-z]+)*\\.(?:[A-Za-z][0-9A-Za-z]+|[0-9]+[A-Za-z][0-9A-Za-z]*)$",
+              "maxLength": 320,
+              "minLength": 6,
+              "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
               "type": "string",
               "format": "email",
               "example": "foo@bar.com",
@@ -995,9 +1000,9 @@
           },
           "properties": {
             "user": {
-              "maxLength": 68,
-              "minLength": 5,
-              "pattern": "^\\w+(?:[\\-.]\\w+)*@[0-9A-Za-z]+(?:[\\-.][0-9A-Za-z]+)*\\.(?:[A-Za-z][0-9A-Za-z]+|[0-9]+[A-Za-z][0-9A-Za-z]*)$",
+              "maxLength": 320,
+              "minLength": 6,
+              "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
               "type": "string",
               "format": "email",
               "example": "foo@bar.com",
