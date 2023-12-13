@@ -59,7 +59,6 @@
                                       "format": "o:HA:email",
                                       "type": "string",
                                       "example": "scanuser@test.com",
-                                      "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
                                       "minLength": 6,
                                       "maxLength": 320,
                                       "x-42c-format": "o:HA:email"
