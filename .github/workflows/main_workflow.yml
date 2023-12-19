@@ -96,6 +96,8 @@ jobs:
       - run: |
           echo Audit:
           echo ${{steps.json_properties.outputs.audit}}
+
+          echo cat ./audit-action-report-${{ github.run_id }}.json | jq '.audit.report."OASFiles/pixi.json".apiId'
       - name: upload_v1_scan_config
         id: upload_v1_scan_config
         run: | 
