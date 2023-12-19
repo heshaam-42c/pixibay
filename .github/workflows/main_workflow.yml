@@ -92,8 +92,10 @@ jobs:
         id: json_properties
         uses: ActionsTools/read-json-action@main
         with:
-          file_path: "audit-action-report-${{ github.run_id }}.json"
+          file_path: audit-action-report-${{ github.run_id }}.json
       - run: |
+          cat ./audit-action-report-${{ github.run_id }}.json
+          
           echo Value:
           echo ${{steps.json_properties.outputs.value}}
 
