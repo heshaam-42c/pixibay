@@ -104,7 +104,10 @@ jobs:
           echo "auditJson=$content" >> $GITHUB_OUTPUT
       - run: |
           echo Audit JSON:
-          echo "${{fromJson(steps.parseAuditJson.outputs.auditJson)}}"
+          echo "${{fromJson(steps.parseAuditJson.outputs.auditJson).audit}}"
+
+          echo Raw JSON:
+          echo ${{steps.parseAuditJson.outputs.auditJson}}
 
           echo Value:
           echo ${{steps.json_properties.outputs}}
