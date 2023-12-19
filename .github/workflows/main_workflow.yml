@@ -101,10 +101,10 @@ jobs:
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
-          echo "::set-output name=auditJson::$content"
+          echo "auditJson=$content" >> $GITHUB_OUTPUT
       - run: |
           echo Audit JSON:
-          echo "${{fromJson(steps.parseAuditJson.outputs.auditJson).audit}}"
+          echo "${{fromJson(steps.parseAuditJson.outputs.auditJson)}}"
 
           echo Value:
           echo ${{steps.json_properties.outputs}}
