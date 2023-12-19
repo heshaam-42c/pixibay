@@ -94,10 +94,10 @@ jobs:
         with:
           file_path: audit-action-report-${{ github.run_id }}.json
       - run: |
-          echo ${{steps.json_properties.outputs.audit}}
+          #echo ${{steps.json_properties.outputs.audit}}
 
-          response=$(cat ./audit-action-report-${{ github.run_id }}.json | jq '.audit.report."OASFiles/pixi.json".apiId')
-          echo "response from curl= $response"
+          pixiApiId=$(cat ./audit-action-report-${{ github.run_id }}.json | jq '.audit.report."OASFiles/pixi.json".apiId')
+          echo "Pixi API Id= $pixiApiId"
       - name: upload_v1_scan_config
         id: upload_v1_scan_config
         run: | 
