@@ -102,9 +102,6 @@ jobs:
 
           echo Report:
           echo ${{steps.json_properties.outputs.audit.report}}
-
-          echo Pixi:
-          echo ${{steps.json_properties.outputs.audit.report.OASFiles~1pixi.json}}
       - name: upload_v1_scan_config
         id: upload_v1_scan_config
         run: | 
