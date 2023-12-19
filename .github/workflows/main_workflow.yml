@@ -93,11 +93,21 @@ jobs:
         uses: ActionsTools/read-json-action@main
         with:
           file_path: audit-action-report-${{ github.run_id }}.json
+      - id: parseAuditJson
+        run: |
+          content=`cat ./audit-action-report-${{ github.run_id }}.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=auditJson::$content"
       - run: |
-          cat ./audit-action-report-${{ github.run_id }}.json
+          echo Audit JSON:
+          echo "${{fromJson(steps.parseAuditJson.outputs.auditJson).audit}}"
 
           echo Value:
-          echo ${{steps.json_properties.outputs.value}}
+          echo ${{steps.json_properties.outputs}}
 
           echo Audit:
           echo ${{steps.json_properties.outputs.audit}}
