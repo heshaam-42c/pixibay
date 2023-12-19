@@ -92,8 +92,10 @@ jobs:
         id: json_properties
         uses: ActionsTools/read-json-action@main
         with:
-          file_path: audit-action-report-${{ github.run_id }}.json
+          file_path: "audit-action-report-${{ github.run_id }}.json"
       - run: |
+          echo ${{steps.json_properties.outputs.value}}
+          echo ${{steps.json_properties.outputs.audit}}
           echo ${{steps.json_properties.outputs.audit.report}}
       - name: upload_v1_scan_config
         id: upload_v1_scan_config
