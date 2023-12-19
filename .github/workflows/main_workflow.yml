@@ -95,7 +95,7 @@ jobs:
           file_path: audit-action-report-${{ github.run_id }}.json
       - run: |
           cat ./audit-action-report-${{ github.run_id }}.json
-          
+
           echo Value:
           echo ${{steps.json_properties.outputs.value}}
 
@@ -103,7 +103,7 @@ jobs:
           echo ${{steps.json_properties.outputs.audit}}
 
           echo Report:
-          echo ${{steps.json_properties.outputs.audit.report}}
+          echo ${{steps.json_properties.outputs.audit.report[0]}}
       - name: upload_v1_scan_config
         id: upload_v1_scan_config
         run: | 
