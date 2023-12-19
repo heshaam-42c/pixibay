@@ -90,7 +90,7 @@ jobs:
           echo "PIXI_TOKEN=$login_response" >> $GITHUB_OUTPUT
       - run: |
           echo 'AUDIT_REPORT<<EOF' >> $GITHUB_ENV
-          cat ./auditaction-report-${{ github.run_id }} >> $GITHUB_ENV
+          cat ./auditaction-report-${{ github.run_id }}.json >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
       - run: |
           echo '${{ fromJson(env.AUDIT_REPORT).audit }}'
