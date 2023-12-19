@@ -93,30 +93,9 @@ jobs:
         uses: ActionsTools/read-json-action@main
         with:
           file_path: audit-action-report-${{ github.run_id }}.json
-      - id: parseAuditJson
-        run: |
-          content=`cat ./audit-action-report-${{ github.run_id }}.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "auditJson=$content" >> $GITHUB_OUTPUT
       - run: |
-          echo Audit JSON:
-          echo "${{fromJson(steps.parseAuditJson.outputs.auditJson).audit}}"
-
-          echo Raw JSON:
-          echo ${{steps.parseAuditJson.outputs.auditJson}}
-
-          echo Value:
-          echo ${{steps.json_properties.outputs}}
-
           echo Audit:
           echo ${{steps.json_properties.outputs.audit}}
-
-          echo Report:
-          echo ${{steps.json_properties.outputs.audit.report[0]}}
       - name: upload_v1_scan_config
         id: upload_v1_scan_config
         run: | 
