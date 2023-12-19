@@ -90,11 +90,10 @@ jobs:
           echo "PIXI_TOKEN=$login_response" >> $GITHUB_OUTPUT
       - run: |
           echo 'AUDIT_REPORT<<EOF' >> $GITHUB_ENV
-          ls -R
-          cat ./auditaction-report-${{ github.run_id }}.json >> $GITHUB_ENV
+          cat ./audit-action-report-${{ github.run_id }}.json >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
       - run: |
-          echo '${{ fromJson(env.AUDIT_REPORT).audit }}'
+          echo '${{ fromJson(env.AUDIT_REPORT).audit.report }}'
       - name: upload_v1_scan_config
         id: upload_v1_scan_config
         run: | 
