@@ -88,6 +88,12 @@ jobs:
           login_response=$(python .42c/scripts/pixi-login.py -u ${{ vars.PIXI_USER_NAME }} -p ${{ secrets.USER_PASS }} -t ${{ vars.PIXI_TARGET_URL }})
           echo $login_response
           echo "PIXI_TOKEN=$login_response" >> $GITHUB_OUTPUT
+      - run: |
+          echo 'AUDIT_REPORT<<EOF' >> $GITHUB_ENV
+          cat ./auditaction-report-${{ github.run_id }} >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+      - run: |
+          echo '${{ fromJson(env.AUDIT_REPORT).audit }}'
       - name: upload_v1_scan_config
         id: upload_v1_scan_config
         run: | 
