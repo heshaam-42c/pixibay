@@ -88,22 +88,15 @@ jobs:
           login_response=$(python .42c/scripts/pixi-login.py -u ${{ vars.PIXI_USER_NAME }} -p ${{ secrets.USER_PASS }} -t ${{ vars.PIXI_TARGET_URL }})
           echo $login_response
           echo "PIXI_TOKEN=$login_response" >> $GITHUB_OUTPUT
-      - name: get properties
-        id: json_properties
-        uses: ActionsTools/read-json-action@main
-        with:
-          file_path: audit-action-report-${{ github.run_id }}.json
       - name: get pixi api id
         id: get_pixi_api_id
         run: |
-          #echo ${{steps.json_properties.outputs.audit}}
-
           apiId=$(cat ./audit-action-report-${{ github.run_id }}.json | jq -r '.audit.report."OASFiles/pixi.json".apiId')
           echo "PIXI_API_UUID=$apiId" >> $GITHUB_OUTPUT
       - name: upload_v2_scan_config
         id: upload_v2_scan_config
         run: | 
-            scanconfig_response=$(python .42c/scripts/scan_v2_config.py ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -n githubActions -p ${{env.PLATFORM_URL}})
+            scanconfig_response=$(python .42c/scripts/scan_v2_config.py ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -f .42c/scan/pixi-app-api/scanconf.json -n githubActions -p ${{env.PLATFORM_URL}})
             echo $scanconfig_response
             echo "SCANV2_TOKEN=$scanconfig_response" >> $GITHUB_OUTPUT
       # - name: upload_v1_scan_config
