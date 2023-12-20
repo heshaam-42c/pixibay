@@ -91,7 +91,7 @@ jobs:
       - name: get pixi api id
         id: get_pixi_api_id
         run: |
-          apiId=$(cat ./audit-action-report-${{ github.run_id }}.json | jq -r '.audit.report."OASFiles/pixi.json".apiId')
+          apiId=a9df9ff0-13be-4171-98b2-9c8ef358339b
           echo "PIXI_API_UUID=$apiId" >> $GITHUB_OUTPUT
       - name: upload_v2_scan_config
         id: upload_v2_scan_config
