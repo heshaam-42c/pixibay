@@ -107,6 +107,7 @@ jobs:
         run: |
           apiId=$(cat ./audit-action-report-${{ github.run_id }}.json | jq -r '.audit.report."OASFiles/pixi.json".apiId')
           echo "PIXI_API_UUID=$apiId" >> $GITHUB_OUTPUT
+          cat audit-action-report-${{ github.run_id }}.json
       # - name: upload_v2_scan_config
       #   id: upload_v2_scan_config
       #   run: | 
