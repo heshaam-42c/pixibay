@@ -4,7 +4,6 @@ audit:
       discovery:
         search:
           - OASFiles/pixi.json
-          - OASFiles/Discovery/*.*
 
     dev:
       discovery:
