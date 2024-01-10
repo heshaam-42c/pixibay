@@ -702,6 +702,7 @@
           "key": "happy.path",
           "requests": [
             {
+              "fuzzing": true,
               "$ref": "#/operations/uploadPictureFromFile/request",
               "responses": {
                 "200": {
@@ -728,7 +729,8 @@
                 "picture_id": "{{uploadPictureFileId}}"
               }
             }
-          ]
+          ],
+          "fuzzing": true
         }
       ]
     },
