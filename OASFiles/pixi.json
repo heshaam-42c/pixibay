@@ -454,9 +454,13 @@
                         "description": "search query ?search=xxx",
                         "required": true,
                         "schema": {
-                            "maxLength": 100,
-                            "pattern": "^[\\w\\s\\.@=]{1,100}$",
-                            "type": "string"
+                          "maxLength": 320,
+                          "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
+                          "type": "string",
+                          "format": "o:HA:email",
+                          "example": "scanuser@test.com",
+                          "minLength": 6,
+                          "x-42c-format": "o:HA:email"
                         }
                     }
                 ],
