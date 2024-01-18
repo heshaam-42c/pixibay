@@ -122,7 +122,7 @@ jobs:
         with:
           api-token: ${{ secrets.API_TOKEN }}
           platform-url: ${{ env.PLATFORM_URL}}
-          audit-report-path: auditaction-report-${{ github.run_id }}
+          audit-report-path: audit-action-report-${{ github.run_id }}.json
           convert-to-sarif: false
           upload-sarif: false
           check-sqg: true
