@@ -54,7 +54,7 @@ jobs:
           # Follow these steps to configure API_TOKEN https://docs.42crunch.com/latest/content/tasks/integrate_github_actions.htm
           api-token: ${{ secrets.API_TOKEN }}
           platform-url: ${{ env.PLATFORM_URL}}
-          default-collection-name: Pixi+Discovery--${{ github.ref_name }}
+          default-collection-name: Pixi-Discovery--${{ github.ref_name }}
           # Upload results to Github code scanning
           upload-to-code-scanning: true
           log-level: debug
@@ -118,7 +118,7 @@ jobs:
         run: |
           docker run -e SCAN_TOKEN=${{ steps.upload_v2_scan_config.outputs.SCANV2_TOKEN }} -e PLATFORM_SERVICE=services.demolabs.42crunch.cloud:8001 ${{vars.SCAN_AGENT_V2}}
       - name: upload scan results
-        uses: 42crunch/cicd-github-actions@v1.0.1
+        uses: 42crunch/cicd-github-actions@v1
         with:
           api-token: ${{ secrets.API_TOKEN }}
           platform-url: ${{ env.PLATFORM_URL}}
