@@ -117,15 +117,15 @@ jobs:
       - name: 42crunch-dynamic-api-testing
         run: |
           docker run -e SCAN_TOKEN=${{ steps.upload_v2_scan_config.outputs.SCANV2_TOKEN }} -e PLATFORM_SERVICE=services.demolabs.42crunch.cloud:8001 ${{vars.SCAN_AGENT_V2}}
-      - name: upload scan results
-        uses: 42crunch/cicd-github-actions@v1
-        with:
-          api-token: ${{ secrets.API_TOKEN }}
-          platform-url: ${{ env.PLATFORM_URL}}
-          audit-report-path: audit-action-report-${{ github.run_id }}.json
-          convert-to-sarif: false
-          upload-sarif: false
-          check-sqg: true
+      # - name: upload scan results
+      #   uses: 42crunch/cicd-github-actions@v1
+      #   with:
+      #     api-token: ${{ secrets.API_TOKEN }}
+      #     platform-url: ${{ env.PLATFORM_URL}}
+      #     audit-report-path: audit-action-report-${{ github.run_id }}.json
+      #     convert-to-sarif: false
+      #     upload-sarif: false
+      #     check-sqg: true
       # - name: save-sarif-report
       #   if: always()        
       #   uses: actions/upload-artifact@v3
