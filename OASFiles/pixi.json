@@ -10,11 +10,11 @@
             "name": "Apache 2.0",
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         },
-        "version": "4.4"
+        "version": "4.3"
     },
     "servers": [
         {
-            "url": "https://photo-demo.westeurope.cloudapp.azure.com/hesh/api"
+            "url": "https://photo-demo.westeurope.cloudapp.azure.com/api"
         }
     ],
     "tags": [
@@ -93,18 +93,6 @@
                                     }
                                 }
                             }
-                        },
-                        "x-42c-local-strategy": {
-                            "x-42c-strategy": {
-                                "protections": [
-                                    {
-                                        "x-42c-security-headers_0.1": {
-                                            "hsts.max_age": 15400,
-                                            "csp.policy": "default-src: 'self'; upgrade-insecure-requests; block-all-mixed-content"
-                                        }
-                                    }
-                                ]
-                            }
                         }
                     },
                     "422": {
@@ -116,27 +104,6 @@
                                 }
                             }
                         }
-                    }
-                },
-                "x-42c-local-strategy": {
-                    "x-42c-strategy": {
-                        "protections": [
-                            {
-                                "x-42c-set-client-ip_0.1": {
-                                    "ip.header.name": "X-Forwarded-For",
-                                    "ip.header.mandatory": true,
-                                    "remote.ip.allowlist": []
-                                }
-                            },
-                            {
-                                "x-42c-request-limiter_0.1": {
-                                    "hits": 3,
-                                    "window": 6,
-                                    "add.retry_after": true,
-                                    "key": "req_limiter_login"
-                                }
-                            }
-                        ]
                     }
                 },
                 "x-42c-no-authentication": true
@@ -173,7 +140,7 @@
                                             "type": "string"
                                         },
                                         "token": {
-                                            "maxLength": 1100,
+                                            "maxLength": 1000,
                                             "nullable": true
                                         },
                                         "_id": {
@@ -194,27 +161,6 @@
                                 }
                             }
                         }
-                    }
-                },
-                "x-42c-local-strategy": {
-                    "x-42c-strategy": {
-                        "protections": [
-                            {
-                                "x-42c-set-client-ip_0.1": {
-                                    "ip.header.name": "X-Forwarded-For",
-                                    "ip.header.mandatory": true,
-                                    "remote.ip.allowlist": []
-                                }
-                            },
-                            {
-                                "x-42c-request-limiter_0.1": {
-                                    "hits": 3,
-                                    "window": 20,
-                                    "add.retry_after": true,
-                                    "key": "req_limiter_register"
-                                }
-                            }
-                        ]
                     }
                 },
                 "x-42c-no-authentication": true
@@ -269,36 +215,7 @@
                     {
                         "access-token": []
                     }
-                ],
-                "x-42c-local-strategy": {
-                    "x-42c-strategy": {
-                        "protections": [
-                            {
-                                "x-42c-set-client-ip_0.1": {
-                                    "ip.header.name": "X-Forwarded-For",
-                                    "ip.header.mandatory": true,
-                                    "remote.ip.allowlist": []
-                                }
-                            },
-                            {
-                                "x-42c-request-limiter_0.1": {
-                                    "hits": 5,
-                                    "window": 10,
-                                    "add.retry_after": true,
-                                    "key": "req_limiter_get_info"
-                                }
-                            },
-                            {
-                                "x-42c-jwt-validation-rsa_0.2": {
-                                    "header.name": "x-access-token",
-                                    "lifetime": 600,
-                                    "jp.jose.header.schema": "#/x-42c-components/x-42c-schemas/jose-header",
-                                    "jp.claims.schema": "#/x-42c-components/x-42c-schemas/jwt-claims"
-                                }
-                            }
-                        ]
-                    }
-                }
+                ]
             }
         },
         "/user/edit_info": {
@@ -309,16 +226,6 @@
                 "summary": "edit user information",
                 "description": "user supplies valid token and updates all user info",
                 "operationId": "edituserinfo",
-                "parameters": [
-                    {
-                        "name": "x-access-token",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
                 "requestBody": {
                     "description": "userobject",
                     "content": {
@@ -379,14 +286,6 @@
                 "operationId": "userSearch",
                 "parameters": [
                     {
-                        "name": "x-access-token",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
                         "name": "search",
                         "in": "query",
                         "description": "search query ?search=xxx",
@@ -426,23 +325,13 @@
                 "summary": "Returns the list of ALL users. Must be admin to call.",
                 "description": "Returns the list of ALL users. Must be admin to call.",
                 "operationId": "adminallusers",
-                "parameters": [
-                    {
-                        "name": "x-access-token",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "List Users",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "maxItems": 100,
+                                    "maxItems": 10,
                                     "minItems": 1,
                                     "type": "array",
                                     "items": {
@@ -487,7 +376,7 @@
                         "schema": {
                             "type": "string",
                             "format": "uuid",
-                            "example": "DD68C630-3CCB-4FD0-9C5B-A0A34C952681",
+                            "example": "a83a29f5-0d63-46f2-8f2e-44c2f1d2e07e",
                             "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$",
                             "minLength": 36,
                             "maxLength": 36,
@@ -515,11 +404,6 @@
                                     "properties": {
                                         "message": {
                                             "type": "string"
-                                        }
-                                    },
-                                    "x-examples": {
-                                        "example-1": {
-                                            "message": "success"
                                         }
                                     }
                                 }
@@ -583,63 +467,6 @@
                                 "additionalProperties": false,
                                 "properties": {
                                     "contents": {
-                                        "type": "string",
-                                        "maxLength": 100000
-                                    },
-                                    "title": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "required": true,
-                    "description": "File to upload"
-                }
-            }
-        },
-        "/picture/file_upload": {
-            "post": {
-                "tags": [
-                    "pictures"
-                ],
-                "description": "Upload image file as user picture",
-                "summary": "Attach picture to user account",
-                "operationId": "uploadPictureFromFile",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ConfirmationMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "invalid or missing token",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthenticationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "filename",
-                                    "title"
-                                ],
-                                "properties": {
-                                    "filename": {
                                         "type": "string",
                                         "maxLength": 100000
                                     },
@@ -764,6 +591,58 @@
                 },
                 "operationId": "deletePicture"
             }
+        },
+        "/picture/file_upload": {
+            "post": {
+                "tags": [
+                    "pictures"
+                ],
+                "description": "Upload image file as user picture",
+                "summary": "Attach picture to user account",
+                "operationId": "uploadPictureFromFile",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfirmationMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "invalid or missing token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "filename": {
+                                        "type": "string",
+                                        "maxLength": 100000
+                                    },
+                                    "title": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "File to upload"
+                }
+            }
         }
     },
     "components": {
@@ -790,7 +669,8 @@
                     "name",
                     "_id",
                     "is_admin",
-                    "account_balance"
+                    "account_balance",
+                    "onboarding_date"
                 ],
                 "type": "object",
                 "additionalProperties": false,
@@ -809,9 +689,9 @@
                         "minLength": 6,
                         "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
                         "type": "string",
-                        "format": "o:HA:email",
-                        "x-42c-format": "o:HA:email",
-                        "example": "scanuser@test.com"
+                        "format": "email",
+                        "example": "email@email.com",
+                        "x-42c-format": "o:email"
                     },
                     "password": {
                         "maxLength": 64,
@@ -881,9 +761,9 @@
                         "minLength": 6,
                         "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
                         "type": "string",
-                        "format": "o:HA:email",
-                        "x-42c-format": "o:HA:email",
-                        "example": "scanuser@test.com"
+                        "format": "email",
+                        "example": "email@email.com",
+                        "x-42c-format": "o:email"
                     },
                     "name": {
                         "maxLength": 50,
@@ -930,10 +810,9 @@
                     "user"
                 ],
                 "type": "object",
-                "additionalProperties": false,
                 "example": {
-                    "user": "register@test.com",
-                    "pass": "hellopixi",
+                    "user": "foo@test.com",
+                    "pass": "mygood2!pass",
                     "name": "PixiUser",
                     "is_admin": false,
                     "account_balance": 150
@@ -1000,11 +879,11 @@
                         "creator_id": {
                             "type": "string",
                             "format": "uuid",
+                            "example": "a83a29f5-0d63-46f2-8f2e-44c2f1d2e07e",
                             "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$",
                             "minLength": 36,
                             "maxLength": 36,
-                            "x-42c-format": "o:uuid",
-                            "example": "a83a29f5-0d63-46f2-8f2e-44c2f1d2e07e"
+                            "x-42c-format": "o:uuid"
                         },
                         "money_made": {
                             "type": "integer"
@@ -1035,6 +914,12 @@
             "AuthenticationError": {
                 "type": "object",
                 "additionalProperties": false,
+                "x-examples": {
+                    "Example 1": {
+                        "success": false,
+                        "message": "Failed to authenticate token"
+                    }
+                },
                 "properties": {
                     "success": {
                         "type": "boolean"
@@ -1060,7 +945,8 @@
                 "name": "x-access-token",
                 "in": "header"
             }
-        }
+        },
+        "responses": {}
     },
     "x-42c-components": {
         "x-42c-schemas": {
