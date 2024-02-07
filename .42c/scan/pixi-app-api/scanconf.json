@@ -1132,7 +1132,7 @@
     "DeletePicture": {
       "key": "authentication-swapping-bola",
       "source": [
-        "admin-user"
+        "admin-user/admin1"
       ],
       "target": [
         "dynamic-token/User3"
@@ -1141,25 +1141,25 @@
     "DeleteUser": {
       "key": "authentication-swapping-bfla",
       "source": [
-        "admin-user"
+        "admin-user/admin1"
       ],
       "target": [
-        "access-token"
+        "access-token/User1"
       ]
     },
     "AdminOnlyOps": {
       "key": "authentication-swapping-bfla",
       "source": [
-        "admin-user"
+        "admin-user/admin1"
       ],
       "target": [
-        "access-token"
+        "access-token/User1"
       ]
     },
     "BadTokenSwap": {
       "key": "authentication-swapping-bfla",
       "source": [
-        "access-token"
+        "access-token/User1"
       ],
       "target": [
         "bad-jwts/BadAudience"
@@ -1186,8 +1186,7 @@
             "httpStatus": 200
           }
         }
-      },
-      "external": true
+      }
     },
     "BadJWT1": {
       "request": {
@@ -1216,8 +1215,7 @@
             "httpStatus": 200
           }
         }
-      },
-      "external": true
+      }
     },
     "RegisterUser": {
       "request": {
@@ -1250,8 +1248,7 @@
             "httpStatus": 200
           }
         }
-      },
-      "external": true
+      }
     },
     "RegisterAdmin": {
       "request": {
@@ -1284,8 +1281,7 @@
             "httpStatus": 200
           }
         }
-      },
-      "external": true
+      }
     }
   }
 }
