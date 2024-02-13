@@ -113,17 +113,23 @@ jobs:
       - name: get pixi api id
         id: get_pixi_api_id
         run: |
-          apiId=$(cat ./audit-action-report-${{ github.run_id }}.json | jq -r '.audit.report."OASFiles/pixi.json".apiId')
+          apiId=$(cat ./audit-action-report-${{ github.run_id }}.json | jq -r '.audit.report.${{ vars.PIXI_OAS_PATH }}.apiId')
           echo "PIXI_API_UUID=$apiId" >> $GITHUB_OUTPUT
           cat audit-action-report-${{ github.run_id }}.json
+      - name: get_pixi_scan_conf_alias
+        id: get_pixi_scan_conf_alias
+        run: |
+          aliasId=$(cat ./.42c/conf.yaml | jq -r '.apis.${{ vars.PIXI_OAS_PATH }}.alias')
+          echo "PIXI_SCAN_ALIAS=$aliasId" >> $GITHUB_OUTPUT
       - name: upload_v2_scan_config
         id: upload_v2_scan_config
         run: | 
-            scanconfig_response=$(python .42c/scripts/scan_v2_config.py --quiet ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -f .42c/scan/pixi-app-api/scanconf.json -n github-actions -p ${{env.PLATFORM_URL}})
+            scanconfig_response=$(python .42c/scripts/scan_v2_config.py --quiet ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -f .42c/scan/${{ steps.get_pixi_scan_conf_alias.outputs.PIXI_SCAN_ALIAS }}/scanconf.json -n github-actions -p ${{env.PLATFORM_URL}})
             echo $scanconfig_response
             echo "SCANV2_TOKEN=$scanconfig_response" >> $GITHUB_OUTPUT
       - name: 42crunch-dynamic-api-testing
         run: |
+          docker pull ${{vars.SCAN_AGENT_V2}}
           docker run -e SCAN_TOKEN=${{ steps.upload_v2_scan_config.outputs.SCANV2_TOKEN }} -e SCAN42C_HOST=${{ vars.PIXI_TARGET_URL }} -e PLATFORM_SERVICE=${{ env.PLATFORM_SERVICE_ENDPOINT }} ${{vars.SCAN_AGENT_V2}}
       # - name: upload scan results
       #   uses: 42crunch/cicd-github-actions@v1
