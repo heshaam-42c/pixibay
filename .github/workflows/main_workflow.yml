@@ -113,7 +113,7 @@ jobs:
       - name: get pixi api id
         id: get_pixi_api_id
         run: |
-          apiId=$(cat ./audit-action-report-${{ github.run_id }}.json | jq -r '.audit.report.${{ vars.PIXI_OAS_PATH }}.apiId')
+          apiId=$(cat ./audit-action-report-${{ github.run_id }}.json | jq -r '.audit.report."${{ vars.PIXI_OAS_PATH }}".apiId')
           echo "PIXI_API_UUID=$apiId" >> $GITHUB_OUTPUT
           cat audit-action-report-${{ github.run_id }}.json
       - name: get_pixi_scan_conf_alias
