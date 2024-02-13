@@ -119,7 +119,7 @@ jobs:
       - name: get_pixi_scan_conf_alias
         id: get_pixi_scan_conf_alias
         run: |
-          aliasId=$(cat ./.42c/conf.yaml | jq -r '.apis.${{ vars.PIXI_OAS_PATH }}.alias')
+          aliasId=$(cat ./.42c/conf.yaml | jq -r '.apis."${{ vars.PIXI_OAS_PATH }}".alias')
           echo "PIXI_SCAN_ALIAS=$aliasId" >> $GITHUB_OUTPUT
       - name: upload_v2_scan_config
         id: upload_v2_scan_config
