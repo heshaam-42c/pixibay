@@ -90,12 +90,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: auditaction-report-${{ github.run_id }}  
-      - name: get_pixi_token
-        id: get_pixi_token
-        run: | 
-          login_response=$(python .42c/scripts/pixi-login.py -u ${{ vars.PIXI_USER_NAME }} -p ${{ secrets.USER_PASS }} -t ${{ vars.PIXI_TARGET_URL }})
-          echo $login_response
-          echo "PIXI_TOKEN=$login_response" >> $GITHUB_OUTPUT
+      # - name: get_pixi_token
+      #   id: get_pixi_token
+      #   run: | 
+      #     login_response=$(python .42c/scripts/pixi-login.py -u ${{ vars.PIXI_USER_NAME }} -p ${{ secrets.USER_PASS }} -t ${{ vars.PIXI_TARGET_URL }})
+      #     echo $login_response
+      #     echo "PIXI_TOKEN=$login_response" >> $GITHUB_OUTPUT
       # - name: upload_v1_scan_config
       #   id: upload_v1_scan_config
       #   run: | 
@@ -113,18 +113,24 @@ jobs:
       - name: get pixi api id
         id: get_pixi_api_id
         run: |
-          apiId=$(cat ./audit-action-report-${{ github.run_id }}.json | jq -r '.audit.report."${{ vars.PIXI_OAS_PATH }}".apiId')
+          apiId=$(cat ./audit-action-report-${{ github.run_id }}.json | jq -r '.audit.report.${{ vars.PIXI_OAS_PATH }}.apiId')
           echo "PIXI_API_UUID=$apiId" >> $GITHUB_OUTPUT
           cat audit-action-report-${{ github.run_id }}.json
+      - name: read-yaml-file
+        uses: pietrobolcato/action-read-yaml@1.0.0
+        id: read_action_js
+        with:
+          config: ${{ github.workspace }}/.42c/conf.yaml
       - name: get_pixi_scan_conf_alias
-        id: get_pixi_scan_conf_alias
+        id: parse_alias
         run: |
-          aliasId=$(cat ./.42c/conf.yaml | jq -r '.apis."${{ vars.PIXI_OAS_PATH }}".alias')
+          aliasPath=$('.apis.${{ vars.PIXI_OAS_PATH }}.alias')
+          aliasId=$(${{ steps.read_action_js.outputs['$aliasPath'] }})
           echo "PIXI_SCAN_ALIAS=$aliasId" >> $GITHUB_OUTPUT
       - name: upload_v2_scan_config
         id: upload_v2_scan_config
         run: | 
-            scanconfig_response=$(python .42c/scripts/scan_v2_config.py --quiet ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -f .42c/scan/${{ steps.get_pixi_scan_conf_alias.outputs.PIXI_SCAN_ALIAS }}/scanconf.json -n github-actions -p ${{env.PLATFORM_URL}})
+            scanconfig_response=$(python .42c/scripts/scan_v2_config.py --quiet ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -f .42c/scan/${{ steps.parse_alias.outputs.PIXI_SCAN_ALIAS }}/scanconf.json -n github-actions -p ${{env.PLATFORM_URL}})
             echo $scanconfig_response
             echo "SCANV2_TOKEN=$scanconfig_response" >> $GITHUB_OUTPUT
       - name: 42crunch-dynamic-api-testing
