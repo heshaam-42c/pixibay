@@ -116,16 +116,10 @@ jobs:
           apiId=$(cat ./audit-action-report-${{ github.run_id }}.json | jq -r '.audit.report.${{ vars.PIXI_OAS_PATH }}.apiId')
           echo "PIXI_API_UUID=$apiId" >> $GITHUB_OUTPUT
           cat audit-action-report-${{ github.run_id }}.json
-      - name: read-yaml-file
-        uses: pietrobolcato/action-read-yaml@1.0.0
-        id: read_action_js
-        with:
-          config: ${{ github.workspace }}/.42c/conf.yaml
       - name: get_pixi_scan_conf_alias
         id: parse_alias
         run: |
-          aliasPath=$('.apis.${{ vars.PIXI_OAS_PATH }}.alias')
-          aliasId=$(${{ steps.read_action_js.outputs['$aliasPath'] }})
+          aliasId=$(cat ./42c/conf.yaml | yq '.apis.${{ vars.PIXI_OAS_PATH }}.alias')
           echo "PIXI_SCAN_ALIAS=$aliasId" >> $GITHUB_OUTPUT
       - name: upload_v2_scan_config
         id: upload_v2_scan_config
