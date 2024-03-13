@@ -10,11 +10,11 @@
             "name": "Apache 2.0",
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         },
-        "version": "4.3"
+        "version": "4.4"
     },
     "servers": [
         {
-            "url": "https://photo-demo.westeurope.cloudapp.azure.com/api"
+            "url": "https://photo-demo.westeurope.cloudapp.azure.com/hesh/api"
         }
     ],
     "tags": [
@@ -48,6 +48,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
+                                "additionalProperties": false,
                                 "required": [
                                     "pass",
                                     "user"
@@ -55,10 +56,22 @@
                                 "type": "object",
                                 "properties": {
                                     "user": {
-                                        "type": "string"
+                                      "type": "string",
+                                      "format": "o:HA:email",
+                                      "example": "scanuser@test.com",
+                                      "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
+                                      "minLength": 6,
+                                      "maxLength": 320,
+                                      "x-42c-format": "o:HA:email"
                                     },
                                     "pass": {
-                                        "type": "string"
+                                      "type": "string",
+                                      "format": "o:HA:password",
+                                      "example": "hellopixi",
+                                      "pattern": "^[a-zA-Z0-9&@#!?]{8,64}$",
+                                      "minLength": 8,
+                                      "maxLength": 64,
+                                      "x-42c-format": "o:HA:password"
                                     }
                                 }
                             }
@@ -80,18 +93,41 @@
                                     "additionalProperties": false,
                                     "properties": {
                                         "message": {
+                                            "maxLength": 255,
+                                            "minLength": 1,
+                                            "pattern": "^[\\w\\s\\.\\-@:,;]{1,255}$",
                                             "type": "string"
                                         },
                                         "token": {
+                                            "maxLength": 1100,
                                             "nullable": true,
+                                            "pattern": "^([a-zA-Z0-9_=]{4,})\\.([a-zA-Z0-9_=]{4,})\\.([a-zA-Z0-9_\\-\\+\\/=]{4,})",
                                             "type": "string"
                                         },
                                         "_id": {
                                             "type": "string",
-                                            "nullable": true
+                                            "nullable": true,
+                                            "format": "uuid",
+                                            "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$",
+                                            "minLength": 36,
+                                            "maxLength": 36,
+                                            "x-42c-format": "o:uuid",
+                                            "example": "a83a29f5-0d63-46f2-8f2e-44c2f1d2e07e"
                                         }
                                     }
                                 }
+                            }
+                        },
+                        "x-42c-local-strategy": {
+                            "x-42c-strategy": {
+                                "protections": [
+                                    {
+                                        "x-42c-security-headers_0.1": {
+                                            "hsts.max_age": 15400,
+                                            "csp.policy": "default-src: 'self'; upgrade-insecure-requests; block-all-mixed-content"
+                                        }
+                                    }
+                                ]
                             }
                         }
                     },
@@ -104,6 +140,37 @@
                                 }
                             }
                         }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-42c-local-strategy": {
+                    "x-42c-strategy": {
+                        "protections": [
+                            {
+                                "x-42c-set-client-ip_0.1": {
+                                    "ip.header.name": "X-Forwarded-For",
+                                    "ip.header.mandatory": true,
+                                    "remote.ip.allowlist": []
+                                }
+                            },
+                            {
+                                "x-42c-request-limiter_0.1": {
+                                    "hits": 3,
+                                    "window": 6,
+                                    "add.retry_after": true,
+                                    "key": "req_limiter_login"
+                                }
+                            }
+                        ]
                     }
                 },
                 "x-42c-no-authentication": true
@@ -137,15 +204,26 @@
                                     "additionalProperties": false,
                                     "properties": {
                                         "message": {
+                                            "maxLength": 255,
+                                            "minLength": 1,
+                                            "pattern": "^[\\w\\s\\.\\-@:,;]{1,255}$",
                                             "type": "string"
                                         },
                                         "token": {
-                                            "maxLength": 1000,
-                                            "nullable": true
+                                            "maxLength": 1100,
+                                            "nullable": true,
+                                            "pattern": "^([a-zA-Z0-9_=]{4,})\\.([a-zA-Z0-9_=]{4,})\\.([a-zA-Z0-9_\\-\\+\\/=]{4,})",
+                                            "type": "string"
                                         },
                                         "_id": {
                                             "type": "string",
-                                            "nullable": true
+                                            "nullable": true,
+                                            "format": "uuid",
+                                            "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$",
+                                            "minLength": 36,
+                                            "maxLength": 36,
+                                            "x-42c-format": "o:uuid",
+                                            "example": "a83a29f5-0d63-46f2-8f2e-44c2f1d2e07e"
                                         }
                                     }
                                 }
@@ -161,6 +239,37 @@
                                 }
                             }
                         }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-42c-local-strategy": {
+                    "x-42c-strategy": {
+                        "protections": [
+                            {
+                                "x-42c-set-client-ip_0.1": {
+                                    "ip.header.name": "X-Forwarded-For",
+                                    "ip.header.mandatory": true,
+                                    "remote.ip.allowlist": []
+                                }
+                            },
+                            {
+                                "x-42c-request-limiter_0.1": {
+                                    "hits": 3,
+                                    "window": 20,
+                                    "add.retry_after": true,
+                                    "key": "req_limiter_register"
+                                }
+                            }
+                        ]
                     }
                 },
                 "x-42c-no-authentication": true
@@ -215,7 +324,36 @@
                     {
                         "access-token": []
                     }
-                ]
+                ],
+                "x-42c-local-strategy": {
+                    "x-42c-strategy": {
+                        "protections": [
+                            {
+                                "x-42c-set-client-ip_0.1": {
+                                    "ip.header.name": "X-Forwarded-For",
+                                    "ip.header.mandatory": true,
+                                    "remote.ip.allowlist": []
+                                }
+                            },
+                            {
+                                "x-42c-request-limiter_0.1": {
+                                    "hits": 5,
+                                    "window": 10,
+                                    "add.retry_after": true,
+                                    "key": "req_limiter_get_info"
+                                }
+                            },
+                            {
+                                "x-42c-jwt-validation-rsa_0.2": {
+                                    "header.name": "x-access-token",
+                                    "lifetime": 600,
+                                    "jp.jose.header.schema": "#/x-42c-components/x-42c-schemas/jose-header",
+                                    "jp.claims.schema": "#/x-42c-components/x-42c-schemas/jwt-claims"
+                                }
+                            }
+                        ]
+                    }
+                }
             }
         },
         "/user/edit_info": {
@@ -226,6 +364,18 @@
                 "summary": "edit user information",
                 "description": "user supplies valid token and updates all user info",
                 "operationId": "edituserinfo",
+                "parameters": [
+                    {
+                        "name": "x-access-token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "maxLength": 1000,
+                            "pattern": "^([a-zA-Z0-9_=]{4,})\\.([a-zA-Z0-9_=]{4,})\\.([a-zA-Z0-9_\\-\\+\\/=]{4,})",
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "description": "userobject",
                     "content": {
@@ -286,18 +436,49 @@
                 "operationId": "userSearch",
                 "parameters": [
                     {
+                        "name": "x-access-token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "maxLength": 1000,
+                            "pattern": "^([a-zA-Z0-9_=]{4,})\\.([a-zA-Z0-9_=]{4,})\\.([a-zA-Z0-9_\\-\\+\\/=]{4,})",
+                            "type": "string",
+                            "format": "o:common:JWT",
+                            "minLength": 25,
+                            "x-42c-format": "o:common:JWT"
+                        }
+                    },
+                    {
                         "name": "search",
                         "in": "query",
                         "description": "search query ?search=xxx",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                          "maxLength": 320,
+                          "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
+                          "type": "string",
+                          "format": "o:HA:email",
+                          "example": "scanuser@test.com",
+                          "minLength": 6,
+                          "x-42c-format": "o:HA:email"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful authentication user photo json object"
+                        "description": "successful authentication user photo json object",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "maxItems": 50,
+                                    "minItems": 0,
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UsersItem"
+                                    }
+                                }
+                            }
+                        }
                     },
                     "403": {
                         "description": "invalid or missing token",
@@ -305,6 +486,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/AuthenticationError"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
                                 }
                             }
                         }
@@ -325,13 +516,25 @@
                 "summary": "Returns the list of ALL users. Must be admin to call.",
                 "description": "Returns the list of ALL users. Must be admin to call.",
                 "operationId": "adminallusers",
+                "parameters": [
+                    {
+                        "name": "x-access-token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "maxLength": 1000,
+                            "pattern": "^([a-zA-Z0-9_=]{4,})\\.([a-zA-Z0-9_=]{4,})\\.([a-zA-Z0-9_\\-\\+\\/=]{4,})",
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "List Users",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "maxItems": 10,
+                                    "maxItems": 100,
                                     "minItems": 1,
                                     "type": "array",
                                     "items": {
@@ -376,7 +579,7 @@
                         "schema": {
                             "type": "string",
                             "format": "uuid",
-                            "example": "a83a29f5-0d63-46f2-8f2e-44c2f1d2e07e",
+                            "example": "DD68C630-3CCB-4FD0-9C5B-A0A34C952681",
                             "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$",
                             "minLength": 36,
                             "maxLength": 36,
@@ -405,6 +608,11 @@
                                         "message": {
                                             "type": "string"
                                         }
+                                    },
+                                    "x-examples": {
+                                        "example-1": {
+                                            "message": "success"
+                                        }
                                     }
                                 }
                             }
@@ -416,6 +624,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/AuthenticationError"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
                                 }
                             }
                         }
@@ -457,6 +675,16 @@
                                 }
                             }
                         }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
                     }
                 },
                 "requestBody": {
@@ -468,17 +696,104 @@
                                 "properties": {
                                     "contents": {
                                         "type": "string",
+                                        "pattern": "^[A-Za-z0-9+/]+={0,2}$",
+                                        "format": "binary",
                                         "maxLength": 100000
                                     },
                                     "title": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "pattern": "^[a-zA-Z0-9\\s]*$",
+                                        "maxLength": 150
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true,
+                    "description": "File to upload"
+                },
+                "security": [
+                    {
+                        "access-token": []
+                    }
+                ]
+            }
+        },
+        "/picture/file_upload": {
+            "post": {
+                "tags": [
+                    "pictures"
+                ],
+                "description": "Upload image file as user picture",
+                "summary": "Attach picture to user account",
+                "operationId": "uploadPictureFromFile",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfirmationMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "invalid or missing token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationError"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                    "filename",
+                                    "title"
+                                ],
+                                "properties": {
+                                    "filename": {
+                                        "type": "string",
+                                        "pattern": "^https?:\\/\\/(?:www\\.)?(?:42crunch\\.com|pixabay\\.com)\/(?:\\w+\/)*.+(.jpg|.png)$",
+                                        "example": "https://42crunch.com/wp-content/uploads/2022/02/LogoCr1.png",
+                                        "maxLength": 256
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "pattern": "^[a-zA-Z0-9\\s]*$",
+                                        "maxLength": 100,
+                                        "example": "company logo"
                                     }
                                 }
                             }
                         }
                     },
                     "description": "File to upload"
-                }
+                },
+                "security": [
+                    {
+                        "access-token": []
+                    }
+                ]
             }
         },
         "/user/pictures": {
@@ -547,6 +862,11 @@
                         "required": true
                     }
                 ],
+                "security": [
+                    {
+                        "access-token": []
+                    }
+                ],
                 "summary": "Delete user picture",
                 "description": "Delete picture via its unique ID",
                 "tags": [
@@ -587,61 +907,19 @@
                                 }
                             }
                         }
-                    }
-                },
-                "operationId": "deletePicture"
-            }
-        },
-        "/picture/file_upload": {
-            "post": {
-                "tags": [
-                    "pictures"
-                ],
-                "description": "Upload image file as user picture",
-                "summary": "Attach picture to user account",
-                "operationId": "uploadPictureFromFile",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ConfirmationMessage"
-                                }
-                            }
-                        }
                     },
-                    "403": {
-                        "description": "invalid or missing token",
+                    "default": {
+                        "description": "unexpected error",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthenticationError"
+                                    "$ref": "#/components/schemas/ErrorMessage"
                                 }
                             }
                         }
                     }
                 },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "properties": {
-                                    "filename": {
-                                        "type": "string",
-                                        "maxLength": 100000
-                                    },
-                                    "title": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "description": "File to upload"
-                }
+                "operationId": "deletePicture"
             }
         }
     },
@@ -669,8 +947,7 @@
                     "name",
                     "_id",
                     "is_admin",
-                    "account_balance",
-                    "onboarding_date"
+                    "account_balance"
                 ],
                 "type": "object",
                 "additionalProperties": false,
@@ -689,9 +966,9 @@
                         "minLength": 6,
                         "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
                         "type": "string",
-                        "format": "email",
-                        "example": "email@email.com",
-                        "x-42c-format": "o:email"
+                        "format": "o:HA:email",
+                        "x-42c-format": "o:HA:email",
+                        "example": "scanuser@test.com"
                     },
                     "password": {
                         "maxLength": 64,
@@ -761,9 +1038,9 @@
                         "minLength": 6,
                         "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
                         "type": "string",
-                        "format": "email",
-                        "example": "email@email.com",
-                        "x-42c-format": "o:email"
+                        "format": "o:HA:email",
+                        "x-42c-format": "o:HA:email",
+                        "example": "scanuser@test.com"
                     },
                     "name": {
                         "maxLength": 50,
@@ -790,12 +1067,23 @@
                 "additionalProperties": false,
                 "properties": {
                     "email": {
-                        "type": "string"
+                        "format": "o:HA:email",
+                        "type": "string",
+                        "example": "scanuser@test.com",
+                        "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
+                        "minLength": 6,
+                        "maxLength": 320,
+                        "x-42c-format": "o:HA:email"
                     },
                     "name": {
+                        "maxLength": 30,
+                        "minLength": 5,
+                        "pattern": "^[\\w\\s\\.]{5,30}$",
                         "type": "string"
                     },
                     "account_balance": {
+                        "maximum": 1000,
+                        "minimum": -50,
                         "type": "number",
                         "format": "float"
                     }
@@ -810,27 +1098,44 @@
                     "user"
                 ],
                 "type": "object",
+                "additionalProperties": false,
                 "example": {
-                    "user": "foo@test.com",
-                    "pass": "mygood2!pass",
+                    "user": "register@test.com",
+                    "pass": "hellopixi",
                     "name": "PixiUser",
                     "is_admin": false,
                     "account_balance": 150
                 },
                 "properties": {
                     "user": {
-                        "type": "string"
+                        "format": "o:HA:email",
+                        "type": "string",
+                        "example": "scanuser@test.com",
+                        "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
+                        "minLength": 6,
+                        "maxLength": 320,
+                        "x-42c-format": "o:HA:email"
                     },
                     "pass": {
-                        "type": "string"
+                        "maxLength": 64,
+                        "minLength": 8,
+                        "pattern": "^[a-zA-Z0-9&@#!?]{8,64}$",
+                        "type": "string",
+                        "format": "o:HA:password",
+                        "example": "hellopixi",
+                        "x-42c-format": "o:HA:password"
                     },
                     "name": {
+                        "maxLength": 30,
+                        "minLength": 5,
+                        "pattern": "^[\\w\\s\\.]{5,30}$",
                         "type": "string"
                     },
                     "is_admin": {
                         "type": "boolean"
                     },
                     "account_balance": {
+                        "maximum": 1000,
                         "minimum": -50,
                         "type": "number",
                         "format": "float"
@@ -840,29 +1145,68 @@
             "ConfirmationMessage": {
                 "type": "object",
                 "additionalProperties": false,
+                "x-examples": {
+                    "Example 1": {
+                        "message": "photo has been attached",
+                        "_id": "438c0afa-e06a-4853-8636-b6acc0c52486"
+                    }
+                },
                 "properties": {
                     "message": {
                         "type": "string",
                         "maxLength": 1000
                     },
                     "_id": {
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$",
+                        "minLength": 36,
+                        "maxLength": 36,
+                        "format": "uuid",
+                        "x-42c-format": "o:uuid",
+                        "example": "a83a29f5-0d63-46f2-8f2e-44c2f1d2e07e"
                     }
                 }
             },
             "PicturesList": {
                 "type": "array",
+                "x-examples": {
+                    "Example 1": [
+                        {
+                            "_id": "7ef9b6cb-ddd1-494f-89a0-04da62f18b47",
+                            "title": "Pensive Parakeet.jpg",
+                            "image_url": "uploads/91c0cf406c53af7f96b57561b5f526f9",
+                            "name": "automobile remove",
+                            "filename": "91c0cf406c53af7f96b57561b5f526f9",
+                            "description": "Oldie but goodie! a plastic and a lotion brimful hovercraft #TBT",
+                            "creator_id": "267c6dec-9d8f-4874-9eba-daa060e6324b",
+                            "money_made": 0,
+                            "likes": 0,
+                            "created_date": "2023-02-01T16:21:15.088Z"
+                        }
+                    ]
+                },
+                "minItems": 0,
+                "maxItems": 100,
                 "items": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                         "_id": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$",
+                            "minLength": 36,
+                            "maxLength": 36,
+                            "x-42c-format": "o:uuid",
+                            "example": "a83a29f5-0d63-46f2-8f2e-44c2f1d2e07e"
                         },
                         "title": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 100
                         },
                         "image_url": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 254
                         },
                         "name": {
                             "type": "string",
@@ -879,11 +1223,11 @@
                         "creator_id": {
                             "type": "string",
                             "format": "uuid",
-                            "example": "a83a29f5-0d63-46f2-8f2e-44c2f1d2e07e",
                             "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$",
                             "minLength": 36,
                             "maxLength": 36,
-                            "x-42c-format": "o:uuid"
+                            "x-42c-format": "o:uuid",
+                            "example": "a83a29f5-0d63-46f2-8f2e-44c2f1d2e07e"
                         },
                         "money_made": {
                             "type": "integer"
@@ -914,12 +1258,6 @@
             "AuthenticationError": {
                 "type": "object",
                 "additionalProperties": false,
-                "x-examples": {
-                    "Example 1": {
-                        "success": false,
-                        "message": "Failed to authenticate token"
-                    }
-                },
                 "properties": {
                     "success": {
                         "type": "boolean"
@@ -945,8 +1283,7 @@
                 "name": "x-access-token",
                 "in": "header"
             }
-        },
-        "responses": {}
+        }
     },
     "x-42c-components": {
         "x-42c-schemas": {
