@@ -23,7 +23,9 @@
     "reportIssuesOnly": false,
     "reportMaxIssues": 1000,
     "reportMaxSize": 20971520,
-    "reportGenerateCurlCommand": true
+    "reportGenerateCurlCommand": true,
+    "reportIncludeRequestBody": false,
+    "reportIncludeResponseBody": false
   },
   "customizations": {
     "happyPaths": {
@@ -230,8 +232,8 @@
                   },
                   "variableAssignments": {
                     "deletePictureId": {
-                      "in": "body",
                       "from": "response",
+                      "in": "body",
                       "contentType": "json",
                       "path": {
                         "type": "jsonPointer",
