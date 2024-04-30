@@ -232,8 +232,8 @@
                   },
                   "variableAssignments": {
                     "deletePictureId": {
-                      "from": "response",
                       "in": "body",
+                      "from": "response",
                       "contentType": "json",
                       "path": {
                         "type": "jsonPointer",
@@ -300,35 +300,37 @@
           }
         }
       },
+      "before": [
+        {
+          "$ref": "#/requests/RegisterUser",
+          "environment": {
+            "user_inbound": "register1@acme.com",
+            "pass_inbound": "hellopixi"
+          },
+          "responses": {
+            "200": {
+              "expectations": {
+                "httpStatus": 200
+              },
+              "variableAssignments": {
+                "deleteUserId": {
+                  "from": "response",
+                  "in": "body",
+                  "contentType": "json",
+                  "path": {
+                    "type": "jsonPointer",
+                    "value": "/_id"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
       "scenarios": [
         {
           "key": "happy.path",
           "requests": [
-            {
-              "$ref": "#/requests/RegisterUser",
-              "environment": {
-                "user_inbound": "register1@acme.com",
-                "pass_inbound": "hellopixi"
-              },
-              "responses": {
-                "200": {
-                  "expectations": {
-                    "httpStatus": 200
-                  },
-                  "variableAssignments": {
-                    "deleteUserId": {
-                      "in": "body",
-                      "from": "response",
-                      "contentType": "json",
-                      "path": {
-                        "type": "jsonPointer",
-                        "value": "/_id"
-                      }
-                    }
-                  }
-                }
-              }
-            },
             {
               "fuzzing": true,
               "$ref": "#/operations/deleteUser/request",
