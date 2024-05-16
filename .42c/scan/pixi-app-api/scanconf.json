@@ -119,7 +119,8 @@
         }
       ],
       "authorizationTests": [
-        "AdminOnlyOps"
+        "AdminOnlyOps",
+        "BadJWT"
       ]
     },
     "authenticate": {
@@ -314,8 +315,8 @@
               },
               "variableAssignments": {
                 "deleteUserId": {
-                  "from": "response",
                   "in": "body",
+                  "from": "response",
                   "contentType": "json",
                   "path": {
                     "type": "jsonPointer",
@@ -1164,6 +1165,15 @@
       "key": "authentication-swapping-bfla",
       "source": [
         "access-token/User1"
+      ],
+      "target": [
+        "bad-jwts/BadAudience"
+      ]
+    },
+    "BadJWT": {
+      "key": "authentication-swapping-bfla",
+      "source": [
+        "admin-user/admin1"
       ],
       "target": [
         "bad-jwts/BadAudience"
