@@ -87,7 +87,7 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v4
       - name: download_audit_report    
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: auditaction-report-${{ github.run_id }}  
       # - name: get_pixi_token
