@@ -138,7 +138,7 @@ jobs:
           platform-url: ${{ env.PLATFORM_URL}}
           audit-report-path: audit-action-report-${{ github.run_id }}.json
           convert-to-sarif: false
-          upload-sarif: true
+          upload-sarif: false
           check-sqg: false
       # - name: save-sarif-report
       #   if: always()        
