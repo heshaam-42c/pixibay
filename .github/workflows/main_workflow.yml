@@ -140,6 +140,7 @@ jobs:
           convert-to-sarif: true
           upload-sarif: true
           check-sqg: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       # - name: save-sarif-report
       #   if: always()        
       #   uses: actions/upload-artifact@v4
