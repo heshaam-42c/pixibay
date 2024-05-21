@@ -141,7 +141,7 @@ jobs:
       #     docker pull ${{vars.SCAN_AGENT_V2}}
       #     docker run -e SCAN_TOKEN=${{ steps.upload_v2_scan_config.outputs.SCANV2_TOKEN }} -e SCAN42C_HOST=${{ vars.PIXI_TARGET_URL }} -e PLATFORM_SERVICE=${{ env.PLATFORM_SERVICE_ENDPOINT }} ${{vars.SCAN_AGENT_V2}}
       - name: upload scan results
-        uses: 42crunch/cicd-github-actions@v1.0.1
+        uses: 42crunch/cicd-github-actions@v1
         with:
           api-token: ${{ secrets.API_TOKEN }}
           platform-url: ${{ env.PLATFORM_URL}}
