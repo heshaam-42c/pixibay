@@ -137,10 +137,9 @@ jobs:
           api-token: ${{ secrets.API_TOKEN }}
           platform-url: ${{ env.PLATFORM_URL}}
           audit-report-path: audit-action-report-${{ github.run_id }}.json
-          convert-to-sarif: true
+          convert-to-sarif: false
           upload-sarif: true
           check-sqg: false
-          github-token: ${{ secrets.GITHUB_TOKEN }}
       # - name: save-sarif-report
       #   if: always()        
       #   uses: actions/upload-artifact@v4
