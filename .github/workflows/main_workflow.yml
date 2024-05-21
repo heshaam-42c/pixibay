@@ -50,8 +50,6 @@ jobs:
       - name: 42crunch-static-api-testing
         uses: 42crunch/api-security-audit-action@v3
         with:
-          # Please create free account at https://platform.42crunch.com/register
-          # Follow these steps to configure API_TOKEN https://docs.42crunch.com/latest/content/tasks/integrate_github_actions.htm
           api-token: ${{ secrets.API_TOKEN }}
           platform-url: ${{ env.PLATFORM_URL}}
           default-collection-name: Pixi-Discovery--${{ github.ref_name }}
@@ -91,48 +89,48 @@ jobs:
         with:
           name: auditaction-report-${{ github.run_id }}  
       # Scan V1
-      - name: get_pixi_token
-        id: get_pixi_token
-        run: | 
-          login_response=$(python .42c/scripts/pixi-login.py -u ${{ vars.PIXI_USER_NAME }} -p ${{ secrets.USER_PASS }} -t ${{ vars.PIXI_TARGET_URL }})
-          echo $login_response
-          echo "PIXI_TOKEN=$login_response" >> $GITHUB_OUTPUT
-      - name: upload_v1_scan_config
-        id: upload_v1_scan_config
-        run: | 
-          scanconfig_response=$(python .42c/scripts/scan_v1_config.py ${{github.server_url}}/${{ github.repository }} ${{ github.ref }} ${{ secrets.API_TOKEN }} '{$ACCESS_TOKEN}' ${{env.PLATFORM_URL}})
-          echo $scanconfig_response
-          echo "SCANV1_TOKEN=$scanconfig_response" >> $GITHUB_OUTPUT
-      - name: 42crunch-dynamic-api-testing-scand
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: ${{ vars.SCAND_MANAGER_URL }}
-          method: POST
-          contentType: "application/json"
-          customHeaders: '{"Accept": "application/json"}'
-          data: '{"token": "${{ steps.upload_v1_scan_config.outputs.SCANV1_TOKEN }}","name": "scand-${{ github.run_id }}-${{ github.run_attempt }}","platformService": "${{ env.PLATFORM_SERVICE_ENDPOINT }}","scandImage": "${{vars.SCAN_AGENT_V1}}","expirationTime": 600,"env": { "SECURITY_ACCESS_TOKEN": "${{ steps.get_pixi_token.outputs.PIXI_TOKEN }}"}}'
-      # Scan V2
-      # - name: get pixi api id
-      #   id: get_pixi_api_id
-      #   run: |
-      #     apiId=$(cat ./audit-action-report-${{ github.run_id }}.json | jq -r '.audit.report.${{ vars.PIXI_OAS_PATH }}.apiId')
-      #     echo "PIXI_API_UUID=$apiId" >> $GITHUB_OUTPUT
-      #     cat audit-action-report-${{ github.run_id }}.json
-      # - name: get_pixi_scan_conf_alias
-      #   id: parse_alias
-      #   run: |
-      #     aliasId=$(cat ./.42c/conf.yaml | yq '.apis.${{ vars.PIXI_OAS_PATH }}.alias')
-      #     echo "PIXI_SCAN_ALIAS=$aliasId" >> $GITHUB_OUTPUT
-      # - name: upload_v2_scan_config
-      #   id: upload_v2_scan_config
+      # - name: get_pixi_token
+      #   id: get_pixi_token
       #   run: | 
-      #       scanconfig_response=$(python .42c/scripts/scan_v2_config.py --quiet ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -f .42c/scan/${{ steps.parse_alias.outputs.PIXI_SCAN_ALIAS }}/scanconf.json -n github-actions -p ${{env.PLATFORM_URL}})
-      #       echo $scanconfig_response
-      #       echo "SCANV2_TOKEN=$scanconfig_response" >> $GITHUB_OUTPUT
-      # - name: 42crunch-dynamic-api-testing
-      #   run: |
-      #     docker pull ${{vars.SCAN_AGENT_V2}}
-      #     docker run -e SCAN_TOKEN=${{ steps.upload_v2_scan_config.outputs.SCANV2_TOKEN }} -e SCAN42C_HOST=${{ vars.PIXI_TARGET_URL }} -e PLATFORM_SERVICE=${{ env.PLATFORM_SERVICE_ENDPOINT }} ${{vars.SCAN_AGENT_V2}}
+      #     login_response=$(python .42c/scripts/pixi-login.py -u ${{ vars.PIXI_USER_NAME }} -p ${{ secrets.USER_PASS }} -t ${{ vars.PIXI_TARGET_URL }})
+      #     echo $login_response
+      #     echo "PIXI_TOKEN=$login_response" >> $GITHUB_OUTPUT
+      # - name: upload_v1_scan_config
+      #   id: upload_v1_scan_config
+      #   run: | 
+      #     scanconfig_response=$(python .42c/scripts/scan_v1_config.py ${{github.server_url}}/${{ github.repository }} ${{ github.ref }} ${{ secrets.API_TOKEN }} '{$ACCESS_TOKEN}' ${{env.PLATFORM_URL}})
+      #     echo $scanconfig_response
+      #     echo "SCANV1_TOKEN=$scanconfig_response" >> $GITHUB_OUTPUT
+      # - name: 42crunch-dynamic-api-testing-scand
+      #   uses: fjogeleit/http-request-action@v1
+      #   with:
+      #     url: ${{ vars.SCAND_MANAGER_URL }}
+      #     method: POST
+      #     contentType: "application/json"
+      #     customHeaders: '{"Accept": "application/json"}'
+      #     data: '{"token": "${{ steps.upload_v1_scan_config.outputs.SCANV1_TOKEN }}","name": "scand-${{ github.run_id }}-${{ github.run_attempt }}","platformService": "${{ env.PLATFORM_SERVICE_ENDPOINT }}","scandImage": "${{vars.SCAN_AGENT_V1}}","expirationTime": 600,"env": { "SECURITY_ACCESS_TOKEN": "${{ steps.get_pixi_token.outputs.PIXI_TOKEN }}"}}'
+      # Scan V2
+      - name: get pixi api id
+        id: get_pixi_api_id
+        run: |
+          apiId=$(cat ./audit-action-report-${{ github.run_id }}.json | jq -r '.audit.report.${{ vars.PIXI_OAS_PATH }}.apiId')
+          echo "PIXI_API_UUID=$apiId" >> $GITHUB_OUTPUT
+          cat audit-action-report-${{ github.run_id }}.json
+      - name: get_pixi_scan_conf_alias
+        id: parse_alias
+        run: |
+          aliasId=$(cat ./.42c/conf.yaml | yq '.apis.${{ vars.PIXI_OAS_PATH }}.alias')
+          echo "PIXI_SCAN_ALIAS=$aliasId" >> $GITHUB_OUTPUT
+      - name: upload_v2_scan_config
+        id: upload_v2_scan_config
+        run: | 
+            scanconfig_response=$(python .42c/scripts/scan_v2_config.py --quiet ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -f .42c/scan/${{ steps.parse_alias.outputs.PIXI_SCAN_ALIAS }}/scanconf.json -n github-actions -p ${{env.PLATFORM_URL}})
+            echo $scanconfig_response
+            echo "SCANV2_TOKEN=$scanconfig_response" >> $GITHUB_OUTPUT
+      - name: 42crunch-dynamic-api-testing
+        run: |
+          docker pull ${{vars.SCAN_AGENT_V2}}
+          docker run -e SCAN_TOKEN=${{ steps.upload_v2_scan_config.outputs.SCANV2_TOKEN }} -e SCAN42C_HOST=${{ vars.PIXI_TARGET_URL }} -e PLATFORM_SERVICE=${{ env.PLATFORM_SERVICE_ENDPOINT }} ${{vars.SCAN_AGENT_V2}}
       - name: upload scan results
         uses: 42crunch/cicd-github-actions@v1
         with:
