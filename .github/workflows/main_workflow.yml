@@ -140,8 +140,8 @@ jobs:
       #   run: |
       #     docker pull ${{vars.SCAN_AGENT_V2}}
       #     docker run -e SCAN_TOKEN=${{ steps.upload_v2_scan_config.outputs.SCANV2_TOKEN }} -e SCAN42C_HOST=${{ vars.PIXI_TARGET_URL }} -e PLATFORM_SERVICE=${{ env.PLATFORM_SERVICE_ENDPOINT }} ${{vars.SCAN_AGENT_V2}}
-      - name: Sleep for 30 seconds
-        run: sleep 30s
+      - name: Sleep for 60 seconds
+        run: sleep 60s
         shell: bash
       - name: upload scan results
         uses: 42crunch/cicd-github-actions@v1
