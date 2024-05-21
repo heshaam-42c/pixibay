@@ -62,14 +62,14 @@ jobs:
           sarif-report: 42c-audit-report-${{ github.run_id }}.sarif
       - name: save-audit-report
         if: always()        
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: auditaction-report-${{ github.run_id }}
           path: audit-action-report-${{ github.run_id }}.json
           if-no-files-found: error
       - name: save-audit-sarif-report
         if: always()        
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: 42c-audit-sarif-report-${{ github.run_id }}
           path: 42c-audit-report-${{ github.run_id }}.sarif
