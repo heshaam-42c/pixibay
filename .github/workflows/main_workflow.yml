@@ -139,7 +139,7 @@ jobs:
           api-token: ${{ secrets.API_TOKEN }}
           platform-url: ${{ env.PLATFORM_URL}}
           audit-report-path: audit-action-report-${{ github.run_id }}.json
-          convert-to-sarif: scan-report-${{ github.run_id }}.sarif
+          convert-to-sarif: true
           upload-sarif: true
           check-sqg: false
       - name: save-sarif-report
