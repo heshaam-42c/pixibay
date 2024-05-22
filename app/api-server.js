@@ -220,11 +220,7 @@ api.delete('/api/picture/:id', api_token_check, function (req, res) {
 		if (!picture) {
 			console.log(">>> Picture not found " + req.params.id);
 			res.status(404).json({ "message": "not found" });
-		}
-		if (picture.creator_id !== req.user.user_profile._id) {
-			console.log(">>> Unauthorized to delete picture " + req.params.id);
-			res.status(401).json({ "message": "unauthorized" });
-		} else {
+		} else if (picture.creator_id == req.user.user_profile._id) {
 			pictures.deleteOne({ _id: req.params.id },
 				function (err, result) {
 					if (err) {
@@ -240,6 +236,9 @@ api.delete('/api/picture/:id', api_token_check, function (req, res) {
 						res.status(200).json({ "message": "success" });
 					}
 				})
+		} else {
+			console.log(">>> Unauthorized to delete picture " + req.params.id);
+			res.status(401).json({ "message": "unauthorized" });
 		}
 	});
 });
