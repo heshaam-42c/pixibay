@@ -33,7 +33,7 @@ env:
   PLATFORM_URL: https://demolabs.42crunch.cloud
   PLATFORM_SERVICE_ENDPOINT: services.demolabs.42crunch.cloud:8001
   TOKEN_ENV_VAR: ACCESS_TOKEN
-  PIXI_TARGET_URL: http://app:8090/api
+  PIXI_TARGET_URL: http://localhost:8090/api
 
 permissions:
   contents: read
