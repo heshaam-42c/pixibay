@@ -249,7 +249,6 @@
               "fuzzing": true,
               "$ref": "#/operations/deletePicture/request",
               "environment": {
-                "": "",
                 "picture_id": "{{deletePictureId}}"
               }
             }
