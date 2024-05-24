@@ -176,8 +176,8 @@ def main():
     # Uncomment this for integration with Azure DevOps
     #subprocess.Popen(["echo", "##vso[task.setvariable variable=SCANV2_TOKEN;isoutput=true]{0}".format(scan_token)])
     # Uncomment this for integration with GitHub actions
-    #with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-    #    print(f'{"SCANV2_TOKEN"}={scan_token}', file=fh)
+    with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+       print(f'{"SCANV2_TOKEN"}={scan_token}', file=fh)
     print (scan_token)
     if not quiet: print("[*] Done!")
 
