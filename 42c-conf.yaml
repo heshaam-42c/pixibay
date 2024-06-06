@@ -1,6 +1,6 @@
 audit:
   branches:
-    main:
+    '*':
       discovery:
         search:
           - OASFiles/pixi.json
