@@ -24,8 +24,8 @@
     "reportMaxIssues": 1000,
     "reportMaxSize": 20971520,
     "reportGenerateCurlCommand": true,
-    "reportIncludeRequestBody": false,
-    "reportIncludeResponseBody": false
+    "reportIncludeRequestBody": true,
+    "reportIncludeResponseBody": true
   },
   "customizations": {
     "happyPaths": {
