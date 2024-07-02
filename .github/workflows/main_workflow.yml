@@ -146,22 +146,22 @@ jobs:
       #     contentType: "application/json"
       #     customHeaders: '{"Accept": "application/json"}'
       #     data: '{"token": "${{ steps.upload_v1_scan_config.outputs.SCANV1_TOKEN }}","name": "scand-${{ github.run_id }}-${{ github.run_attempt }}","platformService": "${{ env.PLATFORM_SERVICE_ENDPOINT }}","scandImage": "${{vars.SCAN_AGENT_V1}}","expirationTime": 600,"env": { "SECURITY_ACCESS_TOKEN": "${{ steps.get_pixi_token.outputs.PIXI_TOKEN }}"}}'
-      - name: upload scan results
-        uses: 42crunch/cicd-github-actions@v1
-        with:
-          api-token: ${{ secrets.API_TOKEN }}
-          platform-url: ${{ env.PLATFORM_URL}}
-          audit-report-path: audit-action-report-${{ github.run_id }}.json
-          convert-to-sarif: scan-report-${{ github.run_id }}.sarif
-          upload-sarif: true
-          check-sqg: false
-      - name: save-sarif-report
-        if: always()        
-        uses: actions/upload-artifact@v4
-        with:
-          name: sarif-scan-report-${{ github.run_id }}
-          path: scan-report-${{ github.run_id }}.sarif
-          if-no-files-found: error
+      # - name: upload scan results
+      #   uses: 42crunch/cicd-github-actions@v1
+      #   with:
+      #     api-token: ${{ secrets.API_TOKEN }}
+      #     platform-url: ${{ env.PLATFORM_URL}}
+      #     audit-report-path: audit-action-report-${{ github.run_id }}.json
+      #     convert-to-sarif: scan-report-${{ github.run_id }}.sarif
+      #     upload-sarif: true
+      #     check-sqg: false
+      # - name: save-sarif-report
+      #   if: always()        
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: sarif-scan-report-${{ github.run_id }}
+      #     path: scan-report-${{ github.run_id }}.sarif
+      #     if-no-files-found: error
       # - name: Upload SARIF file
       #   uses: github/codeql-action/upload-sarif@v3
       #   with:
