@@ -209,23 +209,40 @@ function random_sentence() {
 api.delete('/api/picture/:id', api_token_check, function (req, res) {
 	console.log('>>> Deleting picture ' + req.params.id);
 	const pictures = db.collection('pictures');
-	// BOLA - API1 Issue here: a user can delete someone's else picture.
-	// Code does not validate who the picture belongs too.
-	pictures.deleteOne({ _id: req.params.id },
-		function (err, result) {
+
+	// Step 1: Retrieve the picture to check ownership
+	pictures.findOne({ _id: req.params.id }, function(err, picture) {
+		if (err) {
+			console.log('>>> Query error...' + err);
+			return res.status(500).json({ "message": "system error" });
+		}
+		if (!picture) {
+			console.log(">>> No picture was found");
+			return res.status(404).json({ "message": "not found" });
+		}
+
+		// Assuming `req.user.id` contains the ID of the currently authenticated user
+		// Step 2: Check if the authenticated user is the creator of the picture
+		if (picture.creator_id !== req.user.user_profile._id) {
+			console.log(">>> User does not have permission to delete this picture");
+			return res.status(401).json({ "message": "forbidden" });
+		}
+
+		// Step 3: Delete the picture if the user is authorized
+		pictures.deleteOne({ _id: req.params.id }, function (err, result) {
 			if (err) {
 				console.log('>>> Query error...' + err);
-				res.status(500).json({ "message": "system error" });
+				return res.status(500).json({ "message": "system error" });
 			}
 			if (result.deletedCount == 0) {
-				console.log(">>> No picture was deleted")
-				res.status(404).json({ "message": "not found" });
-			}
-			else {
+				console.log(">>> No picture was deleted");
+				return res.status(404).json({ "message": "not found" });
+			} else {
 				console.log('>>> Photo ' + req.params.id + ' was deleted');
-				res.status(200).json({ "message": "success" });
+				return res.status(200).json({ "message": "success" });
 			}
-		})
+		});
+	});
 });
 
 api.delete('/api/admin/user/:id', api_token_check, function (req, res) {
