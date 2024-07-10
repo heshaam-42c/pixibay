@@ -209,23 +209,36 @@ function random_sentence() {
 api.delete('/api/picture/:id', api_token_check, function (req, res) {
 	console.log('>>> Deleting picture ' + req.params.id);
 	const pictures = db.collection('pictures');
-	// BOLA - API1 Issue here: a user can delete someone's else picture.
-	// Code does not validate who the picture belongs too.
-	pictures.deleteOne({ _id: req.params.id },
-		function (err, result) {
+	// Assuming the user ID is available in req.userId
+	pictures.findOne({ _id: req.params.id }, function (err, picture) {
+		if (err) {
+			console.log('>>> Query error...' + err);
+			return res.status(500).json({ "message": "system error" });
+		}
+		if (!picture) {
+			console.log(">>> No picture found with ID " + req.params.id);
+			return res.status(404).json({ "message": "not found" });
+		}
+		// Check if the picture's creatorId matches the requestor's userId
+		if (picture.creator_id !== req.user.user_profile._id) {
+			console.log(">>> Unauthorized attempt to delete picture by user " + req.userId);
+			return res.status(403).json({ "message": "unauthorized", "success": false});
+		}
+		// Proceed with deletion if authorized
+		pictures.deleteOne({ _id: req.params.id }, function (err, result) {
 			if (err) {
 				console.log('>>> Query error...' + err);
-				res.status(500).json({ "message": "system error" });
+				return res.status(500).json({ "message": "system error" });
 			}
 			if (result.deletedCount == 0) {
-				console.log(">>> No picture was deleted")
-				res.status(404).json({ "message": "not found" });
-			}
-			else {
+				console.log(">>> No picture was deleted");
+				return res.status(404).json({ "message": "not found" });
+			} else {
 				console.log('>>> Photo ' + req.params.id + ' was deleted');
-				res.status(200).json({ "message": "success" });
+				return res.status(200).json({ "message": "success" });
 			}
-		})
+		});
+	});
 });
 
 api.delete('/api/admin/user/:id', api_token_check, function (req, res) {
