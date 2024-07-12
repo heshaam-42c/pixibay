@@ -59,6 +59,7 @@ jobs:
           json-report: audit-action-report-${{ github.run_id }}
           sarif-report: 42c-audit-report-${{ github.run_id }}.sarif
           ignore-failures: false
+          api-tags: ${{ vars.X42C_CATEGORY_NAME }}:${{ vars.X42C_TAG_NAME }}
       - name: save-audit-report
         if: always()        
         uses: actions/upload-artifact@v4
@@ -95,11 +96,11 @@ jobs:
           apiId=$(cat ./audit-action-report-${{ github.run_id }}.json | jq -r '.audit.report.${{ vars.PIXI_OAS_PATH }}.apiId')
           echo "PIXI_API_UUID=$apiId" >> $GITHUB_OUTPUT
           cat audit-action-report-${{ github.run_id }}.json
-      - name: tag_apis
-        id: add_api_tag
-        run: | 
-          addtag_response=$(python .42c/scripts/tag_apis.py -u ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -c ${{ vars.X42C_CATEGORY_NAME }} -n ${{ vars.X42C_TAG_NAME }} -t ${{ secrets.API_TOKEN }} -p ${{env.PLATFORM_URL}})
-          echo $addtag_response
+      # - name: tag_apis
+      #   id: add_api_tag
+      #   run: | 
+      #     addtag_response=$(python .42c/scripts/tag_apis.py -u ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -c ${{ vars.X42C_CATEGORY_NAME }} -n ${{ vars.X42C_TAG_NAME }} -t ${{ secrets.API_TOKEN }} -p ${{env.PLATFORM_URL}})
+      #     echo $addtag_response
       # Scan V2
       - name: get_pixi_scan_conf_alias
         id: parse_alias
