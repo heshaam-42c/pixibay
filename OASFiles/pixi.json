@@ -850,7 +850,8 @@
                 "parameters": [
                     {
                         "schema": {
-                          "type": "string"
+                          "type": "string",
+                          "format": "uuid"
                         },
                         "name": "id",
                         "in": "path",
