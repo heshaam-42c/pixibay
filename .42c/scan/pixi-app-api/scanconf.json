@@ -254,6 +254,39 @@
             }
           ],
           "fuzzing": true
+        },
+        {
+          "key": "unhappy.path",
+          "requests": [
+            {
+              "$ref": "#/operations/uploadPictureFromFile/request",
+              "responses": {
+                "200": {
+                  "expectations": {
+                    "httpStatus": 200
+                  },
+                  "variableAssignments": {
+                    "deletePictureId": {
+                      "in": "body",
+                      "from": "response",
+                      "contentType": "json",
+                      "path": {
+                        "type": "jsonPointer",
+                        "value": "/_id"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "$ref": "#/operations/deletePicture/request",
+              "expectedResponse": "403",
+              "environment": {
+                "picture_id": ""
+              }
+            }
+          ]
         }
       ],
       "authorizationTests": [
