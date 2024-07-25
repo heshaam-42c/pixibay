@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "f535953d-74f9-4656-9604-e04859164bdb",
+		"_postman_id": "30d0191b-469c-4b15-b07f-2f3167903843",
 		"name": "PhotoManager API",
-		"description": "Pixi Photo Sharing API\n\nContact Support:\n Email: nicole.becher@owasp.org",
+		"description": "Pixi Photo Sharing API\n\nContact Support:  \nEmail: [nicole.becher@owasp.org](https://mailto:nicole.becher@owasp.org)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "576895"
+		"_exporter_id": "9054155"
 	},
 	"item": [
 		{
@@ -55,9 +55,9 @@
 								"method": "GET",
 								"header": [
 									{
-										"description": "Added as a part of security scheme: apikey",
 										"key": "x-access-token",
-										"value": "<API Key>"
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
 									}
 								],
 								"url": {
@@ -89,9 +89,9 @@
 								"method": "GET",
 								"header": [
 									{
-										"description": "Added as a part of security scheme: apikey",
 										"key": "x-access-token",
-										"value": "<API Key>"
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
 									}
 								],
 								"url": {
@@ -123,9 +123,9 @@
 								"method": "GET",
 								"header": [
 									{
-										"description": "Added as a part of security scheme: apikey",
 										"key": "x-access-token",
-										"value": "<API Key>"
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
 									}
 								],
 								"url": {
@@ -166,6 +166,41 @@
 								],
 								"type": "text/javascript"
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({",
+									"    url: 'https://photo-demo.westeurope.cloudapp.azure.com/hesh/api/user/register',",
+									"    method: 'POST',",
+									"    header: {",
+									"        'Accept': 'application/json',",
+									"        'Content-Type': 'application/json'",
+									"      },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({\"user\": \"attacks-demo@acme.com\",\"pass\": \"hellopixi\",\"name\": \"Postman Created\",\"is_admin\": false,\"account_balance\": 1000})",
+									"    }",
+									"});",
+									"pm.sendRequest({",
+									"    url: 'https://photo-demo.westeurope.cloudapp.azure.com/hesh/api/user/login',",
+									"    method: 'POST',",
+									"    header: {",
+									"        'Accept': 'application/json',",
+									"        'Content-Type': 'application/json'",
+									"      },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({\"user\": \"attacks-demo@acme.com\",\"pass\": \"hellopixi\"})",
+									"    }",
+									"}, function (err, res) {",
+									"    console.log (res)",
+									"    pm.environment.set(\"login-token\", res.json().token);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -174,7 +209,7 @@
 							"apikey": [
 								{
 									"key": "value",
-									"value": "{{token}}",
+									"value": "{{login-token}}",
 									"type": "string"
 								},
 								{
@@ -192,9 +227,9 @@
 						"method": "GET",
 						"header": [
 							{
-								"description": "(Required) ",
 								"key": "x-access-token",
 								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+								"description": "(Required) ",
 								"disabled": true
 							},
 							{
@@ -221,14 +256,14 @@
 								"method": "GET",
 								"header": [
 									{
-										"description": "Added as a part of security scheme: apikey",
 										"key": "x-access-token",
-										"value": "<API Key>"
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
 									},
 									{
-										"description": "(Required) ",
 										"key": "x-access-token",
-										"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d"
+										"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+										"description": "(Required) "
 									}
 								],
 								"url": {
@@ -260,14 +295,14 @@
 								"method": "GET",
 								"header": [
 									{
-										"description": "Added as a part of security scheme: apikey",
 										"key": "x-access-token",
-										"value": "<API Key>"
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
 									},
 									{
-										"description": "(Required) ",
 										"key": "x-access-token",
-										"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d"
+										"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+										"description": "(Required) "
 									}
 								],
 								"url": {
@@ -299,14 +334,14 @@
 								"method": "GET",
 								"header": [
 									{
-										"description": "Added as a part of security scheme: apikey",
 										"key": "x-access-token",
-										"value": "<API Key>"
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
 									},
 									{
-										"description": "(Required) ",
 										"key": "x-access-token",
-										"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d"
+										"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+										"description": "(Required) "
 									}
 								],
 								"url": {
@@ -335,164 +370,6 @@
 					]
 				},
 				{
-					"name": "TchapApp Attack (API 7)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 403/429\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([403, 429]);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"id\": 221,\n  \"user\": \"{{$randomUserName}}@pixi.test@elysee.fr\",\n  \"pass\": \"hellopixi\",\n  \"name\": \"pixi user\",\n  \"is_admin\": false,\n  \"account_balance\": 950\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/register",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"register"
-							]
-						},
-						"description": "user supplies email and password to register and receives a json web token."
-					},
-					"response": [
-						{
-							"name": "successfully registered, token received",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/register",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"register"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \" jd qy6 Ge᠎tSC1jt.86  i_ UvkjfJ\",\n  \"token\": \"q6rW_a8d6Xgu7V.xJ=uVXfA88E.3VI2Z_PKjFoZcW\"\n}"
-						},
-						{
-							"name": "email address already registered",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/register",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"register"
-									]
-								}
-							},
-							"status": "Accepted",
-							"code": 202,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
-						},
-						{
-							"name": "unexpected error",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/register",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"register"
-									]
-								}
-							},
-							"status": "Internal Server Error",
-							"code": 500,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
-						}
-					]
-				},
-				{
 					"name": "Invalid JSON (API 4)",
 					"event": [
 						{
@@ -500,8 +377,9 @@
 							"script": {
 								"exec": [
 									"",
-									"pm.test(\"Status code is 403\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([403, 429]);",
+									"pm.test(\"Expected code is 400/429\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 429]);",
+									"    pm.response.to.be.header (\"Content-Type\", \"application/problem+json\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -530,11 +408,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/register",
+							"raw": "{{baseUrl}}/user/register",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
 								"register"
 							]
 						},
@@ -556,11 +435,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/register",
+									"raw": "{{baseUrl}}/user/register",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
+										"user",
 										"register"
 									]
 								}
@@ -592,11 +472,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/register",
+									"raw": "{{baseUrl}}/user/register",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
+										"user",
 										"register"
 									]
 								}
@@ -628,11 +509,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/register",
+									"raw": "{{baseUrl}}/user/register",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
+										"user",
 										"register"
 									]
 								}
@@ -652,617 +534,14 @@
 					]
 				},
 				{
-					"name": "PathTraversal (Starbucks) - API 7",
+					"name": "Massive Payload-DOS (API 4)",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 404/429\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([404, 429]);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"id\": 221,\n  \"user\": \"{{$randomUserName}}@pixi.test@elysee.fr\",\n  \"pass\": \"hellopixi\",\n  \"name\": \"pixi user\",\n  \"is_admin\": false,\n  \"account_balance\": 950\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/register/.././..",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"register",
-								"..",
-								".",
-								".."
-							]
-						},
-						"description": "user supplies email and password to register and receives a json web token."
-					},
-					"response": [
-						{
-							"name": "successfully registered, token received",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/register",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"register"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \" jd qy6 Ge᠎tSC1jt.86  i_ UvkjfJ\",\n  \"token\": \"q6rW_a8d6Xgu7V.xJ=uVXfA88E.3VI2Z_PKjFoZcW\"\n}"
-						},
-						{
-							"name": "email address already registered",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/register",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"register"
-									]
-								}
-							},
-							"status": "Accepted",
-							"code": 202,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
-						},
-						{
-							"name": "unexpected error",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/register",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"register"
-									]
-								}
-							},
-							"status": "Internal Server Error",
-							"code": 500,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Login via noSQL injection (API 8)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 403/429\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([403, 429]);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "user=userscanlogin@acme.com&pass[$ne]=",
-							"options": {
-								"raw": {
-									"language": "text"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/login",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"login"
-							]
-						},
-						"description": "user supplies user name and password and receives a json web token"
-					},
-					"response": [
-						{
-							"name": "Untitled Example",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "user",
-											"value": "VOx-hMkL@KokNF.JwJ",
-											"description": "(Required) "
-										},
-										{
-											"key": "pass",
-											"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-											"description": "(Required) "
-										}
-									]
-								},
-								"url": {
-									"raw": "{{baseUrl}}/login",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"login"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \"iI vpPTn5  2 ; OFbCqjk﻿n 9UgyfE\\r vz\\t\\u000b H7-wj FO@sPx\\tum8　 v8EgL4\\u000bEPRJ Sk 7oM6k8  K _xtnc X Go bl  7a\",\n  \"token\": \"G23K2r7Ek9.QV6ijw6.YWqP\"\n}"
-						},
-						{
-							"name": "successful request, but invalid password",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "user",
-											"value": "VOx-hMkL@KokNF.JwJ",
-											"description": "(Required) "
-										},
-										{
-											"key": "pass",
-											"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-											"description": "(Required) "
-										}
-									]
-								},
-								"url": {
-									"raw": "{{baseUrl}}/login",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"login"
-									]
-								}
-							},
-							"status": "Accepted",
-							"code": 202,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
-						},
-						{
-							"name": "missing parameters",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "user",
-											"value": "VOx-hMkL@KokNF.JwJ",
-											"description": "(Required) "
-										},
-										{
-											"key": "pass",
-											"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-											"description": "(Required) "
-										}
-									]
-								},
-								"url": {
-									"raw": "{{baseUrl}}/login",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"login"
-									]
-								}
-							},
-							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
-						},
-						{
-							"name": "unexpected error",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "user",
-											"value": "VOx-hMkL@KokNF.JwJ",
-											"description": "(Required) "
-										},
-										{
-											"key": "pass",
-											"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-											"description": "(Required) "
-										}
-									]
-								},
-								"url": {
-									"raw": "{{baseUrl}}/login",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"login"
-									]
-								}
-							},
-							"status": "Internal Server Error",
-							"code": 500,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Log4Shell",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 403/429\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([403, 429]);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "user",
-									"value": "user6@pixi.test",
-									"description": "(Required) "
-								},
-								{
-									"key": "pass",
-									"value": "${jndi:ldap://127.0.0.1:8888/blah}",
-									"description": "(Required) "
-								}
-							]
-						},
-						"url": {
-							"raw": "{{baseUrl}}/login",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"login"
-							]
-						},
-						"description": "user supplies user name and password and receives a json web token"
-					},
-					"response": [
-						{
-							"name": "Untitled Example",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "user",
-											"value": "VOx-hMkL@KokNF.JwJ",
-											"description": "(Required) "
-										},
-										{
-											"key": "pass",
-											"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-											"description": "(Required) "
-										}
-									]
-								},
-								"url": {
-									"raw": "{{baseUrl}}/login",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"login"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \"iI vpPTn5  2 ; OFbCqjk﻿n 9UgyfE\\r vz\\t\\u000b H7-wj FO@sPx\\tum8　 v8EgL4\\u000bEPRJ Sk 7oM6k8  K _xtnc X Go bl  7a\",\n  \"token\": \"G23K2r7Ek9.QV6ijw6.YWqP\"\n}"
-						},
-						{
-							"name": "successful request, but invalid password",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "user",
-											"value": "VOx-hMkL@KokNF.JwJ",
-											"description": "(Required) "
-										},
-										{
-											"key": "pass",
-											"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-											"description": "(Required) "
-										}
-									]
-								},
-								"url": {
-									"raw": "{{baseUrl}}/login",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"login"
-									]
-								}
-							},
-							"status": "Accepted",
-							"code": 202,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
-						},
-						{
-							"name": "missing parameters",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "user",
-											"value": "VOx-hMkL@KokNF.JwJ",
-											"description": "(Required) "
-										},
-										{
-											"key": "pass",
-											"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-											"description": "(Required) "
-										}
-									]
-								},
-								"url": {
-									"raw": "{{baseUrl}}/login",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"login"
-									]
-								}
-							},
-							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
-						},
-						{
-							"name": "unexpected error",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "user",
-											"value": "VOx-hMkL@KokNF.JwJ",
-											"description": "(Required) "
-										},
-										{
-											"key": "pass",
-											"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-											"description": "(Required) "
-										}
-									]
-								},
-								"url": {
-									"raw": "{{baseUrl}}/login",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"login"
-									]
-								}
-							},
-							"status": "Internal Server Error",
-							"code": 500,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Massive Payload (DOS) - API 4",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 403/429\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([403, 429]);",
+									"pm.test(\"Status code is 400/429\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 429]);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1291,11 +570,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/register",
+							"raw": "{{baseUrl}}/user/register",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
 								"register"
 							]
 						},
@@ -1317,11 +597,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/register",
+									"raw": "{{baseUrl}}/user/register",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
+										"user",
 										"register"
 									]
 								}
@@ -1353,11 +634,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/register",
+									"raw": "{{baseUrl}}/user/register",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
+										"user",
 										"register"
 									]
 								}
@@ -1389,169 +671,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/register",
+									"raw": "{{baseUrl}}/user/register",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"register"
-									]
-								}
-							},
-							"status": "Internal Server Error",
-							"code": 500,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Getting Admin Privileges (API 6)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 403/429\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([403, 429]);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"id\": 221,\n  \"user\": \"{{$randomUserName}}\",\n  \"pass\": \"hellopixi\",\n  \"name\": \"pixi user\",\n  \"is_admin\": false,\n  \"additionalProp\": \"forbidden\",\n  \"account_balance\": 950\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/register",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"register"
-							]
-						},
-						"description": "user supplies email and password to register and receives a json web token."
-					},
-					"response": [
-						{
-							"name": "successfully registered, token received",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/register",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"register"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \" jd qy6 Ge᠎tSC1jt.86  i_ UvkjfJ\",\n  \"token\": \"q6rW_a8d6Xgu7V.xJ=uVXfA88E.3VI2Z_PKjFoZcW\"\n}"
-						},
-						{
-							"name": "email address already registered",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/register",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"register"
-									]
-								}
-							},
-							"status": "Accepted",
-							"code": 202,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
-						},
-						{
-							"name": "unexpected error",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/register",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
+										"user",
 										"register"
 									]
 								}
@@ -1586,11 +711,8 @@
 							}
 						}
 					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "OPTIONS",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -1617,11 +739,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{baseUrl}}/login",
+							"raw": "{{baseUrl}}/user/login",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
 								"login"
 							]
 						},
@@ -1632,28 +755,30 @@
 							"name": "Untitled Example",
 							"originalRequest": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"name": "Content-Type",
+										"type": "text"
+									}
+								],
 								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "user",
-											"value": "VOx-hMkL@KokNF.JwJ",
-											"description": "(Required) "
-										},
-										{
-											"key": "pass",
-											"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-											"description": "(Required) "
+									"mode": "raw",
+									"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
 										}
-									]
+									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/login",
+									"raw": "{{baseUrl}}/user/login",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
+										"user",
 										"login"
 									]
 								}
@@ -1674,28 +799,30 @@
 							"name": "successful request, but invalid password",
 							"originalRequest": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"name": "Content-Type",
+										"type": "text"
+									}
+								],
 								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "user",
-											"value": "VOx-hMkL@KokNF.JwJ",
-											"description": "(Required) "
-										},
-										{
-											"key": "pass",
-											"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-											"description": "(Required) "
+									"mode": "raw",
+									"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
 										}
-									]
+									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/login",
+									"raw": "{{baseUrl}}/user/login",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
+										"user",
 										"login"
 									]
 								}
@@ -1716,28 +843,30 @@
 							"name": "missing parameters",
 							"originalRequest": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"name": "Content-Type",
+										"type": "text"
+									}
+								],
 								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "user",
-											"value": "VOx-hMkL@KokNF.JwJ",
-											"description": "(Required) "
-										},
-										{
-											"key": "pass",
-											"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-											"description": "(Required) "
+									"mode": "raw",
+									"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
 										}
-									]
+									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/login",
+									"raw": "{{baseUrl}}/user/login",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
+										"user",
 										"login"
 									]
 								}
@@ -1758,28 +887,990 @@
 							"name": "unexpected error",
 							"originalRequest": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"name": "Content-Type",
+										"type": "text"
+									}
+								],
 								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "user",
-											"value": "VOx-hMkL@KokNF.JwJ",
-											"description": "(Required) "
-										},
-										{
-											"key": "pass",
-											"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-											"description": "(Required) "
+									"mode": "raw",
+									"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
 										}
-									]
+									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/login",
+									"raw": "{{baseUrl}}/user/login",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Getting Admin Privileges (API 6)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400/429\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 429]);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-access-token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"ohdear@hacked.com\",\n  \"name\": \"Hacked User\",\n  \"is_admin\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/edit_info",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"edit_info"
+							]
+						},
+						"description": "user supplies email and password to register and receives a json web token."
+					},
+					"response": [
+						{
+							"name": "successfully registered, token received",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \" jd qy6 Ge᠎tSC1jt.86  i_ UvkjfJ\",\n  \"token\": \"q6rW_a8d6Xgu7V.xJ=uVXfA88E.3VI2Z_PKjFoZcW\"\n}"
+						},
+						{
+							"name": "email address already registered",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+						},
+						{
+							"name": "unexpected error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+						}
+					]
+				},
+				{
+					"name": "TchapApp Attack (API 7)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400/429\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 429]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 221,\n  \"user\": \"{{$randomUserName}}@pixi.test@elysee.fr\",\n  \"pass\": \"hellopixi\",\n  \"name\": \"pixi user\",\n  \"is_admin\": false,\n  \"account_balance\": 950\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						},
+						"description": "user supplies email and password to register and receives a json web token."
+					},
+					"response": [
+						{
+							"name": "successfully registered, token received",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \" jd qy6 Ge᠎tSC1jt.86  i_ UvkjfJ\",\n  \"token\": \"q6rW_a8d6Xgu7V.xJ=uVXfA88E.3VI2Z_PKjFoZcW\"\n}"
+						},
+						{
+							"name": "email address already registered",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+						},
+						{
+							"name": "unexpected error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+						}
+					]
+				},
+				{
+					"name": "PathTraversal - Starbucks Example - (API 7)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400/429\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 429]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 221,\n  \"user\": \"{{$randomUserName}}@pixi.test\",\n  \"pass\": \"hellopixi\",\n  \"name\": \"pixi user\",\n  \"is_admin\": false,\n  \"account_balance\": 950\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/register/.././login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"register",
+								"..",
+								".",
+								"login"
+							]
+						},
+						"description": "user supplies email and password to register and receives a json web token."
+					},
+					"response": [
+						{
+							"name": "successfully registered, token received",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \" jd qy6 Ge᠎tSC1jt.86  i_ UvkjfJ\",\n  \"token\": \"q6rW_a8d6Xgu7V.xJ=uVXfA88E.3VI2Z_PKjFoZcW\"\n}"
+						},
+						{
+							"name": "email address already registered",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+						},
+						{
+							"name": "unexpected error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login via noSQL injection (API 8)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Expected code is 400/429 and proper response is returned\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 429]);",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.be.oneOf(['application/json', 'application/problem+json']);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "user=userscanlogin@acme.com&pass[$ne]=",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						},
+						"description": "user supplies user name and password and receives a json web token"
+					},
+					"response": [
+						{
+							"name": "Untitled Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"name": "Content-Type",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"iI vpPTn5  2 ; OFbCqjk﻿n 9UgyfE\\r vz\\t\\u000b H7-wj FO@sPx\\tum8　 v8EgL4\\u000bEPRJ Sk 7oM6k8  K _xtnc X Go bl  7a\",\n  \"token\": \"G23K2r7Ek9.QV6ijw6.YWqP\"\n}"
+						},
+						{
+							"name": "successful request, but invalid password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"name": "Content-Type",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+						},
+						{
+							"name": "missing parameters",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"name": "Content-Type",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+						},
+						{
+							"name": "unexpected error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"name": "Content-Type",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Log4Shell",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Expected code is 400/429 \", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 429]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\": \"ohno@log4shell.hack\",\n    \"pass\": \"${jndi:ldap://127.0.0.1:8888/blah}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						},
+						"description": "user supplies user name and password and receives a json web token"
+					},
+					"response": [
+						{
+							"name": "Untitled Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"name": "Content-Type",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"iI vpPTn5  2 ; OFbCqjk﻿n 9UgyfE\\r vz\\t\\u000b H7-wj FO@sPx\\tum8　 v8EgL4\\u000bEPRJ Sk 7oM6k8  K _xtnc X Go bl  7a\",\n  \"token\": \"G23K2r7Ek9.QV6ijw6.YWqP\"\n}"
+						},
+						{
+							"name": "successful request, but invalid password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"name": "Content-Type",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+						},
+						{
+							"name": "missing parameters",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"name": "Content-Type",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+						},
+						{
+							"name": "unexpected error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"name": "Content-Type",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
 										"login"
 									]
 								}
@@ -1800,165 +1891,6 @@
 				}
 			],
 			"description": "Typical API attacks examples"
-		},
-		{
-			"name": "Register for an account and receive token",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"var jsonData = pm.response.json();",
-							"if (jsonData.token != null) {",
-							"    pm.environment.set(\"token\", jsonData.token);",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"id\": 221,\n  \"user\": \"asc-demo@pixi.test\",\n  \"pass\": \"hellopixi\",\n  \"name\": \"asc user\",\n  \"is_admin\": false,\n  \"account_balance\": 975\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseUrl}}/register",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"register"
-					]
-				},
-				"description": "user supplies email and password to register and receives a json web token."
-			},
-			"response": [
-				{
-					"name": "successfully registered, token received",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/register",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"register"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n  \"message\": \" jd qy6 Ge᠎tSC1jt.86  i_ UvkjfJ\",\n  \"token\": \"q6rW_a8d6Xgu7V.xJ=uVXfA88E.3VI2Z_PKjFoZcW\"\n}"
-				},
-				{
-					"name": "email address already registered",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/register",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"register"
-							]
-						}
-					},
-					"status": "Accepted",
-					"code": 202,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
-				},
-				{
-					"name": "unexpected error",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/register",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"register"
-							]
-						}
-					},
-					"status": "Internal Server Error",
-					"code": 500,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
-				}
-			]
 		},
 		{
 			"name": "Show user information",
@@ -2009,9 +1941,9 @@
 						"method": "GET",
 						"header": [
 							{
-								"description": "Added as a part of security scheme: apikey",
 								"key": "x-access-token",
-								"value": "<API Key>"
+								"value": "<API Key>",
+								"description": "Added as a part of security scheme: apikey"
 							}
 						],
 						"url": {
@@ -2043,9 +1975,9 @@
 						"method": "GET",
 						"header": [
 							{
-								"description": "Added as a part of security scheme: apikey",
 								"key": "x-access-token",
-								"value": "<API Key>"
+								"value": "<API Key>",
+								"description": "Added as a part of security scheme: apikey"
 							}
 						],
 						"url": {
@@ -2077,9 +2009,9 @@
 						"method": "GET",
 						"header": [
 							{
-								"description": "Added as a part of security scheme: apikey",
 								"key": "x-access-token",
-								"value": "<API Key>"
+								"value": "<API Key>",
+								"description": "Added as a part of security scheme: apikey"
 							}
 						],
 						"url": {
@@ -2108,7 +2040,7 @@
 			]
 		},
 		{
-			"name": "Login and receive json web token.",
+			"name": "Register for an account and receive token",
 			"event": [
 				{
 					"listen": "test",
@@ -2117,6 +2049,7 @@
 							"var jsonData = pm.response.json();",
 							"if (jsonData.token != null) {",
 							"    pm.environment.set(\"token\", jsonData.token);",
+							"    pm.environment.set(\"userid\", jsonData._id);",
 							"}"
 						],
 						"type": "text/javascript"
@@ -2128,7 +2061,7 @@
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/x-www-form-urlencoded"
+						"value": "application/json"
 					},
 					{
 						"key": "Accept",
@@ -2136,26 +2069,186 @@
 					}
 				],
 				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "user",
-							"value": "asc-demo@pixi.test",
-							"description": "(Required) "
-						},
-						{
-							"key": "pass",
-							"value": "hellopixi",
-							"description": "(Required) "
+					"mode": "raw",
+					"raw": "{\n  \"user\": \"attacks-demo@acme.com\",\n  \"pass\": \"hellopixi\",\n  \"name\": \"{{$randomFullName}}\",\n  \"is_admin\": false,\n  \"account_balance\": 1000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
 						}
-					]
+					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/login",
+					"raw": "{{baseUrl}}/user/register",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
+						"user",
+						"register"
+					]
+				},
+				"description": "user supplies email and password to register and receives a json web token."
+			},
+			"response": [
+				{
+					"name": "successfully registered, token received",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"message\": \" jd qy6 Ge᠎tSC1jt.86  i_ UvkjfJ\",\n  \"token\": \"q6rW_a8d6Xgu7V.xJ=uVXfA88E.3VI2Z_PKjFoZcW\"\n}"
+				},
+				{
+					"name": "email address already registered",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"status": "Accepted",
+					"code": 202,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+				},
+				{
+					"name": "unexpected error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Login and receive json web token.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if (jsonData.token != null) {",
+							"    pm.environment.set(\"token\", jsonData.token);",
+							"    pm.environment.set(\"userid\", jsonData._id);",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user\": \"attacks-demo@acme.com\",\n    \"pass\": \"hellopixi\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
 						"login"
 					]
 				},
@@ -2166,28 +2259,30 @@
 					"name": "Untitled Example",
 					"originalRequest": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"name": "Content-Type",
+								"type": "text"
+							}
+						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "user",
-									"value": "VOx-hMkL@KokNF.JwJ",
-									"description": "(Required) "
-								},
-								{
-									"key": "pass",
-									"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-									"description": "(Required) "
+							"mode": "raw",
+							"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/login",
+							"raw": "{{baseUrl}}/user/login",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
 								"login"
 							]
 						}
@@ -2208,28 +2303,30 @@
 					"name": "successful request, but invalid password",
 					"originalRequest": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"name": "Content-Type",
+								"type": "text"
+							}
+						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "user",
-									"value": "VOx-hMkL@KokNF.JwJ",
-									"description": "(Required) "
-								},
-								{
-									"key": "pass",
-									"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-									"description": "(Required) "
+							"mode": "raw",
+							"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/login",
+							"raw": "{{baseUrl}}/user/login",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
 								"login"
 							]
 						}
@@ -2250,28 +2347,30 @@
 					"name": "missing parameters",
 					"originalRequest": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"name": "Content-Type",
+								"type": "text"
+							}
+						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "user",
-									"value": "VOx-hMkL@KokNF.JwJ",
-									"description": "(Required) "
-								},
-								{
-									"key": "pass",
-									"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-									"description": "(Required) "
+							"mode": "raw",
+							"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/login",
+							"raw": "{{baseUrl}}/user/login",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
 								"login"
 							]
 						}
@@ -2292,28 +2391,30 @@
 					"name": "unexpected error",
 					"originalRequest": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"name": "Content-Type",
+								"type": "text"
+							}
+						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "user",
-									"value": "VOx-hMkL@KokNF.JwJ",
-									"description": "(Required) "
-								},
-								{
-									"key": "pass",
-									"value": "wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb",
-									"description": "(Required) "
+							"mode": "raw",
+							"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/login",
+							"raw": "{{baseUrl}}/user/login",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
 								"login"
 							]
 						}
@@ -2333,7 +2434,236 @@
 			]
 		},
 		{
-			"name": "Returns the list of ALL users. Must be admin to call.",
+			"name": "Generate bad Tokens",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if (jsonData.token != null) {",
+							"    pm.environment.set(\"token\", jsonData.token);",
+							"    pm.environment.set(\"userid\", jsonData._id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user\": \"657141dd@acme.com\",\n    \"pass\": \"hellopixi\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				},
+				"description": "user supplies user name and password and receives a json web token"
+			},
+			"response": [
+				{
+					"name": "Untitled Example",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"name": "Content-Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"message\": \"iI vpPTn5  2 ; OFbCqjk﻿n 9UgyfE\\r vz\\t\\u000b H7-wj FO@sPx\\tum8　 v8EgL4\\u000bEPRJ Sk 7oM6k8  K _xtnc X Go bl  7a\",\n  \"token\": \"G23K2r7Ek9.QV6ijw6.YWqP\"\n}"
+				},
+				{
+					"name": "successful request, but invalid password",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"name": "Content-Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"status": "Accepted",
+					"code": 202,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+				},
+				{
+					"name": "missing parameters",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"name": "Content-Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+					"code": 422,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+				},
+				{
+					"name": "unexpected error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"name": "Content-Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\": \"VOx-hMkL@KokNF.JwJ\",\n    \"pass\": \"wVM3!XVQcyfW0brvutDDyBVwWUDNV41i7VYNSBaG1qb1dxb\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Users List. Must be admin to call.",
 			"request": {
 				"auth": {
 					"type": "apikey",
@@ -2358,9 +2688,9 @@
 				"method": "GET",
 				"header": [
 					{
-						"description": "(Required) ",
 						"key": "x-access-token",
 						"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+						"description": "(Required) ",
 						"disabled": true
 					},
 					{
@@ -2387,14 +2717,14 @@
 						"method": "GET",
 						"header": [
 							{
-								"description": "Added as a part of security scheme: apikey",
 								"key": "x-access-token",
-								"value": "<API Key>"
+								"value": "<API Key>",
+								"description": "Added as a part of security scheme: apikey"
 							},
 							{
-								"description": "(Required) ",
 								"key": "x-access-token",
-								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d"
+								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+								"description": "(Required) "
 							}
 						],
 						"url": {
@@ -2426,14 +2756,14 @@
 						"method": "GET",
 						"header": [
 							{
-								"description": "Added as a part of security scheme: apikey",
 								"key": "x-access-token",
-								"value": "<API Key>"
+								"value": "<API Key>",
+								"description": "Added as a part of security scheme: apikey"
 							},
 							{
-								"description": "(Required) ",
 								"key": "x-access-token",
-								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d"
+								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+								"description": "(Required) "
 							}
 						],
 						"url": {
@@ -2465,14 +2795,189 @@
 						"method": "GET",
 						"header": [
 							{
-								"description": "Added as a part of security scheme: apikey",
 								"key": "x-access-token",
-								"value": "<API Key>"
+								"value": "<API Key>",
+								"description": "Added as a part of security scheme: apikey"
 							},
 							{
-								"description": "(Required) ",
 								"key": "x-access-token",
-								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d"
+								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+								"description": "(Required) "
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/admin/all_users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"all_users"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Search for user by email or name",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-access-token",
+							"type": "string"
+						},
+						{
+							"key": "in",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+						"description": "(Required) ",
+						"disabled": true
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/admin/users/search?search=userscan-user1@acme.com",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"admin",
+						"users",
+						"search"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "userscan-user1@acme.com"
+						}
+					]
+				},
+				"description": "Returns the list of ALL users. Must be admin to call."
+			},
+			"response": [
+				{
+					"name": "List Users",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "<API Key>",
+								"description": "Added as a part of security scheme: apikey"
+							},
+							{
+								"key": "x-access-token",
+								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+								"description": "(Required) "
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/admin/all_users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"all_users"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n  {\n    \"email\": \"email@email.com\",\n    \"name\": \"Johnny Appleseed\",\n    \"_id\": 370.14514123132795,\n    \"pic\": \"Qoc://s4Q\",\n    \"account_balance\": 720.3495429666367\n  }\n]"
+				},
+				{
+					"name": "No token provided or invalid token.",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "<API Key>",
+								"description": "Added as a part of security scheme: apikey"
+							},
+							{
+								"key": "x-access-token",
+								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+								"description": "(Required) "
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/admin/all_users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"all_users"
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "unexpected error",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "<API Key>",
+								"description": "Added as a part of security scheme: apikey"
+							},
+							{
+								"key": "x-access-token",
+								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+								"description": "(Required) "
 							}
 						],
 						"url": {
@@ -2526,9 +3031,9 @@
 				"method": "PUT",
 				"header": [
 					{
-						"description": "(Required) ",
 						"key": "x-access-token",
-						"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d"
+						"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+						"description": "(Required) "
 					},
 					{
 						"key": "Content-Type",
@@ -2541,7 +3046,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"email\": \"ohdear@been.hacked\",\n  \"name\": \"Hacked User\",\n  \"admin\": true\n}",
+					"raw": "{\n  \"email\": \"ohdear@hacked.com\",\n  \"name\": \"Hacked User\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -2567,14 +3072,14 @@
 						"method": "PUT",
 						"header": [
 							{
-								"description": "Added as a part of security scheme: apikey",
 								"key": "x-access-token",
-								"value": "<API Key>"
+								"value": "<API Key>",
+								"description": "Added as a part of security scheme: apikey"
 							},
 							{
-								"description": "(Required) ",
 								"key": "x-access-token",
-								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d"
+								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+								"description": "(Required) "
 							}
 						],
 						"body": {
@@ -2615,14 +3120,14 @@
 						"method": "PUT",
 						"header": [
 							{
-								"description": "Added as a part of security scheme: apikey",
 								"key": "x-access-token",
-								"value": "<API Key>"
+								"value": "<API Key>",
+								"description": "Added as a part of security scheme: apikey"
 							},
 							{
-								"description": "(Required) ",
 								"key": "x-access-token",
-								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d"
+								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+								"description": "(Required) "
 							}
 						],
 						"body": {
@@ -2663,14 +3168,14 @@
 						"method": "PUT",
 						"header": [
 							{
-								"description": "Added as a part of security scheme: apikey",
 								"key": "x-access-token",
-								"value": "<API Key>"
+								"value": "<API Key>",
+								"description": "Added as a part of security scheme: apikey"
 							},
 							{
-								"description": "(Required) ",
 								"key": "x-access-token",
-								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d"
+								"value": "4KlPoar.heJiPRkzvn1pHB.s/E5xhM2d",
+								"description": "(Required) "
 							}
 						],
 						"body": {
@@ -2706,8 +3211,436 @@
 					"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
 				}
 			]
+		},
+		{
+			"name": "List user pictures",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-access-token",
+							"type": "string"
+						},
+						{
+							"key": "in",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/pictures",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"pictures"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Picture",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if (jsonData._id != null) {",
+							"    pm.environment.set(\"picture_id\", jsonData._id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-access-token",
+							"type": "string"
+						},
+						{
+							"key": "in",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"contents\": \"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMy4wLjEsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA5MC43IDkwLjciIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDkwLjcgOTAuNzsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6IzdGNDg4RTt9DQoJLnN0MXtmaWxsOiNGRkZGRkY7fQ0KPC9zdHlsZT4NCjxwb2x5Z29uIGNsYXNzPSJzdDAiIHBvaW50cz0iODQuNiw2OC4xIDg0LjYsMjIuOCA0NS40LDAuMiA2LjIsMjIuOCA2LjIsNjguMSA0NS40LDkwLjcgIi8+DQo8cGF0aCBjbGFzcz0ic3QxIiBkPSJNNjAuOCw2NmMtMi40LDAtNC40LTAuNy02LjEtMi4xYy0xLjctMS40LTIuNS0zLjQtMi41LTZjMC0yLjcsMC45LTQuNywyLjYtNi4xYzEuNy0xLjQsMy44LTIsNi4yLTINCgljMi42LDAsNC45LDAuNyw2LjgsMi4xdi01Yy0xLjctMS0zLjctMS42LTUuOS0xLjh2LTAuMWwtMTcsMGMwLTAuMywwLTAuNiwwLjEtMWMwLjEtMC4zLDAuMi0wLjYsMC4zLTAuOWMwLjEtMC4zLDAuMy0wLjUsMC41LTAuOA0KCWMwLjItMC4zLDAuNS0wLjYsMC42LTAuOGMwLjItMC4yLDAuNS0wLjUsMC45LTAuOGMwLjQtMC4zLDAuNy0wLjUsMC45LTAuN2MwLjItMC4xLDAuNi0wLjQsMS4xLTAuN2MwLjUtMC4zLDAuOS0wLjUsMS4xLTAuNw0KCWMwLjItMC4xLDAuNi0wLjQsMS4yLTAuN2MwLjYtMC4zLDEtMC42LDEuMi0wLjdjMi43LTEuNiw0LjktMy4yLDYuNC00LjljMS42LTEuNywyLjQtMy43LDIuNC02LjFjMC0yLjktMS01LTMuMS02LjYNCgljLTItMS41LTQuNy0yLjMtOC4xLTIuM2MtMy45LDAtNy40LDEuMS0xMC41LDMuMnY1LjFjMy4zLTIuNCw2LjYtMy41LDEwLjEtMy41YzIsMCwzLjUsMC40LDQuNiwxLjFjMS4xLDAuNywxLjcsMS44LDEuNywzLjENCgljMCwxLjUtMC42LDIuOC0xLjksNGMtMC44LDAuNy0yLjQsMS44LTUuMSwzLjNjLTIuNiwxLjYtNC40LDIuNy01LjMsMy41Yy0xLjcsMS4zLTIuOSwyLjgtMy44LDQuNFYyOS45aC01LjRMMTgsNTAuNnY0LjVoMTcuMnY2LjUNCgloNS4xdi02LjVoMC4xdi00LjZoLTAuMXYtMC45aDguOWMtMS44LDIuMS0yLjcsNS0yLjcsOC41YzAsNC4xLDEuMyw3LjMsNCw5LjVjMi42LDIuMiw1LjgsMy4zLDkuMywzLjNjMy4xLDAsNS44LTAuNiw4LjItMS43di01LjENCglDNjUuOCw2NS40LDYzLjQsNjYsNjAuOCw2NnogTTM1LjIsNTAuNUgyMy45bDExLjMtMTMuOFY1MC41eiIvPg0KPC9zdmc+DQo=\",\n    \"title\": \"42C logo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/picture/upload",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"picture",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Picture from File",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if (jsonData._id != null) {",
+							"    pm.environment.set(\"picture_id\", jsonData._id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-access-token",
+							"type": "string"
+						},
+						{
+							"key": "in",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"filename\": \"https://42crunch.com/wp-content/uploads/2022/02/LogoCr1.png\",\n    \"title\": \"42C logo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/picture/file_upload",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"picture",
+						"file_upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-access-token",
+							"type": "string"
+						},
+						{
+							"key": "in",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/admin/user/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"admin",
+						"user",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{userid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Picture",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-access-token",
+							"type": "string"
+						},
+						{
+							"key": "in",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/picture/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"picture",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{picture_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User for scan creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if (jsonData.token != null) {",
+							"    pm.environment.set(\"token\", jsonData.token);",
+							"    pm.environment.set(\"userid\", jsonData._id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"user\": \"user-inbound@acme.com\",\n  \"pass\": \"hellopixi\",\n  \"name\": \"{{$randomFullName}}\",\n  \"is_admin\": false,\n  \"account_balance\": 1000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"register"
+					]
+				},
+				"description": "user supplies email and password to register and receives a json web token."
+			},
+			"response": [
+				{
+					"name": "successfully registered, token received",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"message\": \" jd qy6 Ge᠎tSC1jt.86  i_ UvkjfJ\",\n  \"token\": \"q6rW_a8d6Xgu7V.xJ=uVXfA88E.3VI2Z_PKjFoZcW\"\n}"
+				},
+				{
+					"name": "email address already registered",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"status": "Accepted",
+					"code": 202,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+				},
+				{
+					"name": "unexpected error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 221,\n  \"user\": \"v6Iqe05@S5-u8zsR.NnncB\",\n  \"pass\": \"17cZX\",\n  \"name\": \"qL FvBNjO f0vrXHA \",\n  \"is_admin\": true,\n  \"account_balance\": 296.93146171426974\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"message\": \" 0Fz \\u000bSc9OfxmNGvz﻿ d rhiX Dmw 6x  Qak4\\tz  \\fxS\\n\\nN,SWEe rxG 1ELitF ,9hj S:9D b hE sf  Dl u 2\\f   YJ@zixLsl Y t ,qqB ai8 C7_m Bk5_NReDJVayHrm1\\fuYL YS  6g᠎@E \\f0-N\"\n}"
+				}
+			]
 		}
 	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "ADSSDSD",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "x-access-token",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
