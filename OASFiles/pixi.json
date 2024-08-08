@@ -356,6 +356,38 @@
                 }
             }
         },
+        "/user/info/{id}": {
+            "get": {
+                "operationId": "getInfoById",
+                "description": "Get user info using user ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "example": "a83a29f5-0d63-46f2-8f2e-44c2f1d2e07e",
+                          "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$",
+                          "minLength": 36,
+                          "maxLength": 36,
+                          "x-42c-format": "o:uuid"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "access-token": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/user/edit_info": {
             "put": {
                 "tags": [

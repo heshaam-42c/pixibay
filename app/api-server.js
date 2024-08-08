@@ -450,6 +450,28 @@ api.get('/api/user/info', api_token_check, function (req, res) {
 	}
 });
 
+api.get('/api/user/info/:id', api_token_check, function (req, res) {
+	console.log('>>> Fetching users ' + req.params.id);
+	const users = db.collection('users');
+	// BOLA - API1 Issue here: a user can get someone's information.
+	// Code does not validate who the user making the request is.
+	users.findOne({ _id: req.params.id },
+		function (err, result) {
+			if (err) {
+				console.log('>>> Query error...' + err);
+				res.status(500).json({ "message": "system error" });
+			}
+			if (!result) {
+				console.log(">>> No user was found")
+				res.status(404).json({ "message": "not found" });
+			}
+			else {
+				console.log('>>> User info for ' + req.params.id + ' was returned');
+				res.status(200).json(result);
+			}
+		})
+});
+
 api.put('/api/user/edit_info', api_token_check, function (req, res) {
 	//console.log('in user put ' + req.user.user_profile._id);
 
