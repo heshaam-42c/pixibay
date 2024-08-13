@@ -828,7 +828,7 @@
                 ]
             }
         },
-        "/user/pictures": {
+        "/user/pictures/{id}": {
             "get": {
                 "security": [
                     {
@@ -836,6 +836,16 @@
                     }
                 ],
                 "summary": "Return user's pictures",
+                "parameters": [
+                    {
+                        "schema": {
+                          "type": "string"
+                        },
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "tags": [
                     "users",
                     "pictures"
