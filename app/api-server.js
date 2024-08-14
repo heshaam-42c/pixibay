@@ -306,7 +306,8 @@ api.post('/api/picture/file_upload', api_token_check, function (req, res) {
 			creator_id: req.user.user_profile._id,
 			money_made: 0,
 			likes: 0,
-			created_date: new Date()
+			created_date: new Date(),
+			filename_url: req.body.filename
 		}
 
 		pictures.insertOne(payload, { forceServerObjectId: true }, function (err, result) {
@@ -536,18 +537,33 @@ api.get('/api/user/pictures/:id', api_token_check, function (req, res) {
 	const pictures = db.collection('pictures');
 	// BOLA - API1 Issue here: a user can get someone else's pictures.
 	// Code does not validate who the requester is before returning the pictures.
-	pictures.find({ creator_id: req.params.id }).toArray(function (err, pictures) {
-		if (err) {
-			console.log('>>> Query error...' + err);
-			res.status(500).json({ "message": "system error" });
-		}
-
-		if (pictures) {
-			console.log(">>> Pictures list: " + pictures);
-			res.json(pictures);
-
-		}
-	})
+	if (req.params.id && req.params.id.length > 1) {
+		pictures.find({ creator_id: req.params.id }).toArray(function (err, pictures) {
+			if (err) {
+				console.log('>>> Query error...' + err);
+				res.status(500).json({ "message": "system error" });
+			}
+	
+			if (pictures) {
+				console.log(">>> Pictures list: " + pictures);
+				res.json(pictures);
+	
+			}
+		})
+	} else {
+		pictures.find().limit(100).sort({ created_date: -1 }).toArray(function (err, pictures) {
+			if (err) {
+				console.log('>>> Query error...' + err);
+				res.status(500).json({ "message": "system error" });
+			}
+	
+			if (pictures) {
+				console.log(">>> Last 100 pictures list: " + pictures);
+				res.json(pictures);
+	
+			}
+		})
+	}
 });
 
 api.get('/api/admin/all_users', api_token_check, function (req, res) {
