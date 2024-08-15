@@ -248,21 +248,25 @@ api.delete('/api/admin/user/:id', api_token_check, function (req, res) {
 	}
 	else {
 		// API2 : Authorization issue - This call should enforce admin role, but it does not.
-		users.deleteOne({ _id: req.params.id },
-			function (err, result) {
-				if (err) {
-					console.log('>>> Query error...' + err);
-					res.status(500).json({ "message": "system error" });
-				}
-				//console.log("result object:" + result.deletedCount);
-				if (result.deletedCount == 0) {
-					console.log(">>> No user was deleted")
-					res.status(400).json({ "message": "bad input" });
-				}
-				else {
-					res.status(200).json({ "message": "success" });
-				}
-			});
+		if (!req.user.user_profile.is_admin) {
+			res.status(403).json({ "success": false, "message": "forbidden" });
+		} else {
+			users.deleteOne({ _id: req.params.id },
+				function (err, result) {
+					if (err) {
+						console.log('>>> Query error...' + err);
+						res.status(500).json({ "message": "system error" });
+					}
+					//console.log("result object:" + result.deletedCount);
+					if (result.deletedCount == 0) {
+						console.log(">>> No user was deleted")
+						res.status(400).json({ "message": "bad input" });
+					}
+					else {
+						res.status(200).json({ "message": "success" });
+					}
+				});
+		}
 
 	}
 });
@@ -468,21 +472,25 @@ api.get('/api/user/info/:id', api_token_check, function (req, res) {
 	const users = db.collection('users');
 	// BOLA - API1 Issue here: a user can get someone's information.
 	// Code does not validate who the user making the request is.
-	users.findOne({ _id: req.params.id },
-		function (err, result) {
-			if (err) {
-				console.log('>>> Query error...' + err);
-				res.status(500).json({ "message": "system error" });
-			}
-			if (!result) {
-				console.log(">>> No user was found")
-				res.status(404).json({ "message": "not found" });
-			}
-			else {
-				console.log('>>> User info for ' + req.params.id + ' was returned');
-				res.status(200).json(result);
-			}
-		})
+	if (req.params.id != req.user.user_profile._id) {
+		res.status(403).json({ "success": false, "message": "forbidden" });
+	} else {
+		users.findOne({ _id: req.params.id },
+			function (err, result) {
+				if (err) {
+					console.log('>>> Query error...' + err);
+					res.status(500).json({ "message": "system error" });
+				}
+				if (!result) {
+					console.log(">>> No user was found")
+					res.status(404).json({ "message": "not found" });
+				}
+				else {
+					console.log('>>> User info for ' + req.params.id + ' was returned');
+					res.status(200).json(result);
+				}
+			})
+	}
 });
 
 api.put('/api/user/edit_info', api_token_check, function (req, res) {
