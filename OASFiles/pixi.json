@@ -1291,6 +1291,10 @@
                             "x-42c-format": "o:date-time",
                             "example": "2021-08-30T23:01:14.274085491+15:55",
                             "minLength": 20
+                        },
+                        "filename_url": {
+                            "type": "string",
+                            "maxLength": 254
                         }
                     },
                     "required": [
