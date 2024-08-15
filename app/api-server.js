@@ -151,7 +151,7 @@ function create_jwt (algorithm, audience, issuer, subject, jwt_payload, key) {
 			algorithm: algorithm,
 			issuer: issuer,
 			subject: subject,
-			expiresIn: "30m",
+			expiresIn: "1440m",
 			audience: audience
 		})
 		return token	

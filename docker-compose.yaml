@@ -8,8 +8,8 @@ services:
       - "28017:28017"
 
   app:
-    #  image: 42crunch/pixi:v4.7
-    #  container_name: pixiapi
+    #  image: heshaam/pixi:latest
+     container_name: pixiapi
      build: ./app
      ports:
        - "8090:8090"

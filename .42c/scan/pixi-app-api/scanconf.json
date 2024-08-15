@@ -694,7 +694,7 @@
             "requestBody": {
               "mode": "json",
               "json": {
-                "filename": "https://42crunch.com/wpcontent/uploads/2022/02/LogoCr1.png",
+                "filename": "https://42crunch.com/wp-content/uploads/2022/02/LogoCr1.png",
                 "title": "company logo"
               }
             }
