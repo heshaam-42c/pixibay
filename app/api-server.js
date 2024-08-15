@@ -211,19 +211,31 @@ api.delete('/api/picture/:id', api_token_check, function (req, res) {
 	const pictures = db.collection('pictures');
 	// BOLA - API1 Issue here: a user can delete someone's else picture.
 	// Code does not validate who the picture belongs too.
-	pictures.deleteOne({ _id: req.params.id },
-		function (err, result) {
+	pictures.findOne({ _id: req.params.id },
+		function (err, picture) {
 			if (err) {
 				console.log('>>> Query error...' + err);
 				res.status(500).json({ "message": "system error" });
 			}
-			if (result.deletedCount == 0) {
-				console.log(">>> No picture was deleted")
-				res.status(404).json({ "message": "not found" });
-			}
-			else {
-				console.log('>>> Photo ' + req.params.id + ' was deleted');
-				res.status(200).json({ "message": "success" });
+			if (picture && picture.creator_id == req.user.user_profile._id) {
+				pictures.deleteOne({ _id: req.params.id },
+					function (err, result) {
+						if (err) {
+							console.log('>>> Query error...' + err);
+							res.status(500).json({ "message": "system error" });
+						}
+						if (result.deletedCount == 0) {
+							console.log(">>> No picture was deleted")
+							res.status(404).json({ "message": "not found" });
+						}
+						else {
+							console.log('>>> Photo ' + req.params.id + ' was deleted');
+							res.status(200).json({ "message": "success" });
+						}
+					})
+			} else {
+				console.log(">>> User does not own the picture")
+				res.status(403).json({ "success": false, "message": "forbidden" });
 			}
 		})
 });
@@ -539,18 +551,22 @@ api.get('/api/user/pictures/:id', api_token_check, function (req, res) {
 	// BOLA - API1 Issue here: a user can get someone else's pictures.
 	// Code does not validate who the requester is before returning the pictures.
 	if (req.params.id && req.params.id.length > 1) {
-		pictures.find({ creator_id: req.params.id }).toArray(function (err, pictures) {
-			if (err) {
-				console.log('>>> Query error...' + err);
-				res.status(500).json({ "message": "system error" });
-			}
-	
-			if (pictures) {
-				console.log(">>> Pictures list: " + pictures);
-				res.json(pictures);
-	
-			}
-		})
+		if (req.params.id != req.user.user_profile._id) {
+			res.status(403).json({ "success": false, "message": "forbidden" });
+		} else {
+			pictures.find({ creator_id: req.params.id }).toArray(function (err, pictures) {
+				if (err) {
+					console.log('>>> Query error...' + err);
+					res.status(500).json({ "message": "system error" });
+				}
+		
+				if (pictures) {
+					console.log(">>> Pictures list: " + pictures);
+					res.json(pictures);
+		
+				}
+			})
+		}
 	} else {
 		pictures.find().limit(100).sort({ created_date: -1 }).toArray(function (err, pictures) {
 			if (err) {
@@ -570,12 +586,16 @@ api.get('/api/user/pictures/:id', api_token_check, function (req, res) {
 api.get('/api/admin/all_users', api_token_check, function (req, res) {
 	//res.json(req.user);
 	//API2 - Authorization issue: can be called by non-admins.
-	db.collection('users').find().toArray(function (err, all_users) {
-		if (err) { return err }
-		if (all_users) {
-			res.json(all_users);
-		}
-	})
+	if (!req.user.user_profile.is_admin) {
+		res.status(403).json({ "success": false, "message": "forbidden" });
+	} else {
+		db.collection('users').find().toArray(function (err, all_users) {
+			if (err) { return err }
+			if (all_users) {
+				res.json(all_users);
+			}
+		})
+	}
 });
 
 api.get('/api/healthz', function (req, res) {
