@@ -482,13 +482,14 @@ api.put('/api/user/edit_info', api_token_check, function (req, res) {
 	if (req.body.email) { objForUpdate.email = req.body.email; }
 	if (req.body.password) { objForUpdate.password = req.body.password; }
 	if (req.body.name) { objForUpdate.name = req.body.name; }
+	if (req.body.account_balance) { objForUpdate.account_balance = req.body.account_balance; }
 
 	// Major issue here (API 6) - anyone can make themselves an admin!
 	if (req.body.hasOwnProperty('is_admin')) {
 		let is_admin_status = Boolean(req.body.is_admin);
 		objForUpdate.is_admin = is_admin_status
 	}
-	if (!req.body.email && !req.body.password && !req.body.name && !req.body.is_admin) {
+	if (!req.body.email && !req.body.password && !req.body.name && !req.body.is_admin && !req.body.account_balance) {
 		res.status(422).json({ "message": "Bad input" });
 	}
 	else {
