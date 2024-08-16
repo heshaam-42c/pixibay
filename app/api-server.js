@@ -461,7 +461,15 @@ api.get('/api/user/info', api_token_check, function (req, res) {
 		db.collection('users').find({ _id: req.user.user_profile._id }).toArray(function (err, user) {
 			if (err) { return err }
 			if (user) {
-				res.status(200).json(user);
+				// Filter the properties
+                const filteredUsers = user.map(thisUser => ({
+                    _id: thisUser._id,
+                    email: thisUser.email,
+					name: thisUser.name,
+					account_balance: thisUser.account_balance,
+					is_admin: thisUser.is_admin
+                }));
+                res.json(filteredUsers);
 			}
 		})
 	}
@@ -487,7 +495,8 @@ api.get('/api/user/info/:id', api_token_check, function (req, res) {
 				}
 				else {
 					console.log('>>> User info for ' + req.params.id + ' was returned');
-					res.status(200).json(result);
+					// Filter the properties
+					res.status(200).json({"_id": result._id, "email": result.email, "name": result.name, "account_balance": result.account_balance, "is_admin": result.is_admin});
 				}
 			})
 	}
@@ -567,7 +576,14 @@ api.get('/api/admin/all_users', api_token_check, function (req, res) {
 		db.collection('users').find().toArray(function (err, all_users) {
 			if (err) { return err }
 			if (all_users) {
-				res.json(all_users);
+				// Filter the properties
+                const filteredUsers = all_users.map(user => ({
+                    _id: user._id,
+                    email: user.email,
+					name: user.name,
+					account_balance: user.account_balance
+                }));
+                res.json(filteredUsers);
 			}
 		})
 	}
