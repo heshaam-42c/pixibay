@@ -383,7 +383,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "successful authentication sent user information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UsersItem"
+                                }
+                            }
+                        }
                     },
                     "403": {
                         "description": "Forbidden",

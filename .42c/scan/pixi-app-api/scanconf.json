@@ -884,6 +884,11 @@
             "expectations": {
               "httpStatus": 200
             }
+          },
+          "403": {
+            "expectations": {
+              "httpStatus": 403
+            }
           }
         }
       },
