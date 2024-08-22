@@ -387,7 +387,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UsersItem"
+                                    "$ref": "#/components/schemas/UsersByIdItem"
                                 }
                             }
                         }
@@ -1042,6 +1042,64 @@
                         "type": "string",
                         "format": "string",
                         "example": "p@ssword1"
+                    },
+                    "name": {
+                        "maxLength": 50,
+                        "minLength": 5,
+                        "pattern": "(^[\\w\\s\\.]{5,50}$)",
+                        "type": "string",
+                        "example": "Johnny Appleseed"
+                    },
+                    "is_admin": {
+                        "type": "boolean",
+                        "description": "is admin"
+                    },
+                    "account_balance": {
+                        "maximum": 1000,
+                        "minimum": -50,
+                        "type": "number",
+                        "description": "remaining balance",
+                        "format": "float"
+                    },
+                    "onboarding_date": {
+                        "type": "string",
+                        "maxLength": 38,
+                        "format": "date-time",
+                        "pattern": "^[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])T(?:[01][0-9]|2[0-3]):[0-5][0-9]:(?:[0-5][0-9]|60)(?:\\.[0-9]{1,15})?(?:Z|[+\\-](?:[01][0-9]|2[0-3]):[0-5][0-9])$",
+                        "x-42c-format": "o:date-time",
+                        "example": "2021-08-30T23:01:14.274085491+15:55",
+                        "minLength": 20
+                    }
+                }
+            },
+            "UsersByIdItem": {
+                "required": [
+                    "email",
+                    "name",
+                    "_id",
+                    "is_admin",
+                    "account_balance"
+                ],
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "DD68C630-3CCB-4FD0-9C5B-A0A34C952681",
+                        "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$",
+                        "minLength": 36,
+                        "maxLength": 36,
+                        "x-42c-format": "o:uuid"
+                    },
+                    "email": {
+                        "maxLength": 320,
+                        "minLength": 6,
+                        "pattern": "^(?:[\\w\\-+!#$%&'*/=?^`|{}~]+(?:\\.[\\w\\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[\\w\\-]{0,61}[A-Za-z0-9])?))*\\.[A-Za-z]{2,})$",
+                        "type": "string",
+                        "format": "o:HA:email",
+                        "x-42c-format": "o:HA:email",
+                        "example": "scanuser@test.com"
                     },
                     "name": {
                         "maxLength": 50,
