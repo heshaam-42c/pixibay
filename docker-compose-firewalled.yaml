@@ -8,9 +8,9 @@ services:
       - "28017:28017"
 
   api:
-    #  image: 42crunch/pixi:v4.7
-    #  container_name: pixiapi
-     build: ./app
+     image: heshaam/pixi:latest
+     container_name: pixiapi
+    #  build: ./app
      ports:
        - "8090:8090"
      expose:
@@ -20,14 +20,14 @@ services:
     image: 42crunch/apifirewall:latest
     container_name: 42crunch-api-firewall
     ports:
-      - "8080:8080"
+      - "4241:80"
     volumes:
       - ./api-firewall/ssl:/opt/guardian/conf/ssl
     command:
       ["/bin/squire", "-platform", "protection.demolabs.42crunch.cloud:8001", "-debug"]
     environment:
-      - SERVER_NAME=pixi-secured.42crunch.test:8080
-      - LISTEN_PORT=8080
+      - SERVER_NAME=pixi-secured.42crunch.test:4241
+      - LISTEN_PORT=80
       - PROTECTION_TOKEN=${PROTECTION_TOKEN}
       - GUARDIAN_NODE_NAME=Local-Firewall
       - GUARDIAN_INSTANCE_NAME=Local-Firewall
@@ -35,7 +35,7 @@ services:
       # - LISTEN_SSL_KEY=firewall-key.pem
       - LISTEN_NO_TLS=true
       - LOG_LEVEL=DEBUG
-      - TARGET_URL=http://api:8090
+      - TARGET_URL=http://host.docker.internal:8090
     depends_on:
       - db
       - api

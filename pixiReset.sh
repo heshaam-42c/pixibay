@@ -1,15 +1,17 @@
 #! /bin/sh
 
+docker_yaml=docker-compose.yaml
+
 if [ $# -lt 1 ]; then
     echo "Starting Pixi"
-    docker-compose down
-    docker-compose up -d
+    docker-compose -f $docker_yaml down
+    docker-compose -f $docker_yaml up -d
 fi
 
 if [ "$1" == "build" ]; then
     echo "Building Pixi"
-    docker-compose down
-    docker-compose up -d --build
+    docker-compose -f $docker_yaml down
+    docker-compose -f $docker_yaml up -d --build
 fi
 
 sleep 5
