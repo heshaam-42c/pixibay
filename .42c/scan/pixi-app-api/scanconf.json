@@ -417,6 +417,220 @@
         }
       ]
     },
+    "getInfoById": {
+      "operationId": "getInfoById",
+      "request": {
+        "operationId": "getInfoById",
+        "auth": [
+          "access-token"
+        ],
+        "request": {
+          "type": "42c",
+          "details": {
+            "operationId": "getInfoById",
+            "method": "GET",
+            "url": "{{host}}/user/info/{id}",
+            "paths": [
+              {
+                "key": "id",
+                "value": "{{user}}"
+              }
+            ]
+          }
+        },
+        "defaultResponse": "200",
+        "responses": {
+          "200": {
+            "expectations": {
+              "httpStatus": 200
+            }
+          },
+          "403": {
+            "expectations": {
+              "httpStatus": 403
+            }
+          }
+        }
+      },
+      "scenarios": [
+        {
+          "key": "happy.path",
+          "requests": [
+            {
+              "fuzzing": true,
+              "$ref": "#/operations/getInfoById/request",
+              "environment": {
+                "user": "{{scanUserId}}"
+              }
+            }
+          ],
+          "fuzzing": true
+        }
+      ],
+      "authorizationTests": [
+        "UserInfoBOLA"
+      ]
+    },
+    "getUserPictures": {
+      "operationId": "getUserPictures",
+      "request": {
+        "operationId": "getUserPictures",
+        "auth": [
+          "admin-user"
+        ],
+        "request": {
+          "type": "42c",
+          "details": {
+            "operationId": "getUserPictures",
+            "method": "GET",
+            "url": "{{host}}/user/pictures/{id}",
+            "paths": [
+              {
+                "key": "id",
+                "value": "{{user_id}}"
+              }
+            ]
+          }
+        },
+        "defaultResponse": "200",
+        "responses": {
+          "200": {
+            "expectations": {
+              "httpStatus": 200
+            }
+          },
+          "403": {
+            "expectations": {
+              "httpStatus": 403
+            }
+          },
+          "default": {
+            "expectations": {
+              "httpStatus": "default"
+            }
+          }
+        }
+      },
+      "scenarios": [
+        {
+          "key": "happy.path",
+          "requests": [
+            {
+              "$ref": "#/operations/uploadPictureFromFile/request",
+              "responses": {
+                "200": {
+                  "expectations": {
+                    "httpStatus": 200
+                  },
+                  "variableAssignments": {
+                    "listPictureId": {
+                      "in": "body",
+                      "from": "response",
+                      "contentType": "json",
+                      "path": {
+                        "type": "jsonPointer",
+                        "value": "/_id"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "fuzzing": true,
+              "$ref": "#/operations/getUserPictures/request",
+              "environment": {
+                "user_id": "{{adminUserId}}"
+              }
+            },
+            {
+              "$ref": "#/operations/deletePicture/request",
+              "environment": {
+                "picture_id": "{{listPictureId}}"
+              }
+            }
+          ],
+          "fuzzing": true
+        }
+      ],
+      "authorizationTests": [
+        "GetPictureBOLA"
+      ]
+    },
+    "listUserPictures": {
+      "operationId": "listUserPictures",
+      "request": {
+        "operationId": "listUserPictures",
+        "auth": [
+          "admin-user"
+        ],
+        "request": {
+          "type": "42c",
+          "details": {
+            "operationId": "listUserPictures",
+            "method": "GET",
+            "url": "{{host}}/user/pictures"
+          }
+        },
+        "defaultResponse": "200",
+        "responses": {
+          "200": {
+            "expectations": {
+              "httpStatus": 200
+            }
+          },
+          "403": {
+            "expectations": {
+              "httpStatus": 403
+            }
+          },
+          "default": {
+            "expectations": {
+              "httpStatus": "default"
+            }
+          }
+        }
+      },
+      "scenarios": [
+        {
+          "key": "happy.path",
+          "requests": [
+            {
+              "$ref": "#/operations/uploadPictureFromFile/request",
+              "responses": {
+                "200": {
+                  "expectations": {
+                    "httpStatus": 200
+                  },
+                  "variableAssignments": {
+                    "listPictureId": {
+                      "from": "response",
+                      "in": "body",
+                      "contentType": "json",
+                      "path": {
+                        "type": "jsonPointer",
+                        "value": "/_id"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "fuzzing": true,
+              "$ref": "#/operations/listUserPictures/request"
+            },
+            {
+              "$ref": "#/operations/deletePicture/request",
+              "environment": {
+                "picture_id": "{{listPictureId}}"
+              }
+            }
+          ],
+          "fuzzing": true
+        }
+      ]
+    },
     "register": {
       "operationId": "register",
       "request": {
@@ -765,220 +979,6 @@
               "fuzzing": true,
               "$ref": "#/operations/userinfo/request",
               "expectedResponse": "200"
-            }
-          ],
-          "fuzzing": true
-        }
-      ]
-    },
-    "getInfoById": {
-      "operationId": "getInfoById",
-      "request": {
-        "operationId": "getInfoById",
-        "auth": [
-          "access-token"
-        ],
-        "request": {
-          "type": "42c",
-          "details": {
-            "operationId": "getInfoById",
-            "method": "GET",
-            "url": "{{host}}/user/info/{id}",
-            "paths": [
-              {
-                "key": "id",
-                "value": "{{user}}"
-              }
-            ]
-          }
-        },
-        "defaultResponse": "200",
-        "responses": {
-          "200": {
-            "expectations": {
-              "httpStatus": 200
-            }
-          },
-          "403": {
-            "expectations": {
-              "httpStatus": 403
-            }
-          }
-        }
-      },
-      "scenarios": [
-        {
-          "key": "happy.path",
-          "requests": [
-            {
-              "fuzzing": true,
-              "$ref": "#/operations/getInfoById/request",
-              "environment": {
-                "user": "{{scanUserId}}"
-              }
-            }
-          ],
-          "fuzzing": true
-        }
-      ],
-      "authorizationTests": [
-        "UserInfoBOLA"
-      ]
-    },
-    "getUserPictures": {
-      "operationId": "getUserPictures",
-      "request": {
-        "operationId": "getUserPictures",
-        "auth": [
-          "admin-user"
-        ],
-        "request": {
-          "type": "42c",
-          "details": {
-            "operationId": "getUserPictures",
-            "method": "GET",
-            "url": "{{host}}/user/pictures/{id}",
-            "paths": [
-              {
-                "key": "id",
-                "value": "{{user_id}}"
-              }
-            ]
-          }
-        },
-        "defaultResponse": "200",
-        "responses": {
-          "200": {
-            "expectations": {
-              "httpStatus": 200
-            }
-          },
-          "403": {
-            "expectations": {
-              "httpStatus": 403
-            }
-          },
-          "default": {
-            "expectations": {
-              "httpStatus": "default"
-            }
-          }
-        }
-      },
-      "scenarios": [
-        {
-          "key": "happy.path",
-          "requests": [
-            {
-              "$ref": "#/operations/uploadPictureFromFile/request",
-              "responses": {
-                "200": {
-                  "expectations": {
-                    "httpStatus": 200
-                  },
-                  "variableAssignments": {
-                    "listPictureId": {
-                      "in": "body",
-                      "from": "response",
-                      "contentType": "json",
-                      "path": {
-                        "type": "jsonPointer",
-                        "value": "/_id"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "fuzzing": true,
-              "$ref": "#/operations/getUserPictures/request",
-              "environment": {
-                "user_id": "{{adminUserId}}"
-              }
-            },
-            {
-              "$ref": "#/operations/deletePicture/request",
-              "environment": {
-                "picture_id": "{{listPictureId}}"
-              }
-            }
-          ],
-          "fuzzing": true
-        }
-      ],
-      "authorizationTests": [
-        "GetPictureBOLA"
-      ]
-    },
-    "listUserPictures": {
-      "operationId": "listUserPictures",
-      "request": {
-        "operationId": "listUserPictures",
-        "auth": [
-          "admin-user"
-        ],
-        "request": {
-          "type": "42c",
-          "details": {
-            "operationId": "listUserPictures",
-            "method": "GET",
-            "url": "{{host}}/user/pictures"
-          }
-        },
-        "defaultResponse": "200",
-        "responses": {
-          "200": {
-            "expectations": {
-              "httpStatus": 200
-            }
-          },
-          "403": {
-            "expectations": {
-              "httpStatus": 403
-            }
-          },
-          "default": {
-            "expectations": {
-              "httpStatus": "default"
-            }
-          }
-        }
-      },
-      "scenarios": [
-        {
-          "key": "happy.path",
-          "requests": [
-            {
-              "$ref": "#/operations/uploadPictureFromFile/request",
-              "responses": {
-                "200": {
-                  "expectations": {
-                    "httpStatus": 200
-                  },
-                  "variableAssignments": {
-                    "listPictureId": {
-                      "from": "response",
-                      "in": "body",
-                      "contentType": "json",
-                      "path": {
-                        "type": "jsonPointer",
-                        "value": "/_id"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "fuzzing": true,
-              "$ref": "#/operations/listUserPictures/request"
-            },
-            {
-              "$ref": "#/operations/deletePicture/request",
-              "environment": {
-                "picture_id": "{{listPictureId}}"
-              }
             }
           ],
           "fuzzing": true

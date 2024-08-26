@@ -247,7 +247,7 @@ api.delete('/api/admin/user/:id', api_token_check, function (req, res) {
 		res.status(400).json({ "message": "missing userid to delete" });
 	}
 	else {
-		// API2 : Authorization issue - This call should enforce admin role, but it does not.
+		// API2 : BFLA - Authorization issue - This call should enforce admin role, but it does not.
 		if (!req.user.user_profile.is_admin) {
 			res.status(403).json({ "success": false, "message": "forbidden" });
 		} else {
@@ -276,6 +276,11 @@ api.post('/api/picture/file_upload', api_token_check, function (req, res) {
 
 	if (!req.body.filename) {
 		res.status(400).json({ "message": "missing filename" });
+		return;
+	}
+
+	if (!req.body.filename.startsWith ("https")) {
+		res.status(400).json({ "message": "incorrect URL" });
 	}
 	else {
 		//console.log(">>> Uploading File: " + req.body.contents);
@@ -306,6 +311,7 @@ api.post('/api/picture/file_upload', api_token_check, function (req, res) {
 		catch (e) {
 			console.log ("Exception raised while/saving retrieving file: " + e.message );
 			res.status(400).json({ "message": "bad data input" });
+			return;
 		}
 		
 		var description = random_sentence();
@@ -461,7 +467,7 @@ api.get('/api/user/info', api_token_check, function (req, res) {
 		db.collection('users').find({ _id: req.user.user_profile._id }).toArray(function (err, user) {
 			if (err) { return err }
 			if (user) {
-				// Filter the properties
+				// Filter the properties in response
                 const filteredUsers = user.map(thisUser => ({
                     _id: thisUser._id,
                     email: thisUser.email,
@@ -495,7 +501,8 @@ api.get('/api/user/info/:id', api_token_check, function (req, res) {
 				}
 				else {
 					console.log('>>> User info for ' + req.params.id + ' was returned');
-					// Filter the properties
+					// API3 - Sensitive data exposure: the user's password is returned in the response.
+					// Filter the properties in response
 					res.status(200).json({"_id": result._id, "email": result.email, "name": result.name, "account_balance": result.account_balance, "is_admin": result.is_admin});
 				}
 			})
@@ -587,14 +594,15 @@ api.get('/api/user/pictures/:id', api_token_check, function (req, res) {
 
 api.get('/api/admin/all_users', api_token_check, function (req, res) {
 	//res.json(req.user);
-	//API2 - Authorization issue: can be called by non-admins.
+	//API2 - BFLA - Authorization issue: can be called by non-admins.
 	if (!req.user.user_profile.is_admin) {
 		res.status(403).json({ "success": false, "message": "forbidden" });
 	} else {
 		db.collection('users').find().toArray(function (err, all_users) {
 			if (err) { return err }
 			if (all_users) {
-				// Filter the properties
+				// API3 - Sensitive data exposure: the users' passwords are returned in the response.
+				// Filter the properties in response
                 const filteredUsers = all_users.map(user => ({
                     _id: user._id,
                     email: user.email,
