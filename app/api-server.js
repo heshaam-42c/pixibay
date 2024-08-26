@@ -20,6 +20,7 @@ var jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const { create } = require('domain');
 const { type } = require('os');
+const { exit } = require('process');
 
 // PRIVATE and PUBLIC key
 var privateKey = fs.readFileSync('./keys/private.key', 'utf8');
