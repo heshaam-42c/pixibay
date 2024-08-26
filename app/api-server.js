@@ -543,6 +543,24 @@ api.put('/api/user/edit_info', api_token_check, function (req, res) {
 			})
 	}
 });
+
+api.get('/api/user/pictures', api_token_check, function (req, res) {
+
+	const pictures = db.collection('pictures');
+
+	pictures.find({ creator_id: req.user.user_profile._id }).toArray(function (err, pictures) {
+		if (err) {
+			console.log('>>> Query error...' + err);
+			res.status(500).json({ "message": "system error" });
+		}
+
+		if (pictures) {
+			console.log(">>> Pictures list: " + pictures);
+			res.json(pictures);
+
+		}
+	})
+});
 	
 api.get('/api/user/pictures/:id', api_token_check, function (req, res) {
 
