@@ -845,7 +845,7 @@
                 ]
             }
         },
-        "/user/pictures/{id}": {
+        "/user/pictures": {
             "get": {
                 "security": [
                     {
@@ -853,6 +853,54 @@
                     }
                 ],
                 "summary": "Return user's pictures",
+                "tags": [
+                    "users",
+                    "pictures"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PicturesList"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "invalid or missing token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationError"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    }
+                },
+                "operationId": "listUserPictures",
+                "description": "List all pictures created by the user"
+            }
+        },
+        "/user/pictures/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "access-token": []
+                    }
+                ],
+                "summary": "Return a user's pictures",
                 "parameters": [
                     {
                         "schema": {
@@ -905,8 +953,8 @@
                         }
                     }
                 },
-                "operationId": "listUserPictures",
-                "description": "List all pictures created by the user"
+                "operationId": "getUserPictures",
+                "description": "Get all pictures created by a user"
             }
         },
         "/picture/{id}": {
