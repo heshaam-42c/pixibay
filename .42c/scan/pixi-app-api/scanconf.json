@@ -604,8 +604,8 @@
                   },
                   "variableAssignments": {
                     "listPictureId": {
-                      "from": "response",
                       "in": "body",
+                      "from": "response",
                       "contentType": "json",
                       "path": {
                         "type": "jsonPointer",

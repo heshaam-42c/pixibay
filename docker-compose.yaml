@@ -8,9 +8,9 @@ services:
       - "28017:28017"
 
   app:
-    #  image: heshaam/pixi:latest
+     image: heshaam/pixi:v4.8
      container_name: pixiapi
-     build: ./app
+    #  build: ./app
      ports:
        - "8090:8090"
      expose:
