@@ -239,6 +239,21 @@ api.delete('/api/picture/:id', api_token_check, function (req, res) {
 				res.status(403).json({ "success": false, "message": "forbidden" });
 			}
 		})
+	// pictures.deleteOne({ _id: req.params.id },
+	// 	function (err, result) {
+	// 		if (err) {
+	// 			console.log('>>> Query error...' + err);
+	// 			res.status(500).json({ "message": "system error" });
+	// 		}
+	// 		if (result.deletedCount == 0) {
+	// 			console.log(">>> No picture was deleted")
+	// 			res.status(404).json({ "message": "not found" });
+	// 		}
+	// 		else {
+	// 			console.log('>>> Photo ' + req.params.id + ' was deleted');
+	// 			res.status(200).json({ "message": "success" });
+	// 		}
+	// 	})
 });
 
 api.delete('/api/admin/user/:id', api_token_check, function (req, res) {
