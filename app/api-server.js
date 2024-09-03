@@ -218,7 +218,7 @@ api.delete('/api/picture/:id', api_token_check, function (req, res) {
 				console.log('>>> Query error...' + err);
 				res.status(500).json({ "message": "system error" });
 			}
-			if (picture && (picture.creator_id == req.user.user_profile._id || req.user.user_profile.is_admin)) { 
+			if (picture && (picture.creator_id == req.user.user_profile._id)) { 
 				pictures.deleteOne({ _id: req.params.id },
 					function (err, result) {
 						if (err) {
