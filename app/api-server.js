@@ -211,7 +211,7 @@ api.delete('/api/picture/:id', api_token_check, function (req, res) {
 	console.log('>>> Deleting picture ' + req.params.id);
 	const pictures = db.collection('pictures');
 	// BOLA - API1 Issue here: a user can delete someone's else picture.
-	// Code does not validate who the picture belongs too.
+	// Vulnerability: Code does not validate who the picture belongs too.
 	pictures.deleteOne({ _id: req.params.id },
 		function (err, result) {
 			if (err) {
