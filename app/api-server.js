@@ -211,13 +211,13 @@ api.delete('/api/picture/:id', api_token_check, function (req, res) {
 	console.log('>>> Deleting picture ' + req.params.id);
 	const pictures = db.collection('pictures');	
 	// // Solution: Check if the user is the owner of the picture.
-	// pictures.findOne({ _id: req.params.id },
-	// 	function (err, picture) {
-	// 		if (err) {
-	// 			console.log('>>> Query error...' + err);
-	// 			res.status(500).json({ "message": "system error" });
-	// 		}
-	// 		if (picture && (picture.creator_id == req.user.user_profile._id || req.user.user_profile.is_admin)) {
+	pictures.findOne({ _id: req.params.id },
+		function (err, picture) {
+			if (err) {
+				console.log('>>> Query error...' + err);
+				res.status(500).json({ "message": "system error" });
+			}
+			if (picture && (picture.creator_id == req.user.user_profile._id || req.user.user_profile.is_admin)) {
 				// BOLA - API1 Issue here: a user can delete someone's else picture.
 				// Vulnerability: Code does not validate who the picture belongs too. 
 				pictures.deleteOne({ _id: req.params.id },
@@ -235,11 +235,11 @@ api.delete('/api/picture/:id', api_token_check, function (req, res) {
 							res.status(200).json({ "message": "success" });
 						}
 					})
-		// 	} else {
-		// 		console.log(">>> User does not own the picture")
-		// 		res.status(403).json({ "success": false, "message": "forbidden" });
-		// 	}
-		// })
+			} else {
+				console.log(">>> User does not own the picture")
+				res.status(403).json({ "success": false, "message": "forbidden" });
+			}
+		})
 		// End Solution
 });
 
