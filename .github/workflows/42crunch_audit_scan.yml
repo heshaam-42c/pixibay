@@ -90,6 +90,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: auditaction-report-${{ github.run_id }}  
+      # Get the API ID from the audit report
       - name: get pixi api id
         id: get_pixi_api_id
         run: |
@@ -101,23 +102,24 @@ jobs:
       #   run: | 
       #     addtag_response=$(python .42c/scripts/tag_apis.py -u ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -c ${{ vars.X42C_CATEGORY_NAME }} -n ${{ vars.X42C_TAG_NAME }} -t ${{ secrets.API_TOKEN }} -p ${{env.PLATFORM_URL}})
       #     echo $addtag_response
-      # Scan V2
-      - name: get_pixi_scan_conf_alias
-        id: parse_alias
-        run: |
-          aliasId=$(cat ./.42c/conf.yaml | yq '.apis.${{ vars.PIXI_OAS_PATH }}.alias')
-          echo "PIXI_SCAN_ALIAS=$aliasId" >> $GITHUB_OUTPUT
-      - name: upload_v2_scan_config
-        id: upload_v2_scan_config
-        run: | 
-            scanconfig_response=$(python .42c/scripts/scan_v2_config.py --quiet ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -f .42c/scan/${{ steps.parse_alias.outputs.PIXI_SCAN_ALIAS }}/scanconf.json -n github-actions -p ${{env.PLATFORM_URL}})
-            echo $scanconfig_response
-            echo "SCANV2_TOKEN=$scanconfig_response" >> $GITHUB_OUTPUT
-      - name: 42crunch-dynamic-api-testing
-        run: |
-            docker pull ${{vars.SCAN_AGENT_V2}}
-            docker run -e SCAN_TOKEN=${{ steps.upload_v2_scan_config.outputs.SCANV2_TOKEN }} -e SCAN42C_HOST=${{ vars.PIXI_TARGET_URL }} -e PLATFORM_SERVICE=${{ env.PLATFORM_SERVICE_ENDPOINT }} ${{vars.SCAN_AGENT_V2}}
-            echo "Scan report: ${{ env.PLATFORM_URL }}/apis/${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}}/scan"
+      # # Scan V2
+      # - name: get_pixi_scan_conf_alias
+      #   id: parse_alias
+      #   run: |
+      #     aliasId=$(cat ./.42c/conf.yaml | yq '.apis.${{ vars.PIXI_OAS_PATH }}.alias')
+      #     echo "PIXI_SCAN_ALIAS=$aliasId" >> $GITHUB_OUTPUT
+      # - name: upload_v2_scan_config
+      #   id: upload_v2_scan_config
+      #   run: | 
+      #       scanconfig_response=$(python .42c/scripts/scan_v2_config.py --quiet ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -f .42c/scan/${{ steps.parse_alias.outputs.PIXI_SCAN_ALIAS }}/scanconf.json -n github-actions -p ${{env.PLATFORM_URL}})
+      #       echo $scanconfig_response
+      #       echo "SCANV2_TOKEN=$scanconfig_response" >> $GITHUB_OUTPUT
+      # - name: 42crunch-dynamic-api-testing
+      #   run: |
+      #       docker pull ${{vars.SCAN_AGENT_V2}}
+      #       docker run -e SCAN_TOKEN=${{ steps.upload_v2_scan_config.outputs.SCANV2_TOKEN }} -e SCAN42C_HOST=${{ vars.PIXI_TARGET_URL }} -e PLATFORM_SERVICE=${{ env.PLATFORM_SERVICE_ENDPOINT }} ${{vars.SCAN_AGENT_V2}}
+      #       echo "Scan report: ${{ env.PLATFORM_URL }}/apis/${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}}/scan"
+      # # Scan V2 with ScanD-Manager
       # - name: 42crunch-dynamic-api-testing-scand
       #   uses: fjogeleit/http-request-action@v1
       #   with:
@@ -127,23 +129,24 @@ jobs:
       #     customHeaders: '{"Accept": "application/json"}'
       #     data: '{"token": "${{ steps.upload_v2_scan_config.outputs.SCANV2_TOKEN }}","name": "scand-${{ github.run_id }}-${{ github.run_attempt }}","platformService": "${{ env.PLATFORM_SERVICE_ENDPOINT }}","scandImage": "${{vars.SCAN_AGENT_V2}}","expirationTime": 600,"env": { "SCAN42C_HOST": "${{ vars.PIXI_TARGET_URL }}"}}'
       # Scan V1
-      # - name: get_pixi_token
-      #   id: get_pixi_token
-      #   run: | 
-      #     login_response=$(python .42c/scripts/pixi-login.py -u ${{ vars.PIXI_USER_NAME }} -p ${{ secrets.USER_PASS }} -t ${{ vars.PIXI_TARGET_URL }})
-      #     echo $login_response
-      #     echo "PIXI_TOKEN=$login_response" >> $GITHUB_OUTPUT
-      # - name: upload_v1_scan_config
-      #   id: upload_v1_scan_config
-      #   run: | 
-      #     scanconfig_response=$(python .42c/scripts/scan_v1_config.py ${{github.server_url}}/${{ github.repository }} ${{ github.ref }} ${{ secrets.API_TOKEN }} '{$ACCESS_TOKEN}' ${{env.PLATFORM_URL}})
-      #     echo $scanconfig_response
-      #     echo "SCANV1_TOKEN=$scanconfig_response" >> $GITHUB_OUTPUT
-      # - name: 42crunch-dynamic-api-testing
-      #   run: |
-      #     docker pull ${{vars.SCAN_AGENT_V1}}
-      #     docker run -e SCAN_TOKEN=${{ steps.upload_v1_scan_config.outputs.SCANV1_TOKEN }} -e SECURITY_ACCESS_TOKEN=${{ steps.get_pixi_token.outputs.PIXI_TOKEN }} -e PLATFORM_SERVICE=${{ env.PLATFORM_SERVICE_ENDPOINT }} ${{vars.SCAN_AGENT_V1}}
-      #     echo "Scan report: ${{ env.PLATFORM_URL }}/apis/${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}}/scan"
+      - name: get_pixi_token
+        id: get_pixi_token
+        run: | 
+          login_response=$(python .42c/scripts/pixi-login.py -u ${{ vars.PIXI_USER_NAME }} -p ${{ secrets.USER_PASS }} -t ${{ vars.PIXI_TARGET_URL }})
+          echo $login_response
+          echo "PIXI_TOKEN=$login_response" >> $GITHUB_OUTPUT
+      - name: upload_v1_scan_config
+        id: upload_v1_scan_config
+        run: | 
+          scanconfig_response=$(python .42c/scripts/scan_v1_config.py ${{github.server_url}}/${{ github.repository }} ${{ github.ref }} ${{ secrets.API_TOKEN }} '{$ACCESS_TOKEN}' ${{env.PLATFORM_URL}})
+          echo $scanconfig_response
+          echo "SCANV1_TOKEN=$scanconfig_response" >> $GITHUB_OUTPUT
+      - name: 42crunch-dynamic-api-testing
+        run: |
+          docker pull ${{vars.SCAN_AGENT_V1}}
+          docker run -e SCAN_TOKEN=${{ steps.upload_v1_scan_config.outputs.SCANV1_TOKEN }} -e SECURITY_ACCESS_TOKEN=${{ steps.get_pixi_token.outputs.PIXI_TOKEN }} -e PLATFORM_SERVICE=${{ env.PLATFORM_SERVICE_ENDPOINT }} ${{vars.SCAN_AGENT_V1}}
+          echo "Scan report: ${{ env.PLATFORM_URL }}/apis/${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}}/scan"
+      # # Scan V1 with ScanD-Manager
       # - name: 42crunch-dynamic-api-testing-scand
       #   uses: fjogeleit/http-request-action@v1
       #   with:
@@ -152,6 +155,7 @@ jobs:
       #     contentType: "application/json"
       #     customHeaders: '{"Accept": "application/json"}'
       #     data: '{"token": "${{ steps.upload_v1_scan_config.outputs.SCANV1_TOKEN }}","name": "scand-${{ github.run_id }}-${{ github.run_attempt }}","platformService": "${{ env.PLATFORM_SERVICE_ENDPOINT }}","scandImage": "${{vars.SCAN_AGENT_V1}}","expirationTime": 600,"env": { "SECURITY_ACCESS_TOKEN": "${{ steps.get_pixi_token.outputs.PIXI_TOKEN }}"}}'
+      # 42Crunch Scan SARIF report generation
       - name: upload scan results
         uses: 42crunch/cicd-github-actions@v1
         with:
@@ -168,6 +172,7 @@ jobs:
           name: sarif-scan-report-${{ github.run_id }}
           path: scan-report-${{ github.run_id }}.sarif
           if-no-files-found: error
+      # Code scanning SARIF upload
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:
