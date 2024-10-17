@@ -74,6 +74,8 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+      echo "Uploading SARIF report to GitHub Advanced Security (GHAS)"
+      echo "Request body: {\"commit_sha\":\"$(Build.SourceVersion)\",\"ref\":\"refs/heads/main\",\"sarif\":\"$(AUDIT_SARIF_FILE)\"}"
       curl -L \
       -H "Authorization: Bearer $(GITHUB_TOKEN)" \
       -H "Accept: application/vnd.github.v3+json" \
