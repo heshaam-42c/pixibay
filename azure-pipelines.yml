@@ -1,0 +1,97 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  kubernetesConnection: 'platform-demos-apis-hesh'
+  platformUrl: 'https://demolabs.42crunch.cloud'
+  platformService: 'services.demolabs.42crunch.cloud:8001'
+  azureResourceGroup: Demos
+  namespace: hesh
+  # API_UUID: 9273b0fc-ab90-4325-9fcb-a6f504e07840
+
+  config_name: azureDevOps
+  PIXI_host: "https://photo-demo.westeurope.cloudapp.azure.com/hesh/api"
+  
+steps:
+# - checkout: self
+# - checkout: protections
+- task: NodeTool@0
+  displayName: Use Node 12 or higher
+  inputs:
+    versionSpec: '=12.0.0'
+
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.10' 
+    addToPath: true 
+    #architecture: 'x64' # Options: x86, x64 (this argument applies only on Windows agents)
+
+# Install Docker
+- task: DockerInstaller@0
+  displayName: 'Install Docker'
+  
+- script: python -m pip install requests --upgrade pip
+  displayName: 'Install tools'
+
+# 42Crunch API Security Audit
+- task: APIContractSecurityAudit@3
+  displayName: Auditing OAS Files
+  inputs:
+    apiToken: '$(42C_API_TOKEN)'
+    minScore: '75'
+    platformUrl: '$(platformUrl)'
+    logLevel: DEBUG
+    defaultCollectionName: 'AzureDevOps heshaam-42c/pixibay Branch:main'
+    ignoreFailures: 'false'
+    jsonReport: 'audit-action-report-$(Build.BuildId).json'
+    sarifReport: 'audit-report-$(Build.BuildId).sarif'
+
+# Optional: Use the following script to check the audit SARIF report
+- task: CmdLine@2
+  displayName: 'Check Audit SARIF Report'
+  inputs:
+    script: |
+      echo "Audit Sarif Report:"
+      cat $(Build.Repository.LocalPath)/audit-report-$(Build.BuildId).sarif | jq . | head -n 50
+
+# Publish SARIF Artifact
+- task: PublishBuildArtifacts@1
+  displayName: 'publishAuditSarif'
+  inputs:
+    PathtoPublish: '$(Build.Repository.LocalPath)/audit-report-$(Build.BuildId).sarif'
+    ArtifactName: 'CodeAnalysisLogs'
+    publishLocation: 'Container'
+
+- task: Bash@3
+  displayName: 'Upload SARIF report to GitHub Advanced Security (GHAS)'
+  inputs:
+    targetType: 'inline'
+    script: |
+      curl \
+      -H "Authorization: token $(GITHUB_TOKEN)" \
+      -H "Accept: application/vnd.github.v3+json" \
+      --data @$(Build.Repository.LocalPath)/audit-report-$(Build.BuildId).sarif \
+      https://api.github.com/repos/heshaam-42c/pixibay/code-scanning/sarifs \
+      -d '{"ref":"refs/heads/main"}'
+
+# Required: Fetch Pixi API UUID from the Audit summary report
+- task: CmdLine@2
+  displayName: 'Check Audit Summary Report'
+  inputs:
+    script: |
+      echo "Audit JSON Report:"
+      cat $(Build.Repository.LocalPath)/audit-action-report-$(Build.BuildId).json
+
+      apiId=$(cat $(Build.Repository.LocalPath)/audit-action-report-$(Build.BuildId).json | jq -r '.audit.report."OASFiles/pixi.json".apiId')
+      
+      printf "\n"
+      echo "Pixi API UUID: $apiId"
+      echo "##vso[task.setvariable variable=API_UUID]$apiId"
