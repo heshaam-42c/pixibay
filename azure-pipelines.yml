@@ -64,7 +64,7 @@ steps:
 
 # Compress & Base64 encode the sarif file
 - script: |
-    gzip -c $(Build.Repository.LocalPath)/audit-report-$(Build.BuildId).sarif | base64 > audit-report-$(Build.BuildId).sarif.gz.base64
+    gzip -c $(Build.Repository.LocalPath)/audit-report-$(Build.BuildId).sarif | base64 -w0
     echo "SARIF file compressed and base64 encoded"
     echo "SARIF file base64: $(cat audit-report-$(Build.BuildId).sarif.gz.base64)"
     sarif_file_base64=$(cat audit-report-$(Build.BuildId).sarif.gz.base64)
