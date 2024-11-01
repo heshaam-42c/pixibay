@@ -53,6 +53,7 @@ steps:
     ignoreFailures: 'false'
     jsonReport: 'audit-action-report-$(Build.BuildId).json'
     sarifReport: 'audit-report-$(Build.BuildId).sarif'
+    rootDirectory: '$(Build.Repository.LocalPath)'
 
 # Publish SARIF Artifact
 - task: PublishBuildArtifacts@1
