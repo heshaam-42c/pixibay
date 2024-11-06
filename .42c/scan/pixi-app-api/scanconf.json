@@ -125,7 +125,7 @@
         }
       ],
       "authorizationTests": [
-        "AdminOperations",
+        "BFLA-AdminOperations",
         "BadJWT"
       ]
     },
@@ -263,7 +263,7 @@
         }
       ],
       "authorizationTests": [
-        "DeletePictureBOLA"
+        "BOLA-DeletePicture"
       ]
     },
     "deleteUser": {
@@ -349,7 +349,7 @@
         }
       ],
       "authorizationTests": [
-        "AdminOperations"
+        "BFLA-AdminOperations"
       ]
     },
     "edituserinfo": {
@@ -468,7 +468,7 @@
         }
       ],
       "authorizationTests": [
-        "UserInfoBOLA"
+        "BOLA-UserInfo"
       ]
     },
     "getUserPictures": {
@@ -554,7 +554,7 @@
         }
       ],
       "authorizationTests": [
-        "GetPictureBOLA"
+        "BOLA-GetPicture"
       ]
     },
     "listUserPictures": {
@@ -1279,7 +1279,7 @@
     }
   ],
   "authorizationTests": {
-    "DeletePictureBOLA": {
+    "BOLA-DeletePicture": {
       "key": "authentication-swapping-bola",
       "source": [
         "admin-user/admin1"
@@ -1288,7 +1288,7 @@
         "dynamic-token/User3"
       ]
     },
-    "AdminOperations": {
+    "BFLA-AdminOperations": {
       "key": "authentication-swapping-bfla",
       "source": [
         "admin-user/admin1"
@@ -1315,7 +1315,7 @@
         "bad-jwts/BadAudience"
       ]
     },
-    "UserInfoBOLA": {
+    "BOLA-UserInfo": {
       "key": "authentication-swapping-bola",
       "source": [
         "access-token/User1"
@@ -1324,7 +1324,7 @@
         "dynamic-token/User3"
       ]
     },
-    "GetPictureBOLA": {
+    "BOLA-GetPicture": {
       "key": "authentication-swapping-bola",
       "source": [
         "admin-user/admin1"
