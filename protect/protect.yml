@@ -1,0 +1,23 @@
+version: '3'
+services:
+  pixi-secured.42crunch.test:
+    image: 42crunch/apifirewall:latest
+    ports:
+      - '4241:443'
+    volumes:
+      - ./protect/storage/ssl:/opt/guardian/conf/ssl
+      - ./protect/storage/logs:/opt/guardian/logs
+    command: ["/bin/squire", "-platform", "services.demolabs.42crunch.cloud:8001", "-debug"]
+    environment:
+      - PROTECTION_TOKEN=${PROTECTION_TOKEN}
+      - LISTEN_PORT=443
+      - TARGET_URL=https://photo-demo.westeurope.cloudapp.azure.com/hesh/api
+      - LISTEN_SSL_CERT=mycert.pem
+      - LISTEN_SSL_KEY=private.pem
+      - LISTEN_NO_TLS=true
+      - SERVER_NAME=pixi-secured.42crunch.test:4241
+      - GUARDIAN_NODE_NAME=Local-Firewall
+      - GUARDIAN_INSTANCE_NAME=Local-Firewall
+      - LOG_LEVEL=DEBUG
+      - LOG_DESTINATION=PLATFORM+STDOUT
+    env_file: ".env"
