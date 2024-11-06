@@ -125,7 +125,7 @@
         }
       ],
       "authorizationTests": [
-        "AdminOnlyOperations",
+        "AdminOperations",
         "BadJWT"
       ]
     },
@@ -349,7 +349,7 @@
         }
       ],
       "authorizationTests": [
-        "DeleteUser"
+        "AdminOperations"
       ]
     },
     "edituserinfo": {
@@ -1288,16 +1288,7 @@
         "dynamic-token/User3"
       ]
     },
-    "DeleteUser": {
-      "key": "authentication-swapping-bfla",
-      "source": [
-        "admin-user/admin1"
-      ],
-      "target": [
-        "access-token/User1"
-      ]
-    },
-    "AdminOnlyOperations": {
+    "AdminOperations": {
       "key": "authentication-swapping-bfla",
       "source": [
         "admin-user/admin1"
