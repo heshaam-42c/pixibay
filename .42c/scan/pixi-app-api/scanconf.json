@@ -125,7 +125,7 @@
         }
       ],
       "authorizationTests": [
-        "AdminOnlyOps",
+        "AdminOnlyOperations",
         "BadJWT"
       ]
     },
@@ -263,7 +263,7 @@
         }
       ],
       "authorizationTests": [
-        "DeletePicture"
+        "DeletePictureBOLA"
       ]
     },
     "deleteUser": {
@@ -1279,7 +1279,7 @@
     }
   ],
   "authorizationTests": {
-    "DeletePicture": {
+    "DeletePictureBOLA": {
       "key": "authentication-swapping-bola",
       "source": [
         "admin-user/admin1"
@@ -1297,7 +1297,7 @@
         "access-token/User1"
       ]
     },
-    "AdminOnlyOps": {
+    "AdminOnlyOperations": {
       "key": "authentication-swapping-bfla",
       "source": [
         "admin-user/admin1"
