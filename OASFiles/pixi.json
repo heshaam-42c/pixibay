@@ -1184,6 +1184,7 @@
                     "name"
                 ],
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                     "_id": {
                         "type": "string",
