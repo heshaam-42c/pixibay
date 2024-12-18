@@ -13,10 +13,12 @@ To demonstrate 42Crunch API Security Testing on the Pixi Photo Sharing API.
 ## 42Crunch API Static & Dynamic Security Testing
 This repository is enhanced with the following GitHub Actions plugins:
 1. 42Crunch API Static Security Testing
-`https://github.com/marketplace/actions/42crunch-rest-api-static-security-testing`
+
+https://github.com/marketplace/actions/42crunch-rest-api-static-security-testing
 
 2. 42Crunch API Dynamic Security Testing (ScanD Agent Docker)
-`https://hub.docker.com/r/42crunch/scand-agent`
+
+https://hub.docker.com/r/42crunch/scand-agent
 
 3. Github Advanced Security (GHAS) code scanning integration is enabled
 
