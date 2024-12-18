@@ -6,12 +6,10 @@ To demonstrate 42Crunch API security testing on the Pixi Photo Sharing API.
 
 ## Included Dependencies
 The following GitHub Actions plugin is used for API Inventory and Static Security Testing:
-- 42Crunch REST API Static Security Testing
-https://github.com/marketplace/actions/42crunch-rest-api-static-security-testing
+- 42Crunch REST API Static Security Testing - https://github.com/marketplace/actions/42crunch-rest-api-static-security-testing
 
 The following Docker image is used for API Dynamic Security Testing:
-- 42Crunch ScanD Agent docker image
-https://hub.docker.com/r/42crunch/scand-agent
+- 42Crunch ScanD Agent docker image - https://hub.docker.com/r/42crunch/scand-agent
 
 ## How to use 
 Fork this repository and use the predefined integration directly.
