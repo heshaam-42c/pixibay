@@ -11,13 +11,13 @@ To demonstrate 42Crunch API Security Testing on the Pixi Photo Sharing API.
 `app/api-server.js`
 
 ## 42Crunch API Static & Dynamic Security Testing
-This repository is enhanced with the following GitHub Actions plugins:
-1. 42Crunch API Static Security Testing
+This repository is enhanced with the following plugins:
+1. GitHub Actions - 42Crunch API Static Security Testing
 
 https://github.com/marketplace/actions/42crunch-rest-api-static-security-testing
 
 
-2. 42Crunch API Dynamic Security Testing (ScanD Agent Docker)
+2. Docker - 42Crunch API Dynamic Security Testing
 
 https://hub.docker.com/r/42crunch/scand-agent
 
