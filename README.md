@@ -4,10 +4,10 @@ Intentionally vulnerable NodeJS API designed for users to share photos by upload
 ## Purpose
 To demonstrate 42Crunch API Security Testing on the Pixi Photo Sharing API.
 
-### OpenAPI Specification:
+### OpenAPI (Swagger) Specification:
 `OASFiles/pixi.json`
 
-### NodeJS:
+### Source code (NodeJS):
 `app/api-server.js`
 
 ## 42Crunch API Static & Dynamic Security Testing
