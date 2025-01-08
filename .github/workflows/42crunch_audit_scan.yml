@@ -119,6 +119,11 @@ jobs:
             docker pull ${{vars.SCAN_AGENT_V2}}
             docker run -e SCAN_TOKEN=${{ steps.upload_v2_scan_config.outputs.SCANV2_TOKEN }} -e SCAN42C_HOST=${{ vars.PIXI_TARGET_URL }} -e PLATFORM_SERVICE=${{ env.PLATFORM_SERVICE_ENDPOINT }} ${{vars.SCAN_AGENT_V2}}
             echo "Scan report: ${{ env.PLATFORM_URL }}/apis/${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}}/scan"
+            
+            # taskId=$(python3 .42c/scripts/manage_scanv2_reports.py ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -o list -p ${{ env.PLATFORM_URL}} -q | grep gitlab-pipeline | cut -d',' -f1)
+            configId=$(python .42c/scripts/manage_scanv2_reports.py ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -o list -p ${{ env.PLATFORM_URL}} -q | grep gitlab-pipeline | cut -d',' -f2)
+            # python .42c/scripts/manage_scanv2_reports.py ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -o retrieve -p ${{ env.PLATFORM_URL}} -t $taskId
+            echo "Scan report - ${{ env.PLATFORM_URL }}/apis/${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}}/scan/report?configId=$configId"
       # # Scan V2 with ScanD-Manager
       # - name: 42crunch-dynamic-api-testing-scand
       #   uses: fjogeleit/http-request-action@v1
