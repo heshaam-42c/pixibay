@@ -121,7 +121,7 @@ jobs:
             
             echo "Retrieving Scan report URL"
             # List the scan reports for the target API and save the Task ID for gitlab-pipeline
-            taskId=$(python3 .42c/scripts/manage_scanv2_reports.py ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -o list -p ${{ env.PLATFORM_URL}} -q | grep gitlab-pipeline | cut -d',' -f1)
+            taskId=$(python .42c/scripts/manage_scanv2_reports.py ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -o list -p ${{ env.PLATFORM_URL}} -q | grep gitlab-pipeline | cut -d',' -f1)
             configId=$(python .42c/scripts/manage_scanv2_reports.py ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -o list -p ${{ env.PLATFORM_URL}} -q | grep gitlab-pipeline | cut -d',' -f2)
             # Retrieve the scan report for the target API using Task ID
             python .42c/scripts/manage_scanv2_reports.py ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -o retrieve -p ${{ env.PLATFORM_URL}} -t $taskId
