@@ -62,7 +62,7 @@ jobs:
           # Upload results to Github code scanning
           upload-to-code-scanning: true
           log-level: debug
-          json-report: audit-action-report-${{ github.run_id }}.json
+          json-report: audit-action-report-${{ github.run_id }}
           sarif-report: audit-sarif-report-${{ github.run_id }}.sarif
           api-tags: Audit_Customizations:APIKeyHeaderAuth
       - name: save-audit-report
