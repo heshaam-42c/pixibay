@@ -963,7 +963,8 @@
                 "parameters": [
                     {
                         "schema": {
-                          "type": "string"
+                          "type": "string",
+                          "maxLength": 32
                         },
                         "name": "id",
                         "in": "path",
