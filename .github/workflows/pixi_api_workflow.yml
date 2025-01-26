@@ -126,6 +126,11 @@ jobs:
           login_response=$(python .42c/scripts/pixi-login.py -u misty94@demo.mail -p ball -t ${{ env.PIXI_TARGET_URL }})
           echo $login_response
           echo "PIXI_TOKEN=$login_response" >> $GITHUB_OUTPUT
+          api_url="http://localhost:8090/api/user/register"
+          json_data_user_inbound='{"user": "scanuser@test.com","pass": "hellopixi","name": "Scan Test User","is_admin": false,"account_balance": 1000}'
+          json_data_user_common='{"user": "attacks-demo@acme.com","pass": "hellopixi","name": "Attack User","is_admin": false,"account_balance": 1000}'
+          curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type: application/json" -d "$json_data_user_inbound" "$api_url"
+          curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type: application/json" -d "$json_data_user_common" "$api_url"
       - name: upload_v2_scan_config
         id: upload_v2_scan_config
         run: | 
