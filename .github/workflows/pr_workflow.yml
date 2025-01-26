@@ -69,7 +69,7 @@ jobs:
         if: always()   
         uses: actions/upload-artifact@v4
         with:
-          name: auditaction-report-${{ github.run_id }}
+          name: audit-action-report-${{ github.run_id }}
           path: audit-action-report-${{ github.run_id }}.json
           if-no-files-found: error
       - name: save-sarif-report
@@ -93,7 +93,7 @@ jobs:
       - name: download_audit_report    
         uses: actions/download-artifact@v4
         with:
-          name: auditaction-report-${{ github.run_id }}
+          name: audit-action-report-${{ github.run_id }}
       # Get the API ID from the audit report
       - name: get pixi api id
         id: get_pixi_api_id
