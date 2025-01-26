@@ -1,6 +1,9 @@
 # Pixi - a Photo Sharing API
 Intentionally vulnerable NodeJS API designed for users to share photos by uploading, viewing, and/or deleting pictures. Contains many common OWASP API Top 10 vulnerabilities.
 
+## Purpose
+To demonstrate 42Crunch API Security Testing on the Pixi Photo Sharing API.
+
 ## 42Crunch API Discovery, Static & Dynamic Security Testing
 GitHub Actions is enabled on this repository with the following 42Crunch plugins:
 1. ### 42Crunch - API Static Security Testing
@@ -18,9 +21,6 @@ GitHub Actions is enabled on this repository with the following 42Crunch plugins
 
 ### Source code (NodeJS):
 `app/api-server.js`
-
-## Purpose
-To demonstrate 42Crunch API Security Testing on the Pixi Photo Sharing API.
 
 ## How to use 
 Fork this repository and use the predefined integration directly.
