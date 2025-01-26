@@ -33,6 +33,7 @@ env:
   PLATFORM_URL: https://demolabs.42crunch.cloud
   PLATFORM_SERVICE_ENDPOINT: services.demolabs.42crunch.cloud:8001
   TOKEN_ENV_VAR: ACCESS_TOKEN
+  PIXI_SCAN_CONFIG: local-github-actions
   PIXI_TARGET_URL: http://localhost:8090/api
 
 permissions:
@@ -96,7 +97,7 @@ jobs:
         ports:
           - 27017:27017
       app:
-        image: 42crunch/pixi:v4.7
+        image: heshaam/pixi:v4.8
         options: --link pixidb
         ports:
           - 8090:8090
@@ -134,7 +135,7 @@ jobs:
       - name: upload_v2_scan_config
         id: upload_v2_scan_config
         run: | 
-            scanconfig_response=$(python .42c/scripts/scan_v2_config.py --quiet ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -f .42c/scan/${{ steps.parse_alias.outputs.PIXI_SCAN_ALIAS }}/scanconf.json -n github-actions-local -p ${{env.PLATFORM_URL}})
+            scanconfig_response=$(python .42c/scripts/scan_v2_config.py --quiet ${{ secrets.API_TOKEN }} ${{steps.get_pixi_api_id.outputs.PIXI_API_UUID}} -f .42c/scan/${{ steps.parse_alias.outputs.PIXI_SCAN_ALIAS }}/scanconf.json -n ${{ env.PIXI_SCAN_CONFIG }} -p ${{env.PLATFORM_URL}})
             echo $scanconfig_response
             echo "SCANV2_TOKEN=$scanconfig_response" >> $GITHUB_OUTPUT
       - name: 42crunch-dynamic-api-testing
