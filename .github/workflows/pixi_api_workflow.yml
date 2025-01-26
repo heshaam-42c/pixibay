@@ -33,7 +33,7 @@ env:
   PLATFORM_URL: https://demolabs.42crunch.cloud
   PLATFORM_SERVICE_ENDPOINT: services.demolabs.42crunch.cloud:8001
   TOKEN_ENV_VAR: ACCESS_TOKEN
-  PIXI_TARGET_URL: http://host.docker.internal:8090/api
+  PIXI_TARGET_URL: http://localhost:8090/api
 
 permissions:
   contents: read
@@ -120,6 +120,12 @@ jobs:
         run: |
           aliasId=$(cat ./.42c/conf.yaml | yq '.apis.${{ vars.PIXI_OAS_PATH }}.alias')
           echo "PIXI_SCAN_ALIAS=$aliasId" >> $GITHUB_OUTPUT
+      - name: get_pixi_token
+        id: get_pixi_token
+        run: | 
+          login_response=$(python .42c/scripts/pixi-login.py -u misty94@demo.mail -p ball -t ${{ env.PIXI_TARGET_URL }})
+          echo $login_response
+          echo "PIXI_TOKEN=$login_response" >> $GITHUB_OUTPUT
       - name: upload_v2_scan_config
         id: upload_v2_scan_config
         run: | 
@@ -129,7 +135,7 @@ jobs:
       - name: 42crunch-dynamic-api-testing
         run: |
           docker pull ${{vars.SCAN_AGENT_V2}}
-          docker run -e SCAN_TOKEN=${{ steps.upload_v2_scan_config.outputs.SCANV2_TOKEN }} -e SCAN42C_HOST=${{ env.PIXI_TARGET_URL }} -e PLATFORM_SERVICE=${{ env.PLATFORM_SERVICE_ENDPOINT }} ${{vars.SCAN_AGENT_V2}}
+          docker run --network=host -e SCAN_TOKEN=${{ steps.upload_v2_scan_config.outputs.SCANV2_TOKEN }} -e SCAN42C_HOST=${{ env.PIXI_TARGET_URL }} -e PLATFORM_SERVICE=${{ env.PLATFORM_SERVICE_ENDPOINT }} ${{vars.SCAN_AGENT_V2}}
       # - name: Sleep for 75 seconds
       #   run: sleep 75s
       #   shell: bash
