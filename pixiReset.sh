@@ -42,8 +42,8 @@ api_url="http://localhost:8090/api/user/register"
 # fi
 
 # DEBUG: Save entire response
-curl_response_inbound=$(curl -s -o /dev/null -D - -X POST -H "Content-Type: application/json" -d "$json_data_user_inbound" "$api_url")
-curl_response_common=$(curl -s -o /dev/null -D - -X POST -H "Content-Type: application/json" -d "$json_data_user_common" "$api_url")
+curl_response_inbound=$(curl -s -o /dev/null -D - POST -H "Content-Type: application/json" -d "$json_data_user_inbound" "$api_url")
+curl_response_common=$(curl -s -o /dev/null -D - POST -H "Content-Type: application/json" -d "$json_data_user_common" "$api_url")
 
 echo "Inbound User \n$curl_response_inbound"
 echo "Common User \n$curl_response_common"
