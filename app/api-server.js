@@ -251,9 +251,9 @@ api.delete('/api/admin/user/:id', api_token_check, function (req, res) {
 	}
 	else {
 		// Solution: Check if the user making the request is an admin.
-		if (!req.user.user_profile.is_admin) {
-			res.status(403).json({ "success": false, "message": "forbidden" });
-		} else {
+		// if (!req.user.user_profile.is_admin) {
+		// 	res.status(403).json({ "success": false, "message": "forbidden" });
+		// } else {
 			// API2 : BFLA - Authorization issue - This call should enforce admin role, but it does not.
 			// Vulnerability: The code does not check if the user making the request is an admin.
 			users.deleteOne({ _id: req.params.id },
@@ -271,7 +271,7 @@ api.delete('/api/admin/user/:id', api_token_check, function (req, res) {
 						res.status(200).json({ "message": "success" });
 					}
 				});
-		}
+		// }
 		// End Solution
 
 	}
@@ -491,9 +491,9 @@ api.get('/api/user/info/:id', api_token_check, function (req, res) {
 	console.log('>>> Fetching users ' + req.params.id);
 	const users = db.collection('users');
 	// Solution: Check if the user is the owner of the information.
-	if (req.params.id != req.user.user_profile._id) {
-		res.status(403).json({ "success": false, "message": "forbidden" });
-	} else {
+	// if (req.params.id != req.user.user_profile._id) {
+	// 	res.status(403).json({ "success": false, "message": "forbidden" });
+	// } else {
 		// BOLA - API1 Issue here: a user can get someone's information.
 		// Vulnerability: Code does not validate who the user making the request is.
 		users.findOne({ _id: req.params.id },
@@ -514,7 +514,7 @@ api.get('/api/user/info/:id', api_token_check, function (req, res) {
 					res.status(200).json({"_id": result._id, "email": result.email, "name": result.name, "account_balance": result.account_balance, "is_admin": result.is_admin});
 				}
 			})
-	}
+	// }
 	// End Solution
 });
 
@@ -582,9 +582,9 @@ api.get('/api/user/pictures/:id', api_token_check, function (req, res) {
 
 	const pictures = db.collection('pictures');
 	// Solution: Check if the user is the owner of the pictures.
-	if (req.params.id != req.user.user_profile._id) {
-		res.status(403).json({ "success": false, "message": "forbidden" });
-	} else {
+	// if (req.params.id != req.user.user_profile._id) {
+	// 	res.status(403).json({ "success": false, "message": "forbidden" });
+	// } else {
 		// BOLA - API1 Issue here: a user can get someone else's pictures.
 		// Vulnerability: Code does not validate who the requester is before returning the pictures.
 		pictures.find({ creator_id: req.params.id }).toArray(function (err, pictures) {
@@ -599,16 +599,16 @@ api.get('/api/user/pictures/:id', api_token_check, function (req, res) {
 
 			}
 		})
-	}
+	// }
 	// End Solution
 });
 
 api.get('/api/admin/all_users', api_token_check, function (req, res) {
 	// res.json(req.user);
 	// Solution: Check if the user making the request is an admin.
-	if (!req.user.user_profile.is_admin) {
-		res.status(403).json({ "success": false, "message": "forbidden" });
-	} else {
+	// if (!req.user.user_profile.is_admin) {
+	// 	res.status(403).json({ "success": false, "message": "forbidden" });
+	// } else {
 		// API2 - BFLA - Authorization issue: can be called by non-admins.
 		// Vulnerability: Code does not check if the user making the request is an admin.
 		db.collection('users').find().toArray(function (err, all_users) {
@@ -626,7 +626,7 @@ api.get('/api/admin/all_users', api_token_check, function (req, res) {
                 res.json(filteredUsers);
 			}
 		})
-	}
+	// }
 	// End Solution
 });
 
