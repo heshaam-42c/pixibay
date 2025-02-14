@@ -968,7 +968,9 @@
                 "parameters": [
                     {
                         "schema": {
-                          "type": "string"
+                          "type": "string",
+                          "pattern": "^example-[0-9a-z]+$",
+                          "maxLength": 32
                         },
                         "name": "id",
                         "in": "path",
