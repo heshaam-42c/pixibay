@@ -1,9 +1,5 @@
 {
     "openapi": "3.0.3",
-    "x-td-spec-version": "1.0.0",
-    "x-td-api-id": "a9df9ff0-13be-4171-98b2-9c8ef358339b",
-    "x-td-appCode": "pixi",
-    "x-td-patternType": "Transaction",
     "info": {
         "title": "Pixi App API",
         "description": "Pixi Photo Sharing API",
