@@ -7,7 +7,7 @@ services:
     volumes:
       - ./protect/storage/ssl:/opt/guardian/conf/ssl
       - ./protect/storage/logs:/opt/guardian/logs
-    command: ["/bin/squire", "-platform", "services.demolabs.42crunch.cloud:8001", "-debug"]
+    command: ["/bin/squire", "-platform", "protection.demolabs.42crunch.cloud:8001", "-debug"]
     environment:
       - PROTECTION_TOKEN=${PROTECTION_TOKEN}
       - LISTEN_PORT=443

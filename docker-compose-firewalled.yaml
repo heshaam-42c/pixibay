@@ -22,7 +22,8 @@ services:
     ports:
       - "4241:80"
     volumes:
-      - ./api-firewall/ssl:/opt/guardian/conf/ssl
+      - ./apifirewall/ssl:/opt/guardian/conf/ssl
+      - ./apifirewall/logs:/opt/guardian/logs
     command:
       ["/bin/squire", "-platform", "protection.demolabs.42crunch.cloud:8001", "-debug"]
     environment:
