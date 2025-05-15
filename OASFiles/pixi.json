@@ -1226,6 +1226,10 @@
                         "type": "number",
                         "description": "remaining balance",
                         "format": "float"
+                    },
+                    "is_admin": {
+                        "type": "boolean",
+                        "description": "is admin"
                     }
                 }
             },
