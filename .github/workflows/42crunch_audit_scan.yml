@@ -195,7 +195,7 @@ jobs:
       #     # Used to differentiate multiple results for one commit
       #     category: 42Crunch REST API Dynamic Security Testing
 
-  update-42c-protect:
+  update_42c_protect:
     runs-on: ubuntu-latest
     needs: run_42c_audit
     environment: 42Crunch
