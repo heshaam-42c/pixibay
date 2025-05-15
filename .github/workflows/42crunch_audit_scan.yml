@@ -204,6 +204,10 @@ jobs:
     steps:
       - name: checkout repo
         uses: actions/checkout@v4
+      - name: download_audit_report    
+        uses: actions/download-artifact@v4
+        with:
+          name: audit-action-report-${{ github.run_id }}  
       - name: update-api-firewall
         run: |
           apiId=$(cat ./audit-action-report-${{ github.run_id }}.json | jq -r '.audit.report.${{ vars.PIXI_OAS_PATH }}.apiId')
