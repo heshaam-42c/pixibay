@@ -141,6 +141,10 @@
             "url": "{{host}}/user/login",
             "headers": [
               {
+                "key": "cookie",
+                "value": "sessionid=1234567890abcdef"
+              },
+              {
                 "key": "Content-Type",
                 "value": "application/json"
               }
@@ -183,6 +187,19 @@
             }
           ],
           "fuzzing": true
+        }
+      ],
+      "customTests": [
+        {
+          "requests": [
+            {
+              "$ref": "#/requests/CorsTest",
+              "expectedResponse": "403",
+              "environment": {
+                "endpoint": "/user/login"
+              }
+            }
+          ]
         }
       ]
     },
@@ -1447,6 +1464,42 @@
         "200": {
           "expectations": {
             "httpStatus": 200
+          }
+        }
+      }
+    },
+    "CorsTest": {
+      "request": {
+        "type": "42c",
+        "details": {
+          "method": "POST",
+          "url": "{{host}}{{endpoint}}",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Cookie",
+              "value": "noCors=test"
+            }
+          ],
+          "requestBody": {
+            "mode": "json",
+            "json": {}
+          }
+        }
+      },
+      "defaultResponse": "403",
+      "responses": {
+        "200": {
+          "expectations": {
+            "httpStatus": 200
+          }
+        },
+        "403": {
+          "expectations": {
+            "httpStatus": 403
           }
         }
       }

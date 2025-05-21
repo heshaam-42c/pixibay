@@ -44,6 +44,20 @@
                 "summary": "user/password based login",
                 "description": "user supplies user name and password and receives a json web token",
                 "operationId": "authenticate",
+                "parameters": [
+                    {
+                        "name": "cookie",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "sessionid=1234567890abcdef",
+                            "pattern": "^[a-zA-Z0-9=;\\s]+$",
+                            "maxLength": 1000,
+                            "minLength": 25
+                        }
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
