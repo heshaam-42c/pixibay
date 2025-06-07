@@ -2,6 +2,17 @@
 
 docker_yaml=docker-compose.yaml
 
+if [ "$1" == "-h" ]; then
+    echo "usage: $0 [build|down|db-reset|db-down]\n"
+    echo "This script is used to manage the Pixi application"
+    echo "   -h          Show this help message"
+    echo "   build       Build the Pixi application"
+    echo "   down        Shut down the Pixi application"
+    echo "   db-reset    Reset the Pixi database"
+    echo "   db-down     Shut down the Pixi database"
+    exit 0
+fi
+
 if [ $# -lt 1 ]; then
     echo "Starting Pixi..."
     docker-compose -f $docker_yaml down
