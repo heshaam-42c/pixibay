@@ -34,6 +34,8 @@ json_data_user_common='{"user": "attacks-demo@acme.com","pass": "hellopixi","nam
 
 # Invoke the API using curl with POST method and passing the JSON data
 api_register_url="http://localhost:8090/api/user/register"
+
+# Save only the response code
 curl_response_inbound=$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type: application/json" -d "$json_data_user_inbound" "$api_register_url")
 curl_response_common=$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type: application/json" -d "$json_data_user_common" "$api_register_url")
 
@@ -48,3 +50,10 @@ if [ "$curl_response_common" == "200" ]; then
 else
     echo "Common User Creation Failed, got $curl_response_common"
 fi
+
+# DEBUG: Save entire response
+# curl_response_inbound=$(curl -s -o /dev/null -D - POST -H "Content-Type: application/json" -d "$json_data_user_inbound" "$api_register_url")
+# curl_response_common=$(curl -s -o /dev/null -D - POST -H "Content-Type: application/json" -d "$json_data_user_common" "$api_register_url")
+
+# echo "Inbound User \n$curl_response_inbound"
+# echo "Common User \n$curl_response_common"
