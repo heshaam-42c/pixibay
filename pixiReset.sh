@@ -3,26 +3,51 @@
 docker_yaml=docker-compose.yaml
 
 if [ $# -lt 1 ]; then
-    echo "Starting Pixi"
+    echo "Starting Pixi..."
     docker-compose -f $docker_yaml down
     docker-compose -f $docker_yaml up -d
+    sleep 3
+fi
+
+if [ "$1" == "build" ]; then
+    echo "Building Pixi..."
+    docker-compose -f $docker_yaml down
+    docker-compose -f $docker_yaml up -d --build
+    sleep 3
 fi
 
 if [ "$1" == "down" ]; then
-    echo "Shutting down Pixi"
+    echo "Shutting down Pixi..."
     docker-compose -f $docker_yaml down
     exit 0
 fi
 
-if [ "$1" == "build" ]; then
-    echo "Building Pixi"
-    docker-compose -f $docker_yaml down
-    docker-compose -f $docker_yaml up -d --build
+if [ "$1" == "db-reset" ]; then
+    echo "Stopping PixiDB..."
+    docker-compose down db
+    echo "Creating PixiDB"
+    docker-compose up -d db
+fi
+
+if [ "$1" == "db-down" ]; then
+    echo "Stopping PixiDB..."
+    docker-compose down db
+    exit 0
+fi
+
+# Check if API is running
+api_login_url="http://localhost:8090/api/user/login"
+json_data_user_login='{"user": "misty94@demo.mail","pass": "ball"}'
+curl_response_login=$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type: application/json" -d "$json_data_user_login" "$api_login_url")
+
+if [ "$curl_response_login" == "200" ]; then
+    echo "API is up and running"
+else
+    echo "API is not reachable, got $curl_response_invoke"
+    exit 1
 fi
 
 echo "Creating Users..."
-
-sleep 5
 
 # JSON data for the API request 
 json_data_user_inbound='{"user": "scanuser@test.com","pass": "hellopixi","name": "Scan Test User","is_admin": false,"account_balance": 1000}'
@@ -53,5 +78,3 @@ fi
 
 # echo "Inbound User \n$curl_response_inbound"
 # echo "Common User \n$curl_response_common"
-
-echo "Pixi is up and running"
