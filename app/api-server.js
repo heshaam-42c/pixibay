@@ -455,11 +455,6 @@ api.post('/api/admin/user/tokens', function (req, res) {
 
 // user related.
 api.post('/api/user/login', function (req, res) {
-	const allowedLogin = ['user', 'pass'];
-	const extraLogin = Object.keys(req.body).filter(k => !allowedLogin.includes(k));
-	if (extraLogin.length > 0) {
-		return res.status(400).json({ "message": "Additional properties are not allowed" });
-	}
 	if ((!req.body.user) || (!req.body.pass)) {
 		res.status(422).json({ "message": "missing username and or password parameters" });
 	}
@@ -470,17 +465,12 @@ api.post('/api/user/login', function (req, res) {
 
 api.post('/api/user/register', function (req, res) {
 	if ((!req.body.user) || (!req.body.pass)) {
-		return res.status(422).json({ "message": "missing username and or password parameters" });
+		res.status(422).json({ "message": "missing username and or password parameters" });
+	} else if (req.body.pass.length <= 4) {
+		res.status(422).json({ "message": "password length too short, minimum of 5 characters" })
+	} else {
+		api_register(req.body.user, req.body.pass, req, res);
 	}
-	const passPattern = /^[a-zA-Z0-9&@#!?]{8,64}$/;
-	if (!passPattern.test(req.body.pass)) {
-		return res.status(422).json({ "message": "password must be 8-64 characters using only letters, digits, or &@#!?" });
-	}
-	const emailPattern = /^(?:[\w\-+!#$%&'*/=?^`|{}~]+(?:\.[\w\-+!#$%&'*/=?^`|{}~]+)*)@(?:(?:[A-Za-z0-9](?:[\w\-]{0,61}[A-Za-z0-9])?)(?:\.(?:[A-Za-z0-9](?:[\w\-]{0,61}[A-Za-z0-9])?))*\.[A-Za-z]{2,})$/;
-	if (!emailPattern.test(req.body.user)) {
-		return res.status(422).json({ "message": "invalid email format" });
-	}
-	api_register(req.body.user, req.body.pass, req, res);
 })
 
 api.get('/api/user/info', api_token_check, function (req, res) {
@@ -538,34 +528,45 @@ api.get('/api/user/info/:id', api_token_check, function (req, res) {
 });
 
 api.put('/api/user/edit_info', api_token_check, function (req, res) {
-	const allowedEdit = ['email', 'name', 'account_balance'];
-	const extraEdit = Object.keys(req.body).filter(k => !allowedEdit.includes(k));
-	if (extraEdit.length > 0) {
-		return res.status(400).json({ "message": "Additional properties are not allowed" });
-	}
-	if (!req.body.email || !req.body.name) {
-		return res.status(422).json({ "message": "email and name are required" });
-	}
-	var objForUpdate = { email: req.body.email, name: req.body.name };
-	if (req.body.account_balance !== undefined) { objForUpdate.account_balance = req.body.account_balance; }
+	//console.log('in user put ' + req.user.user_profile._id);
+
+	var objForUpdate = {};
 	const users = db.collection('users');
-	console.log(">>> Update User Data: " + JSON.stringify(objForUpdate));
-	users.findOneAndUpdate(
-		{ _id: req.user.user_profile._id },
-		{ $set: objForUpdate },
-		{ returnNewDocument: true, upsert: true },
-		function (err, userupdate) {
-			if (err) {
-				console.log('>>> Query error...' + err);
-				res.status(500).json({ "message": "system error" });
-			}
-			if (userupdate) {
-				res.status(200).json({ "message": "User Successfully Updated" });
-			}
-			else {
-				res.status(400).json({ "message": "Bad Request" });
-			}
-		})
+	///console.log('BODY ' + JSON.stringify(req.body));
+	if (req.body.email) { objForUpdate.email = req.body.email; }
+	if (req.body.password) { objForUpdate.password = req.body.password; }
+	if (req.body.name) { objForUpdate.name = req.body.name; }
+	if (req.body.account_balance) { objForUpdate.account_balance = req.body.account_balance; }
+
+	// Major issue here (API 6) - anyone can make themselves an admin!
+	if (req.body.hasOwnProperty('is_admin')) {
+		let is_admin_status = Boolean(req.body.is_admin);
+		objForUpdate.is_admin = is_admin_status
+	}
+	if (!req.body.email && !req.body.password && !req.body.name && !req.body.is_admin && !req.body.account_balance) {
+		res.status(422).json({ "message": "Bad input" });
+	}
+	else {
+		var setObj = { objForUpdate }
+		console.log(">>> Update User Data: " + JSON.stringify(setObj));
+		users.findOneAndUpdate(
+			{ _id: req.user.user_profile._id },
+			{ $set: objForUpdate },
+			{ returnNewDocument: true, upsert: true },
+			function (err, userupdate) {
+				if (err) {
+					console.log('>>> Query error...' + err);
+					res.status(500).json({ "message": "system error" });
+				}
+				if (userupdate) {
+					console.log(userupdate);
+					res.status(200).json({ "message": "User Successfully Updated" });
+				}
+				else {
+					res.status(400).json({ "message": "Bad Request" });
+				}
+			})
+	}
 });
 
 api.get('/api/user/pictures', api_token_check, function (req, res) {
@@ -612,12 +613,19 @@ api.get('/api/user/pictures/:id', api_token_check, function (req, res) {
 });
 
 api.get('/api/admin/all_users', api_token_check, function (req, res) {
-	if (!req.user.user_profile.is_admin) {
-		res.status(403).json({ "success": false, "message": "forbidden" });
-	} else {
+	// res.json(req.user);
+	// Solution: Check if the user making the request is an admin.
+	// if (!req.user.user_profile.is_admin) {
+	// 	res.status(403).json({ "success": false, "message": "forbidden" });
+	// } else {
+		// API2 - BFLA - Authorization issue: can be called by non-admins.
+		// Vulnerability: Code does not check if the user making the request is an admin.
 		db.collection('users').find().toArray(function (err, all_users) {
 			if (err) { return err }
 			if (all_users) {
+				// API3 - Sensitive data exposure: the users' passwords are returned in the response.
+				// res.json(all_users);
+				// Solution: Filter the properties in response to exclude the password and admin status
                 const filteredUsers = all_users.map(user => ({
                     _id: user._id,
                     email: user.email,
@@ -627,7 +635,8 @@ api.get('/api/admin/all_users', api_token_check, function (req, res) {
                 res.json(filteredUsers);
 			}
 		})
-	}
+	// }
+	// End Solution
 });
 
 api.get('/api/healthz', function (req, res) {
