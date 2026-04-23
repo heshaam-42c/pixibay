@@ -482,15 +482,16 @@ api.get('/api/user/info', api_token_check, function (req, res) {
 		db.collection('users').find({ _id: req.user.user_profile._id }).toArray(function (err, user) {
 			if (err) { return err }
 			if (user) {
+				res.status(200).json(user);
 				// Filter the properties in response to exclude the password
-                const filteredUsers = user.map(thisUser => ({
-                    _id: thisUser._id,
-                    email: thisUser.email,
-					name: thisUser.name,
-					account_balance: thisUser.account_balance,
-					is_admin: thisUser.is_admin
-                }));
-                res.json(filteredUsers);
+                // const filteredUsers = user.map(thisUser => ({
+                //     _id: thisUser._id,
+                //     email: thisUser.email,
+				// 	name: thisUser.name,
+				// 	account_balance: thisUser.account_balance,
+				// 	is_admin: thisUser.is_admin
+                // }));
+                // res.json(filteredUsers);
 			}
 		})
 	}
@@ -518,9 +519,9 @@ api.get('/api/user/info/:id', api_token_check, function (req, res) {
 				else {
 					console.log('>>> User info for ' + req.params.id + ' was returned');
 					// API3 - Sensitive data exposure: the user's password is returned in the response.
-					// res.status(200).json(result);
+					res.status(200).json(result);
 					// Solution: Filter the properties in response to exclude the password
-					res.status(200).json({"_id": result._id, "email": result.email, "name": result.name, "account_balance": result.account_balance, "is_admin": result.is_admin});
+					// res.status(200).json({"_id": result._id, "email": result.email, "name": result.name, "account_balance": result.account_balance, "is_admin": result.is_admin});
 				}
 			})
 	// }
@@ -624,15 +625,15 @@ api.get('/api/admin/all_users', api_token_check, function (req, res) {
 			if (err) { return err }
 			if (all_users) {
 				// API3 - Sensitive data exposure: the users' passwords are returned in the response.
-				// res.json(all_users);
+				res.json(all_users);
 				// Solution: Filter the properties in response to exclude the password and admin status
-                const filteredUsers = all_users.map(user => ({
-                    _id: user._id,
-                    email: user.email,
-					name: user.name,
-					account_balance: user.account_balance
-                }));
-                res.json(filteredUsers);
+                // const filteredUsers = all_users.map(user => ({
+                //     _id: user._id,
+                //     email: user.email,
+				// 	name: user.name,
+				// 	account_balance: user.account_balance
+                // }));
+                // res.json(filteredUsers);
 			}
 		})
 	// }
